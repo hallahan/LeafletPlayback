@@ -1,5 +1,5 @@
 var fs = require('fs');
-var geoloqi = require('../data/afternoon-drive.json');
+var geoloqi = require('../data/afternoon-drive-condensed.json');
 
 var geojson = {
   type: 'Feature',
@@ -39,7 +39,7 @@ for(var i=0;i<len;i++){
   prop.vertical_accuracy[i] = pos.vertical_accuracy;
 }
 
-fs.writeFile('../data/afternoon-drive-geojson.json', JSON.stringify(geojson,null,2), function(err){
+fs.writeFile('../data/afternoon-drive-geojson-condensed.json', JSON.stringify(geojson,null,2), function(err){
   if (err) {
     console.log('unable to write file: ' + err);
   } else {

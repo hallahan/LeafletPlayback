@@ -16,8 +16,34 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	$.getJSON('data/afternoon-drive-geojson.json', function(data) {
-		var multiPointLayer = new L.GeoJSON(data);
-		multiPointLayer.addTo(map);
+	$.getJSON('data/small-geo.json', function(data) {
+		
+		var samples = new L.GeoJSON(data, {
+			pointToLayer: function(geojson, latlng) {
+				var circle = new L.CircleMarker(latlng, {radius:6});
+				// circle.bindPopup(i);
+				return circle;
+			}
+		});
+		
+		tickPoints = new TickPoints(data, 250);
+		tickGeoJSON = tickPoints.getTickMultiPoint();
+		var ticks = new L.GeoJSON(tickGeoJSON, {
+			pointToLayer: function(geojson, latlng) {
+				var circle = new L.CircleMarker(latlng, {radius:4, color:'#666'});
+				// circle.bindPopup(i);
+				return circle;
+			}
+		});
+
+		var l = {
+			'Samples': samples,
+			'Ticks': ticks
+		};
+
+		L.control.layers(l).addTo(map);
+		map.fitBounds(samples.getBounds());
+
 	});
 });
+
