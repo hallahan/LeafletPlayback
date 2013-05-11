@@ -112,8 +112,8 @@ TickPoint.prototype.getEndTime = function() {
 
 // Returns tick points as geoJSON
 TickPoint.prototype.getTickMultiPoint = function() {
-  var tick = this.getFirstTick();
-  var lastTick  = this.getLastTick();
+  var tick = this.getStartTime();
+  var lastTick  = this.getEndTime();
   var tickLen = this.tickLen;
   var coordinates = [];
   var time = [];
