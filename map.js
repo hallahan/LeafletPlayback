@@ -44,8 +44,8 @@ $(function() {
 		L.control.layers(l).addTo(map);
 		map.fitBounds(samples.getBounds());
 
-		clock = new Clock();
-		
+		clock = new Clock(tickPoints);
+
 	});
 });
 

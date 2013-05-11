@@ -105,3 +105,8 @@ TickPoints.prototype.getTickMultiPoint = function() {
     }
   };
 }
+
+
+TickPoints.prototype.tick = function(ms) {
+  return this.ticks[ms];
+}

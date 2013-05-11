@@ -1,21 +1,36 @@
-function Clock(tickLen, speed, startTime, endTime) {
-  this.tickLen    = tickLen    || 250;
-  this.speed      = speed      || 1;
-  this.startTime  = startTime  || null;
-  this.endTime    = endTime    || null;
-  this.cursor     = startTime  || new Date().getTime();
+function Clock(tickObj, tickLen, speed, startTime, endTime) {
+  this.tickObj    = tickObj;
+  this.tickLen    = tickLen         || 250;
+  this.speed      = speed           || 1;
+  this.startTime  = startTime       || tickObj.getFirstTick();
+  this.endTime    = endTime         || tickObj.getLastTick();
+  this.cursor     = this.startTime  || null;
 }
 
-var z=1;
-Clock.prototype.tick = function() {
-  z++;
-  console.log(z);
-  this.cursor += this.tickLen;
+
+Clock.prototype.tick = function(self) {
+  if (self.cursor > self.endTime) {
+    clearInterval(self.intervalID);
+    this.intervalID = null;
+    return;
+  }
+  var obj = self.tickObj;
+  if (obj instanceof Array) {
+    var len = obj.length;
+    for (var i=0; i<len; i++) {
+      coord = obj[i].tick(self.cursor);
+      console.log(['cursor coord',coord]);
+    }
+  } else {
+    coord = obj.tick(self.cursor);
+    console.log(['cursor coord', coord]);
+  }
+  self.cursor += self.tickLen;
 }
 
 
 Clock.prototype.start = function() {
-  this.intervalID = window.setInterval(this.tick, this.tickLen/this.speed);
+  this.intervalID = window.setInterval(this.tick, this.tickLen/this.speed, this);
 }
 
 
@@ -31,4 +46,9 @@ Clock.prototype.changeSpeed = function(speed) {
     this.stop();
     this.start();
   }
+}
+
+
+Clock.prototype.setCursor = function(ms) {
+  this.cursor = ms;
 }
