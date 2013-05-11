@@ -44,7 +44,8 @@ $(function() {
 		L.control.layers(l).addTo(map);
 		map.fitBounds(samples.getBounds());
 
-		clock = new Clock(tickPoint);
+		tick = new Tick(tickPoint);
+		clock = new Clock(tick);
 
 		map.on('mousemove', function(e) {
 			$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);

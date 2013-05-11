@@ -49,8 +49,23 @@ function interpolatePoint(start, end, ratio) {
   return [start[0]+offset[0], start[1]+offset[1]];
 }
 
-
+// NH needs refactoring
 TickPoint.prototype.getFirstTick = function() {
+  if (this.firstTick)
+    return this.ticks[this.firstTick];
+
+  var tmod = this.startTime % this.tickLen;
+  if (tmod === 0) {
+    this.firstTick = this.startTime;
+    return this.ticks[this.firstTick];
+  } 
+
+  this.firstTick = this.startTime + (this.tickLen - tmod);
+  return this.ticks[this.firstTick];
+}
+
+// NH needs refactoring
+TickPoint.prototype.getStartTime = function() {
   if (this.firstTick)
     return this.firstTick;
 
@@ -64,8 +79,23 @@ TickPoint.prototype.getFirstTick = function() {
   return this.firstTick;
 }
 
-
+// NH needs refactoring
 TickPoint.prototype.getLastTick = function() {
+  if (this.lastTick)
+    return this.ticks[this.lastTick];
+
+  var tmod = this.endTime % this.tickLen;
+  if (tmod ===0) {
+    this.lastTick = this.endTime;
+    return this.ticks[this.lastTick];
+  }
+
+  this.lastTick = this.endTime - tmod;
+  return this.ticks[this.lastTick];
+}
+
+// NH needs refactoring
+TickPoint.prototype.getEndTime = function() {
   if (this.lastTick)
     return this.lastTick;
 
@@ -108,5 +138,5 @@ TickPoint.prototype.getTickMultiPoint = function() {
 
 
 TickPoint.prototype.tick = function(ms) {
-  return new L.LatLng(this.ticks[ms][1], this.ticks[ms][0]);
+  return this.ticks[ms];
 }

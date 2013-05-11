@@ -1,7 +1,6 @@
-function MoveablePoint(map, startCoord) {
-  this.latLng = new L.LatLng(startCoord[1],startCoord[0]);
+function MoveablePoint(map, startLatLng) {
+  this.latLng = startLatLng;
   this.map = map;
-  this.startCoord = startCoord;
   this.marker = L.marker(this.latLng).addTo(map);
 }
 

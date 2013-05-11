@@ -1,9 +1,9 @@
-function Clock(tick, tickLen, speed, startTime, endTime) {
-  this.tick       = tick;
+function Clock(tickObj, tickLen, speed, startTime, endTime) {
+  this.tickObj    = tickObj;
   this.tickLen    = tickLen         || 250;
   this.speed      = speed           || 1;
-  this.startTime  = startTime       || tick.getFirstTick();
-  this.endTime    = endTime         || tick.getLastTick();
+  this.startTime  = startTime       || tickObj.getStartTime();
+  this.endTime    = endTime         || tickObj.getEndTime();
   this.cursor     = this.startTime  || null;
 }
 
@@ -11,10 +11,10 @@ function Clock(tick, tickLen, speed, startTime, endTime) {
 Clock.prototype.tick = function(self) {
   if (self.cursor > self.endTime) {
     clearInterval(self.intervalID);
-    this.intervalID = null;
+    self.intervalID = null;
     return;
   }
-  self.tick.tock(self.cursor);
+  self.tickObj.tock(self.cursor);
   self.cursor += self.tickLen;
 }
 

@@ -4,7 +4,9 @@ function Tick(tickPoints) {
   } else {
     this.tickPoints = [tickPoints];
   }
-  this.tockObj = new MoveablePoint(map,this.tickPoints[0].getFirstTick());
+  var first = this.tickPoints[0].getFirstTick();
+  var latLng = new L.LatLng(first[1],first[0]);
+  this.tockObj = new MoveablePoint(map,latLng);
 }
 
 
@@ -13,7 +15,18 @@ Tick.prototype.tock = function(ms) {
   var len = tickPoints.length;
   for(var i=0; i<len; i++) {
     var tickPoint = tickPoints[i];
-    var latLng = tickPoint.tick(ms);
+    var lngLat = tickPoint.tick(ms);
+    var latLng = new L.LatLng(lngLat[1],lngLat[0]);
     this.tockObj.move(latLng);
   }
+}
+
+
+Tick.prototype.getStartTime = function() {
+  return this.tickPoints[0].getStartTime();
+}
+
+
+Tick.prototype.getEndTime = function() {
+  return this.tickPoints[0].getEndTime();
 }
