@@ -1,9 +1,9 @@
-function Clock(tickObj, tickLen, speed, startTime, endTime) {
-  this.tickObj    = tickObj;
+function Clock(tick, tickLen, speed, startTime, endTime) {
+  this.tick       = tick;
   this.tickLen    = tickLen         || 250;
   this.speed      = speed           || 1;
-  this.startTime  = startTime       || tickObj.getFirstTick();
-  this.endTime    = endTime         || tickObj.getLastTick();
+  this.startTime  = startTime       || tick.getFirstTick();
+  this.endTime    = endTime         || tick.getLastTick();
   this.cursor     = this.startTime  || null;
 }
 
@@ -14,17 +14,7 @@ Clock.prototype.tick = function(self) {
     this.intervalID = null;
     return;
   }
-  var obj = self.tickObj;
-  if (obj instanceof Array) {
-    var len = obj.length;
-    for (var i=0; i<len; i++) {
-      coord = obj[i].tick(self.cursor);
-      console.log(['cursor coord',coord]);
-    }
-  } else {
-    coord = obj.tick(self.cursor);
-    console.log(['cursor coord', coord]);
-  }
+  self.tick.tock(self.cursor);
   self.cursor += self.tickLen;
 }
 

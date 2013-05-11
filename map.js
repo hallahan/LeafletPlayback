@@ -26,8 +26,8 @@ $(function() {
 			}
 		});
 		
-		tickPoints = new TickPoints(data, 250);
-		tickGeoJSON = tickPoints.getTickMultiPoint();
+		tickPoint = new TickPoint(data, 250);
+		tickGeoJSON = tickPoint.getTickMultiPoint();
 		var ticks = new L.GeoJSON(tickGeoJSON, {
 			pointToLayer: function(geojson, latlng) {
 				var circle = new L.CircleMarker(latlng, {radius:4, color:'#666'});
@@ -44,7 +44,7 @@ $(function() {
 		L.control.layers(l).addTo(map);
 		map.fitBounds(samples.getBounds());
 
-		clock = new Clock(tickPoints);
+		clock = new Clock(tickPoint);
 
 		map.on('mousemove', function(e) {
 			$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
