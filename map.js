@@ -55,6 +55,13 @@ $(function() {
 			$('#click-latlng').html(e.latlng.lat+', '+e.latlng.lng);
 		});
 
+		$('#start').click(function() {
+			clock.start();
+		});
+		$('#stop').click(function() {
+			clock.stop();
+		});
+
 	});
 });
 
