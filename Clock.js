@@ -52,3 +52,8 @@ Clock.prototype.changeSpeed = function(speed) {
 Clock.prototype.setCursor = function(ms) {
   this.cursor = ms;
 }
+
+
+Clock.prototype.fastForwardByMin = function(min) {
+  this.cursor += min*1000;
+}
