@@ -6,6 +6,11 @@ function Clock(tickObj, tickLen, speed, startTime, endTime) {
   this.endTime    = endTime         || tickObj.getEndTime();
   this.cursor     = this.startTime  || null;
   this.active     = false;
+
+  $('#start-time-txt').html(new Date(this.startTime).toString());
+  $('#start-time').html(this.startTime.toString());
+  $('#end-time-txt').html(new Date(this.endTime).toString());
+  $('#end-time').html(this.endTime.toString());
 }
 
 
@@ -44,5 +49,5 @@ Clock.prototype.changeSpeed = function(speed) {
 
 
 Clock.prototype.setCursor = function(ms) {
-  this.cursor = ms;
+  this.cursor = parseInt(ms);
 }

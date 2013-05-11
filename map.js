@@ -62,6 +62,11 @@ $(function() {
 			clock.stop();
 		});
 
+		$('#set-cursor').click(function(){
+			var val = $('#cursor-time').val();
+			clock.setCursor(val);
+		});
+
 	});
 });
 

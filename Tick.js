@@ -18,6 +18,7 @@ Tick.prototype.tock = function(ms) {
     var lngLat = tickPoint.tick(ms);
     var latLng = new L.LatLng(lngLat[1],lngLat[0]);
     this.tockObj.move(latLng);
+    $('#cursor-time-txt').html(new Date(ms).toString());
     $('#cursor-time').val(ms.toString());
     $('#cursor-latlng').html(latLng.lat+', '+latLng.lng);
   }
