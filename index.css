@@ -10,5 +10,9 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 300px;
+  width: 295px;
+}
+
+label {
+  font-weight: bold;
 }
