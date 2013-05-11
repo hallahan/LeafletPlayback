@@ -16,7 +16,7 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	$.getJSON('data/small-geo.json', function(data) {
+	$.getJSON('data/drive-geo.json', function(data) {
 		
 		var samples = new L.GeoJSON(data, {
 			pointToLayer: function(geojson, latlng) {
@@ -44,6 +44,8 @@ $(function() {
 		L.control.layers(l).addTo(map);
 		map.fitBounds(samples.getBounds());
 
+		clock = new Clock();
+		
 	});
 });
 
