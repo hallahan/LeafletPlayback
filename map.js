@@ -46,6 +46,14 @@ $(function() {
 
 		clock = new Clock(tickPoints);
 
+		map.on('mousemove', function(e) {
+			$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
+		});
+
+		map.on('click', function(e) {
+			$('#click-latlng').html(e.latlng.lat+', '+e.latlng.lng);
+		});
+
 	});
 });
 
