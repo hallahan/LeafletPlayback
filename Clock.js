@@ -5,6 +5,7 @@ function Clock(tickObj, tickLen, speed, startTime, endTime) {
   this.startTime  = startTime       || tickObj.getStartTime();
   this.endTime    = endTime         || tickObj.getEndTime();
   this.cursor     = this.startTime  || null;
+  this.active     = false;
 }
 
 
@@ -20,12 +21,15 @@ Clock.prototype.tick = function(self) {
 
 
 Clock.prototype.start = function() {
+  if (this.active) return;
   this.intervalID = window.setInterval(this.tick, this.tickLen/this.speed, this);
+  this.active = true;
 }
 
 
 Clock.prototype.stop = function() {
   clearInterval(this.intervalID);
+  this.active = false;
   this.intervalID = null;
 }
 
