@@ -7,8 +7,6 @@ function TickPoints(geoJSON, tickLen) {
   this.startTime = sampleTimes[0];
   this.endTime = sampleTimes[sampleTimes.length-1];
 
-  // Interpolating all of the positions of the points
-  // for each clock tick...
   var samples = geoJSON.geometry.coordinates;
   var len = samples.length;
   for (var i=0; i<len; i++) {
@@ -42,9 +40,6 @@ function TickPoints(geoJSON, tickLen) {
       clockTime += tickLen;
     }
   }
-
-  this.moveablePoint = new MoveablePoint(map, this.ticks[this.getFirstTick()]);
-  marker = this.moveablePoint;
 }
 
 
@@ -113,6 +108,5 @@ TickPoints.prototype.getTickMultiPoint = function() {
 
 
 TickPoints.prototype.tick = function(ms) {
-  this.moveablePoint.move(this.ticks[ms], this.tickLen);
   return this.ticks[ms];
 }
