@@ -57,6 +57,12 @@ $(function() {
 	$('#end-time').html(playback.getEndTime().toString());
 	$('#cursor-time-txt').html(new Date(playback.getEndTime()).toString());
 	$('#cursor-time').val(playback.getEndTime().toString());
+	$('#speed').val(playback.getSpeed().toString());
+
+	$('#set-speed').on('click', function(e) {
+		var speed = parseInt($('#speed').val());
+		if (speed) playback.setSpeed(speed);
+	})
 
 });
 
