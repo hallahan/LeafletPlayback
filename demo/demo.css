@@ -1,0 +1,18 @@
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 300px;
+  bottom: 0;
+}
+
+#right-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 295px;
+}
+
+label {
+  font-weight: bold;
+}

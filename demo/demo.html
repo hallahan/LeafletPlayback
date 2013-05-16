@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Leaflet Playback</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../lib/leaflet/leaflet.css" />
+	<link href="http://files.theoutpost.io/bootstrap/css/bootstrap.css" rel="stylesheet" />
+  <link href="http://files.theoutpost.io/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+  <link rel="stylesheet" href="demo.css" />
+</head>
+
+<body>
+
+	<div id="map"></div>
+
+	<div id="right-panel">
+    <p><b>Mouse LatLng</b><br/><span id="mouse-latlng">&nbsp;</span></p>
+    <p><b>Click LatLng</b><br/><span id="click-latlng">&nbsp;</span></p>
+    <p><b>Start Time</b><br/>
+      <span id="start-time-txt">&nbsp;</span><br/>
+      <span id="start-time">&nbsp;</span>
+    </p>
+    <p><b>End Time</b><br/>
+      <span id="end-time-txt">&nbsp;</span><br/>
+      <span id="end-time">&nbsp;</span>
+    </p>
+    <p><b>Cursor Time</b><br/><span id="cursor-time-txt">&nbsp;</span></p>
+    <div class="input-append">
+      <input class="span2" id="cursor-time" type="text" />
+      <button class="btn" type="button" id="set-cursor">Set</button>
+    </div>
+    <p><b>Cursor LatLng</b><br/><span id="cursor-latlng">&nbsp;</span></p>
+    <hr/>
+    <div class="btn-group">
+      <button id="stop" class="btn">Stop</button>
+      <button id="start" class="btn">Start</button>
+    </div>
+	</div>
+
+	<script src="../lib/jquery1.9.1.js"></script>
+  <script src="../lib/leaflet/leaflet-src.js"></script>
+	<script src="../src/Playback.js"></script>
+	<script src="../src/MoveableMarker.js"></script>
+  <script src="../src/TickPoint.js"></script>
+	<script src="../src/Tick.js"></script>
+  <script src="../src/Clock.js"></script>
+	<script src="../data/drive.js"></script>
+	<script src="demo.js"></script>
+</body>
+</html>
