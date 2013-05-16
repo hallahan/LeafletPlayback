@@ -1,24 +1,23 @@
+L.Playback = L.Playback || {};
 
+L.Playback.MoveableMarker = L.Marker.extend({
 
-L.Playback.MoveableMarker = L.Class.extend({
-
-  initialize: function (map, startLatLng) {
-    this._map = map;
-    this._latLng = startLatLng;
-    this._marker = new L.Marker(this._latLng).addTo(map);
+  initialize: function (startLatLng) {
+    L.Marker.prototype.initialize.call(this, startLatLng);
+    this.bindPopup(this._latlng.toString());
   },
 
   move: function (latLng, transitionTime) {
-    this._latLng = latLng;
     // Only if CSS3 transitions are supported
     if (L.DomUtil.TRANSITION) {
-      if (marker._icon) { 
-        this._marker._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+      if (this._icon) { 
+        this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
       }
-      if (marker._shadow) { 
-        this._marker._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+      if (this._shadow) { 
+        this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
       }
     }
-    this._marker.setLatLng(latLng);
+    this.setLatLng(latLng);
+    this._popup.setContent(this._latlng.toString());
   }
 });

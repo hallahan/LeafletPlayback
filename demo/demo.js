@@ -29,7 +29,7 @@ $(function() {
 	L.control.layers(l).addTo(map);
 	map.fitBounds(samples.getBounds());
 
-	playback = new L.Playback(map, data);
+	playback = new L.Playback(map, data, clockTick);
 
 	map.on('mousemove', function(e) {
 		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
@@ -40,16 +40,27 @@ $(function() {
 	});
 
 	$('#start').click(function() {
-		playback.clock.start();
+		playback.start();
 	});
 	$('#stop').click(function() {
-		playback.clock.stop();
+		playback.stop();
 	});
 
 	$('#set-cursor').click(function(){
 		var val = $('#cursor-time').val();
-		playback.clock.setCursor(val);
+		playback.setCursor(val);
 	});
+
+	$('#start-time-txt').html(new Date(playback.getStartTime()).toString());
+	$('#start-time').html(playback.getStartTime().toString());	
+	$('#end-time-txt').html(new Date(playback.getEndTime()).toString());
+	$('#end-time').html(playback.getEndTime().toString());
+	$('#cursor-time-txt').html(new Date(playback.getEndTime()).toString());
+	$('#cursor-time').val(playback.getEndTime().toString());
 
 });
 
+function clockTick(ms) {
+	$('#cursor-time').val(ms.toString());
+	$('#cursor-time-txt').html(new Date(ms).toString());
+}

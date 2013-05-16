@@ -1,4 +1,4 @@
-
+L.Playback = L.Playback || {};
 
 L.Playback.Tick = L.Class.extend({
 
@@ -12,7 +12,7 @@ L.Playback.Tick = L.Class.extend({
     for(var i=0,len=this._tickPoints.length;i<len;i++){
       var firstLngLat = this._tickPoints[i].getFirstTick();
       var latLng = new L.LatLng(firstLngLat[1],firstLngLat[0]);
-      this._markers[i] = new L.Playback.MoveableMarker(map, latLng);
+      this._markers[i] = new L.Playback.MoveableMarker(latLng).addTo(map);
     }
   },
 

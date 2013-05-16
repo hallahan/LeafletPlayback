@@ -1,4 +1,4 @@
-
+L.Playback = L.Playback || {};
 
 L.Playback.TickPoint = L.Class.extend({
 
