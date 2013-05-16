@@ -12,6 +12,8 @@ L.Playback.MoveableMarker = L.Marker.extend({
     if (L.DomUtil.TRANSITION) {
       if (this._icon) { 
         this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+        if (this._popup && this._popup._wrapper)
+          this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
       }
       if (this._shadow) { 
         this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
