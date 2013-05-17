@@ -24,13 +24,9 @@ L.Playback.Clock = L.Class.extend({
       clearInterval(self._intervalID);
       return;
     }
-    self._tock();
+    self._tickObj.tock(self._cursor, self._transitionTime);
+    self._callback(self._cursor);
     self._cursor += self._tickLen;
-  },
-
-  _tock: function () {
-    this._tickObj.tock(this._cursor, this._transitionTime);
-    this._callback(this._cursor);
   },
 
   start: function () {
@@ -68,7 +64,8 @@ L.Playback.Clock = L.Class.extend({
       time += this._tickLen - mod;
     }
     this._cursor = time;
-    this._tock();
+    this._tickObj.tock(this._cursor, 0);
+    this._callback(this._cursor);
   },
 
   getTime: function() {
