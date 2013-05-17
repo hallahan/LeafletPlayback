@@ -29,7 +29,7 @@ $(function() {
 	L.control.layers(l).addTo(map);
 	map.fitBounds(samples.getBounds());
 
-	playback = new L.Playback(map, data, clockTick);
+	playback = new L.Playback(map, data, clockCallback);
 
 	map.on('mousemove', function(e) {
 		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
@@ -55,8 +55,20 @@ $(function() {
 	$('#start-time').html(playback.getStartTime().toString());	
 	$('#end-time-txt').html(new Date(playback.getEndTime()).toString());
 	$('#end-time').html(playback.getEndTime().toString());
-	$('#cursor-time-txt').html(new Date(playback.getEndTime()).toString());
-	$('#cursor-time').val(playback.getEndTime().toString());
+	$('#cursor-time-txt').html(new Date(playback.getTime()).toString());
+
+	$('#time-slider').slider({
+		min: playback.getStartTime(),
+		max: playback.getEndTime(),
+		step: playback.getTickLen(),
+		slide: function( event, ui ) {
+			playback.setCursor(ui.value);
+			$('#cursor-time').val(ui.value.toString());
+			$('#cursor-time-txt').html(new Date(ui.value).toString());
+		}
+	});
+
+	$('#cursor-time').val(playback.getTime().toString());
 	$('#speed').val(playback.getSpeed().toString());
 
 	$('#set-speed').on('click', function(e) {
@@ -66,7 +78,8 @@ $(function() {
 
 });
 
-function clockTick(ms) {
+function clockCallback(ms) {
 	$('#cursor-time').val(ms.toString());
 	$('#cursor-time-txt').html(new Date(ms).toString());
+	$('#time-slider').slider('value', ms);
 }

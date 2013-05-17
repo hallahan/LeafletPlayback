@@ -16,3 +16,7 @@
 label {
   font-weight: bold;
 }
+
+#time-slider {
+  margin: 10px;
+}

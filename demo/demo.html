@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="../lib/leaflet/leaflet.css" />
 	<link href="http://files.theoutpost.io/bootstrap/css/bootstrap.css" rel="stylesheet" />
   <link href="http://files.theoutpost.io/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <link rel="stylesheet" href="demo.css" />
 </head>
 
@@ -27,6 +28,7 @@
       <span id="end-time">&nbsp;</span>
     </p>
     <p><b>Cursor Time</b><br/><span id="cursor-time-txt">&nbsp;</span></p>
+    <div id="time-slider"></div>
     <div class="input-append">
       <input class="span2" id="cursor-time" type="text" />
       <button class="btn" type="button" id="set-cursor">Set</button>
@@ -43,7 +45,8 @@
     </div>
 	</div>
 
-	<script src="../lib/jquery1.9.1.js"></script>
+  <script src="../lib/jquery1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <script src="../lib/leaflet/leaflet-src.js"></script>
 	<script src="../src/MoveableMarker.js"></script>
   <script src="../src/TickPoint.js"></script>
