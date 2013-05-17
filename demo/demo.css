@@ -17,6 +17,6 @@ label {
   font-weight: bold;
 }
 
-#time-slider {
+.ui-slider {
   margin: 10px;
 }

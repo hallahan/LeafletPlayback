@@ -49,6 +49,7 @@ $(function() {
 	$('#set-cursor').click(function(){
 		var val = $('#cursor-time').val();
 		playback.setCursor(val);
+		$('#time-slider').slider('value', val);
 	});
 
 	$('#start-time-txt').html(new Date(playback.getStartTime()).toString());
@@ -61,6 +62,7 @@ $(function() {
 		min: playback.getStartTime(),
 		max: playback.getEndTime(),
 		step: playback.getTickLen(),
+		value: playback.getTime(),
 		slide: function( event, ui ) {
 			playback.setCursor(ui.value);
 			$('#cursor-time').val(ui.value.toString());
@@ -71,9 +73,23 @@ $(function() {
 	$('#cursor-time').val(playback.getTime().toString());
 	$('#speed').val(playback.getSpeed().toString());
 
+	$('#speed-slider').slider({
+		min: -9,
+		max: 9,
+		step: .1,
+		value: speedToSliderVal(playback.getSpeed()),
+		slide: function( event, ui ) {
+			var speed = sliderValToSpeed(parseFloat(ui.value));
+			playback.setSpeed(speed);
+			$('#speed').val(speed);
+		}
+	});
+
 	$('#set-speed').on('click', function(e) {
 		var speed = parseInt($('#speed').val());
-		if (speed) playback.setSpeed(speed);
+		if (!speed) return;
+		playback.setSpeed(speed);
+		$('#speed-slider').slider('value', speedToSliderVal(speed));
 	})
 
 });
@@ -82,4 +98,14 @@ function clockCallback(ms) {
 	$('#cursor-time').val(ms.toString());
 	$('#cursor-time-txt').html(new Date(ms).toString());
 	$('#time-slider').slider('value', ms);
+}
+
+function speedToSliderVal(speed) {
+	if (speed < 1) return -10+speed*10;
+	return speed - 1;
+}
+
+function sliderValToSpeed(val) {
+	if (val < 0) return parseFloat((1+val/10).toFixed(2));
+	return val + 1;
 }
