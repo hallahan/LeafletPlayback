@@ -92,7 +92,9 @@ $(function() {
 		$('#speed-slider').slider('value', speedToSliderVal(speed));
 	})
 
-
+	$('#close-right-panel').click(function(e){
+		$('#right-panel').hide();
+	});
 
 
 	// Initialize the FeatureGroup to store editable layers
