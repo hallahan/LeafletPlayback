@@ -148,9 +148,72 @@ $(function() {
 			console.log("Edited " + countOfEditedLayers + " layers");
 		});
 
-		L.DomUtil.get('changeColor').onclick = function () {
-			drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
-		};
+		// NH TODO this doesnt work...
+		// L.DomUtil.get('changeColor').onclick = function () {
+		// 	drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
+		// };
+
+		// applicationId = "Pqx3g3egso1lJrbi";
+  //   applicationSecret = "617e5841d4064b888ac5ce18f00edd9f";		
+
+    applicationId = "cxo2FcLAFbTPnNfN";
+    applicationSecret = "9bae726971fc4e4c909fc9c034d3b0fa";
+
+    geotriggers = new Geotriggers.Session({
+      applicationId: applicationId,
+      applicationSecret: applicationSecret,
+      persistSession: false,
+      debug: false
+    });
+
+    // geotriggers.post("device/message", {
+    //   params: {
+    //     tags: ["portland"],
+    //     text: "baz",
+    //     data: {
+    //       foo: "bar"
+    //     }
+    //   }
+    // }).then(function(response){
+    //   console.log(response);
+    // },function(response){
+    //   console.log(response);
+    // });
+
+		geotriggers.on("authenticated", function () {
+      console.log('deviceId: ' + this.deviceId);
+    });
+
+    geotriggers.get('trigger/list').then(function(res){
+    	console.log('trigger list resolved:');
+    	console.log(res);
+    }, function(res) {
+    	console.log('trigger list rejected:');
+    	console.log(res);
+    });
+
+    geotriggers.get('trigger/history').then(function(res) {
+    	console.log('trigger history resolved:');
+    	console.log(res);
+    }, function(res) {
+    	console.log('trigger history rejected:');
+    	console.log(res);
+    })
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+    	pos = position;
+    	console.log(pos);
+
+    	// freaks out, device id undefined
+    	// geotriggers.post('location/update', [{
+	    // 	timestamp: pos.timestamp,
+	    // 	latitude: pos.coords.latitude,
+	    // 	longitude: pos.coords.longitude
+	    // }]);
+
+    });
+
+    
 
 });
 
