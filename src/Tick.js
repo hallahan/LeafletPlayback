@@ -40,5 +40,10 @@ L.Playback.Tick = L.Class.extend({
       if (t > latestTime) latestTime = t;
     }
     return latestTime;
+  },
+
+  getMarkers: function() {
+    return this._markers;
   }
+  
 });

@@ -96,6 +96,10 @@ $(function() {
 		$('#right-panel').hide();
 	});
 
+  $('#update-position').click(function(e) {
+    updatePosition();
+  });
+
 
 	// Initialize the FeatureGroup to store editable layers
 	var drawnItems = new L.FeatureGroup();
@@ -129,12 +133,18 @@ $(function() {
 		map.addControl(drawControl);
 
 		map.on('draw:created', function (e) {
-			var type = e.layerType,
-				layer = e.layer;
+			var type = e.layerType
+				, layer = e.layer;
 
 			if (type === 'marker') {
 				layer.bindPopup('A popup!');
 			}
+
+      if (type === 'circle') {
+        var latlng = layer.getLatLng();
+        var radius = layer.getRadius();
+        createPointTrigger(latlng, radius);
+      }
 
 			drawnItems.addLayer(layer);
 		});
@@ -161,9 +171,12 @@ $(function() {
 
     geotriggers = new Geotriggers.Session({
       applicationId: applicationId,
-      applicationSecret: applicationSecret,
+      // applicationSecret: applicationSecret,
       persistSession: false,
-      debug: false
+      debug: false,
+      automaticRegistation: true,
+      persistSession: true, 
+      preferLocalStorage: true
     });
 
     // geotriggers.post("device/message", {
@@ -184,36 +197,44 @@ $(function() {
       console.log('deviceId: ' + this.deviceId);
     });
 
-    geotriggers.get('trigger/list').then(function(res){
-    	console.log('trigger list resolved:');
-    	console.log(res);
+    geotriggers.get('location/last', {
+      params: {
+        deviceIds: ['Y7zPgp7gWgTPoNvz']
+      }
+    }).then(function(res){
+      console.log('location/last resolved:');
+      console.log(res);
     }, function(res) {
-    	console.log('trigger list rejected:');
-    	console.log(res);
+      console.log('location/last rejected:');
+      console.log(res);
     });
 
-    geotriggers.get('trigger/history').then(function(res) {
-    	console.log('trigger history resolved:');
-    	console.log(res);
+    // url not working
+    // geotriggers.get('device/update', {
+    //   params: {
+    //     deviceIds: ['Y7zPgp7gWgTPoNvz'],
+    //     addTags: ['nh1']
+    //   }
+    // }).then(function(res){
+    //   console.log('device/update resolved:');
+    //   console.log(res);
+    // }, function(res) {
+    //   console.log('device/update rejected:');
+    //   console.log(res);
+    // });
+
+    geotriggers.post('device/update', {
+      params: {
+        deviceIds: ['Y7zPgp7gWgTPoNvz']
+      },
+      addTags: ['NHDevice']
+    }).then(function(res){
+      console.log('device/update resolved:');
+      console.log(res);
     }, function(res) {
-    	console.log('trigger history rejected:');
-    	console.log(res);
-    })
-
-    navigator.geolocation.getCurrentPosition(function(position) {
-    	pos = position;
-    	console.log(pos);
-
-    	// freaks out, device id undefined
-    	// geotriggers.post('location/update', [{
-	    // 	timestamp: pos.timestamp,
-	    // 	latitude: pos.coords.latitude,
-	    // 	longitude: pos.coords.longitude
-	    // }]);
-
+      console.log('device/update rejected:');
+      console.log(res);
     });
-
-    
 
 });
 
@@ -232,3 +253,145 @@ function sliderValToSpeed(val) {
 	if (val < 0) return parseFloat((1+val/10).toFixed(2));
 	return val + 1;
 }
+
+function updateLocation() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    pos = position;
+    console.log(pos);
+    geotriggers.post('location/update', {
+      params: {
+        locations: [{
+          timestamp: pos.timestamp,
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
+        }]
+      }
+    }).then(function(res){
+      console.log('location/update resolved:');
+      console.log(res);
+    }, function(res) {
+      console.log('location/update rejected:');
+      console.log(res);
+    });
+  });
+}
+
+function createPointTrigger(latlng, radius) {
+  geotriggers.post('trigger/create', {
+    params: {
+      condition: {
+        direction: 'enter',
+        geo: {
+          latitude: latlng.lat,
+          longitude: latlng.lng,
+          distance: radius
+        }
+      },
+      action: {
+        message: 'NHTrigger created'
+      },
+      setTags: ['NHTrigger']
+    }
+  }).then(function(res){
+    console.log('trigger/create resolved:');
+    console.log(res);
+  }, function(res) {
+    console.log('trigger/create rejected:');
+    console.log(res);
+  });
+}
+
+function logTriggers() {
+  geotriggers.get('trigger/list').then(function(res){
+    console.log('trigger list resolved:');
+    console.log(res);
+  }, function(res) {
+    console.log('trigger list rejected:');
+    console.log(res);
+  });
+}
+
+function displayTriggers() {
+  geotriggers.get('trigger/list').then(function(res){
+    var triggers = res.triggers;
+    for (var i=0, len=triggers.length; i<len; i++) {
+      var trig = triggers[i];
+      var geo = trig.condition.geo;
+      var latlng = new L.LatLng(geo.latitude, geo.longitude);
+      var radius = geo.distance;
+      var circle = new L.Circle(latlng, radius, {
+        color: '#FF0000',
+        fillColor: '#00E004',
+        fillOpacity: 0.5,
+        dashArray: '5, 10'
+      });
+      circle.addTo(map);
+    }
+  }, function(res) {
+    console.log('trigger list rejected:');
+    console.log(res);
+  });
+}
+
+function updatePosition() {
+  var latlng = playback.tick.getMarkers()[0].getLatLng();
+
+  geotriggers.post('location/update', {
+    params: {
+      locations: [{
+        timestamp: new Date().getTime(),
+        latitude: latlng.lat,
+        longitude: latlng.lng
+      }]
+    }
+  }).then(function(res){
+    console.log('location/update resolved:');
+    console.log(res);
+  }, function(res) {
+    console.log('location/update rejected:');
+    console.log(res);
+  });
+}
+
+var triggerIds = [];
+function logTriggerHistory() {
+  // does not accept the device id, thinks we are a different device
+  // geotriggers.get('trigger/history', {
+  //   params: {
+  //     deviceIds: ["Y7zPgp7gWgTPoNvz"]
+  //   }
+  // }).then(function(res) {
+  //   console.log('trigger history resolved:');
+  //   console.log(res);
+  // }, function(res) {
+  //   console.log('trigger history rejected:');
+  //   console.log(res);
+  // });
+
+  geotriggers.get('trigger/list').then(function(res){
+    console.log('retrieved list of triggers');
+    var triggers = res.triggers;
+    for (var i=0, len=triggers.length; i<len; i++) {
+      var trig = triggers[i];
+      var trigId = trig.triggerId;
+      triggerIds.push(trigId);
+      geotriggers.get('trigger/history', {
+        params: {
+          triggerIds: [trigId]
+        }
+      }).then(function(res) {
+        console.log('trigger history resolved:');
+        console.log(res);
+      }, function(res) {
+        console.log('trigger history rejected:');
+        console.log(res);
+      });
+    }
+    
+  }, function(res) {
+    console.log('trigger list rejected:');
+    console.log(res);
+  });
+
+}
+
