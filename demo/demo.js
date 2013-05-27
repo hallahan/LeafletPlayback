@@ -100,6 +100,10 @@ $(function() {
     updatePosition();
   });
 
+  $('#display-triggers').click(function(e) {
+    displayTriggers();
+  });
+
 
 	// Initialize the FeatureGroup to store editable layers
 	var drawnItems = new L.FeatureGroup();
@@ -171,7 +175,7 @@ $(function() {
 
     geotriggers = new Geotriggers.Session({
       applicationId: applicationId,
-      // applicationSecret: applicationSecret,
+      applicationSecret: applicationSecret,
       persistSession: false,
       debug: false,
       automaticRegistation: true,
@@ -355,18 +359,6 @@ function updatePosition() {
 
 var triggerIds = [];
 function logTriggerHistory() {
-  // does not accept the device id, thinks we are a different device
-  // geotriggers.get('trigger/history', {
-  //   params: {
-  //     deviceIds: ["Y7zPgp7gWgTPoNvz"]
-  //   }
-  // }).then(function(res) {
-  //   console.log('trigger history resolved:');
-  //   console.log(res);
-  // }, function(res) {
-  //   console.log('trigger history rejected:');
-  //   console.log(res);
-  // });
 
   geotriggers.get('trigger/list').then(function(res){
     console.log('retrieved list of triggers');
@@ -395,3 +387,19 @@ function logTriggerHistory() {
 
 }
 
+function logTriggerHistory2() {
+  // does not accept the device id, thinks we are a different device
+  geotriggers.get('trigger/history', {
+    params: {
+      deviceIds: [triggers.deviceId]
+    }
+  }).then(function(res) {
+    console.log('trigger history resolved:');
+    console.log(res);
+  }, function(res) {
+    console.log('trigger history rejected:');
+    console.log(res);
+  });
+}
+
+// "3TuBPHeRtlqVTTsn"
