@@ -29,7 +29,9 @@ $(function() {
     'GeoTriggers': geoTriggerFeatureGroup
 	};
 
-	L.control.layers(l).addTo(map);
+	L.control.layers(null, l, {
+    collapsed: false
+  }).addTo(map);
 	map.fitBounds(samples.getBounds());
 
 	playback = new L.Playback(map, data, clockCallback);
@@ -99,8 +101,8 @@ $(function() {
 		$('#right-panel').hide();
 	});
 
-  $('#update-position').click(function(e) {
-    updatePosition();
+  $('#update-location').click(function(e) {
+    g.updateLocation();
   });
 
 
@@ -166,7 +168,7 @@ $(function() {
 		// 	drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
 		// };
 
-    g = new GeoTriggers(geoTriggerFeatureGroup);
+    g = new GeoTriggers(geoTriggerFeatureGroup, triggerFired);
 
 });
 
@@ -186,4 +188,6 @@ function sliderValToSpeed(val) {
 	return val + 1;
 }
 
-
+function triggerFired(trigger) {
+  console.log(['triggerFired',trigger]);
+}

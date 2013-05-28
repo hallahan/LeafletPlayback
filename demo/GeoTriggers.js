@@ -1,6 +1,7 @@
 
-function GeoTriggers(featureGroup) {
+function GeoTriggers(featureGroup, callback) {
   this.featureGroup = featureGroup;
+  this.callback = callback;
 
   geoloqi.init({
     client_id: "d1aaa02788a021d52a2a3677da339a3f"
@@ -8,12 +9,17 @@ function GeoTriggers(featureGroup) {
 
   // geoloqi.auth = {'access_token': 'a9751-351dce0d5fc8974c1dda3425653b8410691ac22e'};
 
+  this.triggerHistory = JSON.parse(window.localStorage.triggerHistory);
+  if (!this.triggerHistory) this.triggerHistory = [];
+
   this.login();
   this.logLayers();
   this.logPlaces();
   this.logTriggers();
   this.showPlaces();
+  this.startPollingHistory();
 }
+
 
 GeoTriggers.prototype.getProfile = function() {
   geoloqi.get('account/profile', function(result, error) {
@@ -21,9 +27,11 @@ GeoTriggers.prototype.getProfile = function() {
   });
 }
 
+
 GeoTriggers.prototype.login = function() {
   geoloqi.login({username:"nick",password:"sempervirens"});
 }
+
 
 //"7gWX" NickTriggers
 GeoTriggers.prototype.logLayers = function() {
@@ -32,6 +40,7 @@ GeoTriggers.prototype.logLayers = function() {
   });
 }
 
+
 GeoTriggers.prototype.logPlaces = function() {
   geoloqi.get("place/list", {
     "layer_id": "7gWX"
@@ -39,6 +48,7 @@ GeoTriggers.prototype.logPlaces = function() {
     console.log(['place/list', response || error]);
   });
 }
+
 
 GeoTriggers.prototype.logTriggers = function() {
   geoloqi.get("place/list", {
@@ -59,6 +69,7 @@ GeoTriggers.prototype.logTriggers = function() {
     }
   });
 }
+
 
 GeoTriggers.prototype.showPlaces = function() {
   var self = this;
@@ -84,4 +95,92 @@ GeoTriggers.prototype.showPlaces = function() {
       self.featureGroup.addLayer(circle);
     }
   });
+}
+
+
+GeoTriggers.prototype.updateLocation = function() {
+  var latlng = playback.tick.getMarkers()[0].getLatLng();
+  var t = new Date().toISOString();
+
+  var points = [{
+    date: new Date().toISOString(),
+    location: {
+      type: 'point',
+      position: {
+        latitude: latlng.lat,
+        longitude: latlng.lng
+      }
+    },
+    client: {
+      platform: 'LeafletPlayback',
+      hardware: 'browser',
+      name: 'LeafletPlayback',
+      version: '0.0.1'
+    },
+    raw: {
+      inBrowser: true,
+      simulation: true,
+      clockTime: playback.getTime(),
+      application: 'LeafletPlayback',
+      version: '0.0.1'
+    }
+  }];
+
+  geoloqi.post('location/update', points, function(res, err) {
+    console.log(['location/update',res||err]);
+  });
+}
+
+
+GeoTriggers.prototype._pollTriggerHistory = function() {
+  var updated = false;
+  var self = this;
+  geoloqi.get("trigger/history", {}, function(res, err) {
+    var updates = res.history;
+    if (updates.length === 0) return;
+    var len = self.triggerHistory.length;
+    var newestStored = self.triggerHistory[len-1];
+    var oldestUpdate = updates.pop();
+    while (oldestUpdate && oldestUpdate.date_ts <= newestStored.date_ts ) {
+      oldestUpdate = updates.pop();
+    }
+    while (oldestUpdate) {
+      self._newTrigger(oldestUpdate);
+      updated = true;
+      oldestUpdate = updates.pop();
+    }
+    if (updated) self.persist();
+
+    // poll in a second again
+    self._timeoutID = window.setTimeout(function(self) {
+      self._pollTriggerHistory();
+    }, 1000, self);
+  });
+  
+}
+
+
+GeoTriggers.prototype.persist = function() {
+  var json = JSON.stringify(this.triggerHistory);
+  window.localStorage.triggerHistory = json;
+}
+
+
+GeoTriggers.prototype._newTrigger = function(trigger) {
+  this.triggerHistory.push(trigger);
+  this.callback(trigger);
+}
+
+
+GeoTriggers.prototype.startPollingHistory = function() {
+  if (this._timeoutID) return;
+  this._pollTriggerHistory();
+}
+
+
+GeoTriggers.prototype.stopPollingHistory = function() {
+  if (this._timeoutID) {
+    window.clearTimeout(this._timeoutID);
+    this._timeoutID = null;
+  }
 }
