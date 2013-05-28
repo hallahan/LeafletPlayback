@@ -46,9 +46,11 @@ $(function() {
 
 	$('#start').click(function() {
 		playback.start();
+    geoTriggers.startPolling();
 	});
 	$('#stop').click(function() {
 		playback.stop();
+    geoTriggers.stopPolling();
 	});
 
 	$('#set-cursor').click(function(){
@@ -101,10 +103,6 @@ $(function() {
 		$('#right-panel').hide();
 	});
 
-  $('#update-location').click(function(e) {
-    g.updateLocation();
-  });
-
 
 	// Initialize the FeatureGroup to store editable layers
 	var drawnItems = new L.FeatureGroup();
@@ -148,7 +146,6 @@ $(function() {
       if (type === 'circle') {
         var latlng = layer.getLatLng();
         var radius = layer.getRadius();
-        createPointTrigger(latlng, radius);
       }
 
 			drawnItems.addLayer(layer);
@@ -168,7 +165,7 @@ $(function() {
 		// 	drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
 		// };
 
-    g = new GeoTriggers(geoTriggerFeatureGroup, triggerFired);
+    geoTriggers = new GeoTriggers(geoTriggerFeatureGroup, triggerFired);
 
 });
 

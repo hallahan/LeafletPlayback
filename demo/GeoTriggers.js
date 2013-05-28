@@ -17,7 +17,6 @@ function GeoTriggers(featureGroup, callback) {
   this.logPlaces();
   this.logTriggers();
   this.showPlaces();
-  this.startPollingHistory();
 }
 
 
@@ -100,10 +99,11 @@ GeoTriggers.prototype.showPlaces = function() {
 
 GeoTriggers.prototype.updateLocation = function() {
   var latlng = playback.tick.getMarkers()[0].getLatLng();
-  var t = new Date().toISOString();
+  var timestamp = playback.getTime();
+  var timeString = new Date().toISOString();
 
   var points = [{
-    date: new Date().toISOString(),
+    date: timeString,
     location: {
       type: 'point',
       position: {
@@ -120,21 +120,22 @@ GeoTriggers.prototype.updateLocation = function() {
     raw: {
       inBrowser: true,
       simulation: true,
-      clockTime: playback.getTime(),
+      clockTime: timestamp,
       application: 'LeafletPlayback',
       version: '0.0.1'
     }
   }];
 
   geoloqi.post('location/update', points, function(res, err) {
-    console.log(['location/update',res||err]);
+    // console.log(['location/update',res||err]);
   });
 }
 
 
-GeoTriggers.prototype._pollTriggerHistory = function() {
+GeoTriggers.prototype._poll = function() {
   var updated = false;
   var self = this;
+  self.updateLocation();
   geoloqi.get("trigger/history", {}, function(res, err) {
     var updates = res.history;
     if (updates.length === 0) return;
@@ -153,7 +154,7 @@ GeoTriggers.prototype._pollTriggerHistory = function() {
 
     // poll in a second again
     self._timeoutID = window.setTimeout(function(self) {
-      self._pollTriggerHistory();
+      self._poll();
     }, 1000, self);
   });
   
@@ -172,13 +173,13 @@ GeoTriggers.prototype._newTrigger = function(trigger) {
 }
 
 
-GeoTriggers.prototype.startPollingHistory = function() {
+GeoTriggers.prototype.startPolling = function() {
   if (this._timeoutID) return;
-  this._pollTriggerHistory();
+  this._poll();
 }
 
 
-GeoTriggers.prototype.stopPollingHistory = function() {
+GeoTriggers.prototype.stopPolling = function() {
   if (this._timeoutID) {
     window.clearTimeout(this._timeoutID);
     this._timeoutID = null;
