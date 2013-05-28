@@ -146,6 +146,7 @@ $(function() {
       if (type === 'circle') {
         var latlng = layer.getLatLng();
         var radius = layer.getRadius();
+        $('#create-geotrigger-modal').modal();
       }
 
 			drawnItems.addLayer(layer);

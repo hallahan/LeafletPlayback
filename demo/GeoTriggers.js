@@ -185,3 +185,8 @@ GeoTriggers.prototype.stopPolling = function() {
     this._timeoutID = null;
   }
 }
+
+
+GeoTriggers.prototype.addTrigger = function(trigger) {
+
+}
