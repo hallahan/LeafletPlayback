@@ -4,7 +4,7 @@ function GeoTriggers(featureGroup, callback) {
   this.callback = callback;
 
   geoloqi.init({
-    client_id: "d1aaa02788a021d52a2a3677da339a3f"
+    client_id: "d8e57ca4439b8ac89bc0be27c4ed9b8e"
   });
 
   // this.triggerHistory = JSON.parse(window.localStorage.triggerHistory);
@@ -26,11 +26,10 @@ GeoTriggers.prototype.getProfile = function() {
 
 
 GeoTriggers.prototype.login = function() {
-  geoloqi.login({username:"nick",password:"sempervirens"});
+  geoloqi.login({username:"LeafletPlayback2",password:"LeafletPlayback2"});
 }
 
 
-//"7gWX" NickTriggers
 GeoTriggers.prototype.logLayers = function() {
   geoloqi.get('layer/list', function(res) {
     console.log(['layer/list', res]);
@@ -40,7 +39,7 @@ GeoTriggers.prototype.logLayers = function() {
 
 GeoTriggers.prototype.logPlaces = function() {
   geoloqi.get("place/list", {
-    "layer_id": "7gWX"
+    "layer_id": "7j6V"
   }, function(response, error) {
     console.log(['place/list', response || error]);
   });
@@ -49,7 +48,7 @@ GeoTriggers.prototype.logPlaces = function() {
 
 GeoTriggers.prototype.logTriggers = function() {
   geoloqi.get("place/list", {
-    "layer_id": "7gWX"
+    "layer_id": "7j6V"
   }, function(res, err) {
     if (err) {
       console.log(["place/list ERROR for logging triggers", err]);
@@ -71,7 +70,7 @@ GeoTriggers.prototype.logTriggers = function() {
 GeoTriggers.prototype.showPlaces = function() {
   var self = this;
   geoloqi.get("place/list", {
-    "layer_id": "7gWX"
+    "layer_id": "7j6V"
   }, function(res, err) {
     if (err) {
       console.log(['err showing places',err]);
