@@ -7,10 +7,8 @@ function GeoTriggers(featureGroup, callback) {
     client_id: "d1aaa02788a021d52a2a3677da339a3f"
   });
 
-  // geoloqi.auth = {'access_token': 'a9751-351dce0d5fc8974c1dda3425653b8410691ac22e'};
-
-  this.triggerHistory = JSON.parse(window.localStorage.triggerHistory);
-  if (!this.triggerHistory) this.triggerHistory = [];
+  // this.triggerHistory = JSON.parse(window.localStorage.triggerHistory);
+  // if (!this.triggerHistory) this.triggerHistory = [];
 
   this.login();
   this.logLayers();
@@ -132,61 +130,61 @@ GeoTriggers.prototype.updateLocation = function() {
 }
 
 
-GeoTriggers.prototype._poll = function() {
-  var updated = false;
-  var self = this;
-  self.updateLocation();
-  geoloqi.get("trigger/history", {}, function(res, err) {
-    var updates = res.history;
-    if (updates.length === 0) return;
-    var len = self.triggerHistory.length;
-    var newestStored = self.triggerHistory[len-1];
-    var oldestUpdate = updates.pop();
-    while (oldestUpdate && oldestUpdate.date_ts <= newestStored.date_ts ) {
-      oldestUpdate = updates.pop();
-    }
-    while (oldestUpdate) {
-      self._newTrigger(oldestUpdate);
-      updated = true;
-      oldestUpdate = updates.pop();
-    }
-    if (updated) self.persist();
+// GeoTriggers.prototype._poll = function() {
+//   var updated = false;
+//   var self = this;
+//   self.updateLocation();
+//   geoloqi.get("trigger/history", {}, function(res, err) {
+//     var updates = res.history;
+//     if (updates.length === 0) return;
+//     var len = self.triggerHistory.length;
+//     var newestStored = self.triggerHistory[len-1];
+//     var oldestUpdate = updates.pop();
+//     while (oldestUpdate && oldestUpdate.date_ts <= newestStored.date_ts ) {
+//       oldestUpdate = updates.pop();
+//     }
+//     while (oldestUpdate) {
+//       self._newTrigger(oldestUpdate);
+//       updated = true;
+//       oldestUpdate = updates.pop();
+//     }
+//     if (updated) self.persist();
 
-    // poll in a second again
-    self._timeoutID = window.setTimeout(function(self) {
-      self._poll();
-    }, 1000, self);
-  });
+//     // poll in a second again
+//     self._timeoutID = window.setTimeout(function(self) {
+//       self._poll();
+//     }, 1000, self);
+//   });
   
-}
+// }
 
 
-GeoTriggers.prototype.persist = function() {
-  var json = JSON.stringify(this.triggerHistory);
-  window.localStorage.triggerHistory = json;
-}
+// GeoTriggers.prototype.persist = function() {
+//   var json = JSON.stringify(this.triggerHistory);
+//   window.localStorage.triggerHistory = json;
+// }
 
 
-GeoTriggers.prototype._newTrigger = function(trigger) {
-  this.triggerHistory.push(trigger);
-  this.callback(trigger);
-}
+// GeoTriggers.prototype._newTrigger = function(trigger) {
+//   this.triggerHistory.push(trigger);
+//   this.callback(trigger);
+// }
 
 
-GeoTriggers.prototype.startPolling = function() {
-  if (this._timeoutID) return;
-  this._poll();
-}
+// GeoTriggers.prototype.startPolling = function() {
+//   if (this._timeoutID) return;
+//   this._poll();
+// }
 
 
-GeoTriggers.prototype.stopPolling = function() {
-  if (this._timeoutID) {
-    window.clearTimeout(this._timeoutID);
-    this._timeoutID = null;
-  }
-}
+// GeoTriggers.prototype.stopPolling = function() {
+//   if (this._timeoutID) {
+//     window.clearTimeout(this._timeoutID);
+//     this._timeoutID = null;
+//   }
+// }
 
 
-GeoTriggers.prototype.addTrigger = function(trigger) {
+// GeoTriggers.prototype.addTrigger = function(trigger) {
 
-}
+// }
