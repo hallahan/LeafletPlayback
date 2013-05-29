@@ -145,7 +145,10 @@ $(function() {
 
       if (type === 'circle') {
         var latlng = layer.getLatLng();
+        $('#new-trigger-lat').html(latlng.lat);
+        $('#new-trigger-lng').html(latlng.lng);
         var radius = layer.getRadius();
+        $('#new-trigger-radius').html(radius);
         $('#create-geotrigger-modal').modal();
       }
 
