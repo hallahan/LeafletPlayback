@@ -156,8 +156,16 @@ $(function() {
 			var countOfEditedLayers = 0;
 			layers.eachLayer(function(layer) {
 				countOfEditedLayers++;
+
+				geoTriggers.editTrigger({
+					latlng: layer.getLatLng(),
+					radius: layer.getRadius(),
+					placeId: layer.placeId
+				});
+
 			});
 			console.log("Edited " + countOfEditedLayers + " layers");
+
 		});
 
 		// NH TODO this doesnt work...

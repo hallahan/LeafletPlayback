@@ -86,6 +86,7 @@ GeoTriggers.prototype.showPlaces = function() {
       var popup = new L.Popup();
       popup.setContent(JSON.stringify(place,null,2));
       circle.bindPopup(popup);
+      circle.placeId = place.place_id;
       self.featureGroup.addLayer(circle);
     }
   });
@@ -184,5 +185,17 @@ GeoTriggers.prototype.createTrigger = function(args) {
           console.log(res||err);
         });
       }
+  });
+}
+
+
+GeoTriggers.prototype.editTrigger = function(args) {
+  geoloqi.post('place/update/' + args.placeId, {
+    latitude: args.latlng.lat,
+    longitude: args.latlng.lng,
+    radius: args.radius
+  }, function(res,err) {
+    console.log('place/update/' + args.placeId);
+    console.log(res||err);
   });
 }
