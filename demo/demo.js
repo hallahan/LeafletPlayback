@@ -104,10 +104,6 @@ $(function() {
 	});
 
 
-	// Initialize the FeatureGroup to store editable layers
-	var drawnItems = new L.FeatureGroup();
-	map.addLayer(drawnItems);
-
 	// Initialize the draw control and pass it the FeatureGroup of editable layers
 	var drawControl = new L.Control.Draw({
 			draw: {
@@ -130,7 +126,7 @@ $(function() {
 				}
 			},
 			edit: {
-				featureGroup: drawnItems
+				featureGroup: geoTriggerFeatureGroup
 			}
 		});
 		map.addControl(drawControl);
