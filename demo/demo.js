@@ -171,6 +171,20 @@ $(function() {
 
     geoTriggers = new GeoTriggers(geoTriggerFeatureGroup, triggerFired);
 
+    $('#create-geotrigger-save').on('click', function(e) {
+
+    	geoTriggers.createTrigger({
+    		lat: parseFloat($('#new-trigger-lat').html()),
+    		lng: parseFloat($('#new-trigger-lng').html()),
+    		radius: parseFloat($('#new-trigger-radius').html()),
+    		name: $('#new-trigger-name').val(),
+    		message: $('#new-trigger-message').val()
+    	});
+
+    	console.log('save');
+    	$('#create-geotrigger-modal').modal('hide');
+    });
+
 });
 
 function clockCallback(ms) {

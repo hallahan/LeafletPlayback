@@ -1,3 +1,4 @@
+LAYER_ID = "7j6V";
 
 function GeoTriggers(featureGroup, callback) {
   this.featureGroup = featureGroup;
@@ -36,7 +37,7 @@ GeoTriggers.prototype.logLayers = function() {
 
 GeoTriggers.prototype.logPlaces = function() {
   geoloqi.get("place/list", {
-    "layer_id": "7j6V"
+    "layer_id": LAYER_ID
   }, function(response, error) {
     console.log(['place/list', response || error]);
   });
@@ -45,7 +46,7 @@ GeoTriggers.prototype.logPlaces = function() {
 
 GeoTriggers.prototype.logTriggers = function() {
   geoloqi.get("place/list", {
-    "layer_id": "7j6V"
+    "layer_id": LAYER_ID
   }, function(res, err) {
     if (err) {
       console.log(["place/list ERROR for logging triggers", err]);
@@ -67,7 +68,7 @@ GeoTriggers.prototype.logTriggers = function() {
 GeoTriggers.prototype.showPlaces = function() {
   var self = this;
   geoloqi.get("place/list", {
-    "layer_id": "7j6V"
+    "layer_id": LAYER_ID
   }, function(res, err) {
     if (err) {
       console.log(['err showing places',err]);
@@ -154,4 +155,34 @@ GeoTriggers.prototype.stopPolling = function() {
     window.clearTimeout(this._timeoutID);
     this._timeoutID = null;
   }
+}
+
+
+GeoTriggers.prototype.createTrigger = function(args) {
+  geoloqi.post("place/create", {
+    layer_id: LAYER_ID,
+    latitude: args.lat,
+    longitude: args.lng,
+    radius: args.radius,
+    name: args.name
+  }, function(res, err){
+      console.log('place/create');
+      if (err) {
+        console.log('err');
+        console.log(err);
+        return;
+      }
+      if (res) {
+        console.log(res);
+        geoloqi.post('trigger/create', {
+          place_id: res.place_id,
+          type: 'message',
+          text: args.message,
+          one_time: 0
+        }, function(res,err) {
+          console.log('trigger/create');
+          console.log(res||err);
+        });
+      }
+  });
 }
