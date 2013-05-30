@@ -20,3 +20,11 @@ label {
 .ui-slider {
   margin: 10px;
 }
+
+input {
+  vertical-align: baseline;
+}
+
+.leaflet-control-layers-list {
+  margin-bottom: 0;
+}

@@ -1,6 +1,6 @@
 $(function() {
 	//creates a new map
-	map = new L.Map('map');
+	map = new L.Map('map', {zoomControl:false});
 
 	//creates an ocean floor background layer
 	var basemapURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
@@ -25,14 +25,16 @@ $(function() {
   geoTriggerFeatureGroup = new L.FeatureGroup();
 
 	var l = {
-		'Samples': samples,
-    'GeoTriggers': geoTriggerFeatureGroup
+		'<i class="icon-bullseye"></i> GPS Tracks': samples,
+    '<i class="icon-flag"></i> Virtual Fences': geoTriggerFeatureGroup
 	};
 
 	L.control.layers(null, l, {
-    collapsed: false
+    collapsed: false,
+    position: 'topleft'
   }).addTo(map);
-	map.fitBounds(samples.getBounds());
+
+  L.control.scale({metric:false}).addTo(map);
 
 	playback = new L.Playback(map, data, clockCallback);
 
@@ -106,88 +108,88 @@ $(function() {
 
 	// Initialize the draw control and pass it the FeatureGroup of editable layers
 	var drawControl = new L.Control.Draw({
-			draw: {
-				position: 'topleft',
-				polyline: false,
-				polygon: false,
-				rectangle: false,
-				marker: false,
-				circle: {
-					title: "Create a GeoTrigger!",
-					shapeOptions: {
-						color: '#662d91'
-					}
+		draw: {
+			position: 'topleft',
+			polyline: false,
+			polygon: false,
+			rectangle: false,
+			marker: false,
+			circle: {
+				title: "Create a GeoTrigger!",
+				shapeOptions: {
+					color: '#662d91'
 				}
-			},
-			edit: {
-				featureGroup: geoTriggerFeatureGroup
 			}
-		});
-		map.addControl(drawControl);
+		},
+		edit: {
+			featureGroup: geoTriggerFeatureGroup
+		}
+	});
+	map.addControl(drawControl);
 
-		map.on('draw:created', function (e) {
-			var type = e.layerType
-				, layer = e.layer;
+	map.on('draw:created', function (e) {
+		var type = e.layerType
+			, layer = e.layer;
 
-			if (type === 'marker') {
-				layer.bindPopup('A popup!');
-			}
+		if (type === 'marker') {
+			layer.bindPopup('A popup!');
+		}
 
-      if (type === 'circle') {
-        var latlng = layer.getLatLng();
-        $('#new-trigger-lat').html(latlng.lat);
-        $('#new-trigger-lng').html(latlng.lng);
-        var radius = layer.getRadius();
-        $('#new-trigger-radius').html(radius);
-        $('#create-geotrigger-modal').modal();
-      }
+    if (type === 'circle') {
+      var latlng = layer.getLatLng();
+      $('#new-trigger-lat').html(latlng.lat);
+      $('#new-trigger-lng').html(latlng.lng);
+      var radius = layer.getRadius();
+      $('#new-trigger-radius').html(radius);
+      $('#create-geotrigger-modal').modal();
+    }
 
-			drawnItems.addLayer(layer);
-		});
+		drawnItems.addLayer(layer);
+	});
 
-		map.on('draw:edited', function (e) {
-			var layers = e.layers;
-			var countOfEditedLayers = 0;
-			layers.eachLayer(function(layer) {
-				countOfEditedLayers++;
+	map.on('draw:edited', function (e) {
+		var layers = e.layers;
+		var countOfEditedLayers = 0;
+		layers.eachLayer(function(layer) {
+			countOfEditedLayers++;
 
-				geoTriggers.editTrigger({
-					latlng: layer.getLatLng(),
-					radius: layer.getRadius(),
-					placeId: layer.placeId
-				});
-
+			geoTriggers.editTrigger({
+				latlng: layer.getLatLng(),
+				radius: layer.getRadius(),
+				placeId: layer.placeId
 			});
-			console.log("Edited " + countOfEditedLayers + " layers");
 
 		});
+		console.log("Edited " + countOfEditedLayers + " layers");
 
-		map.on('draw:deleted', function(e) {
-			e.layers.eachLayer(function(layer) {
-				geoTriggers.deleteTrigger(layer.placeId);
-			});
+	});
+
+	map.on('draw:deleted', function(e) {
+		e.layers.eachLayer(function(layer) {
+			geoTriggers.deleteTrigger(layer.placeId);
 		});
+	});
 
-		// NH TODO this doesnt work...
-		// L.DomUtil.get('changeColor').onclick = function () {
-		// 	drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
-		// };
+	// NH TODO this doesnt work...
+	// L.DomUtil.get('changeColor').onclick = function () {
+	// 	drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
+	// };
 
-    geoTriggers = new GeoTriggers(geoTriggerFeatureGroup, triggerFired);
+  geoTriggers = new GeoTriggers(geoTriggerFeatureGroup, triggerFired);
 
-    $('#create-geotrigger-save').on('click', function(e) {
+  $('#create-geotrigger-save').on('click', function(e) {
 
-    	geoTriggers.createTrigger({
-    		lat: parseFloat($('#new-trigger-lat').html()),
-    		lng: parseFloat($('#new-trigger-lng').html()),
-    		radius: parseFloat($('#new-trigger-radius').html()),
-    		name: $('#new-trigger-name').val(),
-    		message: $('#new-trigger-message').val()
-    	});
+  	geoTriggers.createTrigger({
+  		lat: parseFloat($('#new-trigger-lat').html()),
+  		lng: parseFloat($('#new-trigger-lng').html()),
+  		radius: parseFloat($('#new-trigger-radius').html()),
+  		name: $('#new-trigger-name').val(),
+  		message: $('#new-trigger-message').val()
+  	});
 
-    	console.log('save');
-    	$('#create-geotrigger-modal').modal('hide');
-    });
+  	console.log('save');
+  	$('#create-geotrigger-modal').modal('hide');
+  });
 
 });
 
