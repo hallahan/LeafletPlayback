@@ -108,18 +108,12 @@ $(function() {
 	var drawControl = new L.Control.Draw({
 			draw: {
 				position: 'topleft',
-				polygon: {
-					title: 'Draw a sexy polygon!',
-					allowIntersection: false,
-					drawError: {
-						color: '#b00b00',
-						timeout: 1000
-					},
-					shapeOptions: {
-						color: '#bada55'
-					}
-				},
+				polyline: false,
+				polygon: false,
+				rectangle: false,
+				marker: false,
 				circle: {
+					title: "Create a GeoTrigger!",
 					shapeOptions: {
 						color: '#662d91'
 					}
