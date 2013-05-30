@@ -162,6 +162,12 @@ $(function() {
 
 		});
 
+		map.on('draw:deleted', function(e) {
+			e.layers.eachLayer(function(layer) {
+				geoTriggers.deleteTrigger(layer.placeId);
+			});
+		});
+
 		// NH TODO this doesnt work...
 		// L.DomUtil.get('changeColor').onclick = function () {
 		// 	drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });

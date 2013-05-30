@@ -199,3 +199,11 @@ GeoTriggers.prototype.editTrigger = function(args) {
     console.log(res||err);
   });
 }
+
+
+GeoTriggers.prototype.deleteTrigger = function(placeId) {
+  geoloqi.post('place/delete/'+placeId, {}, function(res,err) {
+    console.log('place/delete/'+placeId);
+    console.log(res||err);
+  });
+}
