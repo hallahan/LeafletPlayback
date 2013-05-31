@@ -34,7 +34,7 @@ $(function() {
     position: 'topleft'
   }).addTo(map);
 
-  // L.control.scale({metric:false}).addTo(map);
+  L.control.scale({metric:false}).addTo(map);
 
 	playback = new L.Playback(map, data, clockCallback);
 
