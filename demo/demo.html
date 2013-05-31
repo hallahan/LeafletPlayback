@@ -19,7 +19,8 @@
 	<div id="map"></div>
 
 	<div id="right-panel">
-    <a id="close-right-panel" class="close" data-dismiss="alert" href="#">&times;</a>
+
+<!--     <a id="close-right-panel" class="close" data-dismiss="alert" href="#">&times;</a>
     <p><b>Mouse LatLng</b><br/><span id="mouse-latlng">&nbsp;</span></p>
     <p><b>Click LatLng</b><br/><span id="click-latlng">&nbsp;</span></p>
     <p><b>Start Time</b><br/>
@@ -41,30 +42,54 @@
     <div class="input-append">
       <input class="span2" id="speed" type="text" />
       <button class="btn" type="button" id="set-speed">Set</button>
+    </div> -->
+
+
+    <div class="accordion" id="broadcasts"><div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#broadcasts" href="#1363143887134">
+        <strong><i class="icon-comments"></i> &nbsp;Virtual Fence Notifications</strong>
+      </a>
+      
     </div>
-    <hr/>
-    <div class="btn-group">
-      <button id="stop" class="btn"><i class="icon-pause icon-2x"></i></i></button>
-      <button id="start" class="btn"><i class="icon-play icon-2x"></i></button>
+    <div id="1363143887134" class="accordion-body in collapse" style="height: 110px;">
+      <div class="accordion-inner">
+        <strong>Ruby</strong>
+        <span class="broadcast-time">8:04:47 PM</span>
+        <br>
+        you there?
+      </div>    <div class="accordion-inner">
+      <strong>Ruby</strong>
+      <span class="broadcast-time">8:04:38 PM</span>
+      <br>
+      hey Nick
+    </div>  </div>
+    </div>
+    </div>
+
+    <div class="progress progress-striped active">
+      <div class="bar" style="width: 40%;"></div>
     </div>
 	</div>
 
-<!--   <div class="transport">
-    <button id="start" class="btn"><i class="icon-play icon-2x"></i></button>
-  </div> -->
 
   <div class="navbar navbar-fixed-bottom" style="position: absolute;">
     <div class="navbar-inner">
       <div class="container" style="width: auto; padding-left: 20px;">
-        <a class="brand" href="#"><i class="icon-leaf "></i> Leaflet Playback</a>
+        <a class="brand" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
         <ul class="nav">
-          <li class="active"><a href="#">Home</a></li>
-          <!-- <li><button id="start" class="btn"><i class="icon-play icon-2x"></i></button></li> -->
-          <li><a href="#">Link</a></li>
+          <li class="btn"><a href="#"><i class="icon-play icon-large"></i></a></li>
+          <li class="active clock"><a class="clock" href="#">Mon May 30 2013<br/>7:43:56.25 PM</a></li>
+          <li>
+            <div id="time-slider"></div>
+          </li>
+          <li class="btn"><a href="#"><i class="icon-dashboard icon-large"></i> 1x</a></li>
         </ul>
         <ul class="nav pull-right">
-          <li class="notifications-border">&nbsp;</li>
-          <li class="btn notifications-button active"><a href="#"><i class="icon-comments"></i> &nbsp;Virtual Fence Notifications</a></li>
+          
+          <li class="btn"><a href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
+          <!-- <li class="notifications-border">&nbsp;</li> -->
+          <li class="btn notifications-button"><a href="#"><i class="icon-comments"></i> &nbsp;Virtual Fence Notifications</a></li>
         </ul>
       </div>
     </div>
