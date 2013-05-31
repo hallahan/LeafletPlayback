@@ -26,7 +26,7 @@ $(function() {
   geoTriggerFeatureGroup.addTo(map);
 	var l = {
 		'<i class="icon-bullseye"></i> GPS Tracks': samples,
-    '<i class="icon-flag"></i> Virtual Fences': geoTriggerFeatureGroup
+    '<i class="icon-bell"></i> Virtual Fences': geoTriggerFeatureGroup
 	};
 
 	L.control.layers(null, l, {
