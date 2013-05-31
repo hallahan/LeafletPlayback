@@ -46,13 +46,22 @@ $(function() {
 		$('#click-latlng').html(e.latlng.lat+', '+e.latlng.lng);
 	});
 
-	$('#start').click(function() {
-		playback.start();
-    geoTriggers.startPolling();
-	});
-	$('#stop').click(function() {
-		playback.stop();
-    geoTriggers.stopPolling();
+
+	isPlaying = false;
+	$('#play-pause').click(function() {
+		if (isPlaying === false) {
+			playback.start();
+    	geoTriggers.startPolling();
+    	$('#play-pause-icon').removeClass('icon-play');
+    	$('#play-pause-icon').addClass('icon-pause');
+    	isPlaying = true;
+		} else {
+			playback.stop();
+    	geoTriggers.stopPolling();
+    	$('#play-pause-icon').removeClass('icon-pause');
+    	$('#play-pause-icon').addClass('icon-play');
+    	isPlaying = false;
+		}
 	});
 
 	$('#set-cursor').click(function(){
