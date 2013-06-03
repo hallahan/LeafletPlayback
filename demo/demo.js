@@ -71,10 +71,10 @@ $(function() {
 	});
 
 	$('#start-time-txt').html(new Date(playback.getStartTime()).toString());
-	$('#start-time').html(playback.getStartTime().toString());	
-	$('#end-time-txt').html(new Date(playback.getEndTime()).toString());
-	$('#end-time').html(playback.getEndTime().toString());
-	$('#cursor-time-txt').html(new Date(playback.getTime()).toString());
+  startTime = playback.getStartTime();
+	$('#cursor-date').html(L.Playback.Util.DateStr(startTime));
+  $('#cursor-time').html(L.Playback.Util.TimeStr(startTime));
+  // $('#time-slider').slider('value', startTime);
 
 	$('#time-slider').slider({
 		min: playback.getStartTime(),
