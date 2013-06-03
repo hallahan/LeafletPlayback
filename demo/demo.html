@@ -30,15 +30,15 @@
     </div>
     <div id="1363143887134" class="accordion-body in collapse" style="height: 110px;">
       <div class="accordion-inner">
-        <strong>Ruby</strong>
-        <span class="broadcast-time">May 30 2103<br/>8:04:47 PM</span>
+        <strong>Dimple Hill</strong>
+        <span class="broadcast-time">May 30 2103 8:04:47 PM</span>
         <br>
-        you there?
+        Welcome to Dimple Hill! Look under the bush to the left of the bench for a GeoCache.
       </div>    <div class="accordion-inner">
-      <strong>Ruby</strong>
+      <strong>OSU Valley Library</strong>
       <span class="broadcast-time">8:04:38 PM</span>
       <br>
-      hey Nick
+      You have entered the OSU Valley Library. There currently are no study rooms availible.
     </div>  </div>
     </div>
     </div>
@@ -52,11 +52,25 @@
         <a class="brand" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
         <ul class="nav">
           <li class="btn"><a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a></li>
-          <li class="active clock"><a class="clock" href="#">Mon May 30 2013<br/>7:43:56.25 PM</a></li>
+          <li class="active clock">
+            <a class="clock" href="#">
+              <span id="cursor-date"></span><br/>
+              <span id="cursor-time"></span>
+            </a>
+          </li>
           <li>
             <div id="time-slider"></div>
           </li>
-          <li class="btn"><a href="#"><i class="icon-dashboard icon-large"></i> 1x</a></li>
+          <li class="btn dropdown">
+            <a href="#"><i class="icon-dashboard icon-large"></i> 1x</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+              <li role="presentation" class="divider"></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+            </ul>
+          </li>
         </ul>
         <ul class="nav pull-right">
           <li class="btn"><a href="#"><i class="icon-bell icon-large"></i> Add Fence</a></li>
@@ -97,6 +111,7 @@
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <script src="http://files.theoutpost.io/bootstrap/js/bootstrap.js"></script>
   <script src="../lib/leaflet/leaflet-src.js"></script>
+  <script src="../src/Util.js"></script>
 	<script src="../src/MoveableMarker.js"></script>
   <script src="../src/TickPoint.js"></script>
 	<script src="../src/Tick.js"></script>

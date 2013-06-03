@@ -4,7 +4,8 @@ L.Playback = L.Playback.Clock.extend({
     MoveableMarker: L.Playback.MoveableMarker,
     TickPoint: L.Playback.TickPoint,
     Tick: L.Playback.Tick,
-    Clock: L.Playback.Clock
+    Clock: L.Playback.Clock,
+    Util: L.Playback.Util
   },
 
   initialize: function (map, geoJSON, callback, options) {

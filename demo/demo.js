@@ -203,8 +203,8 @@ $(function() {
 });
 
 function clockCallback(ms) {
-	$('#cursor-time').val(ms.toString());
-	$('#cursor-time-txt').html(new Date(ms).toString());
+	$('#cursor-date').html(L.Playback.Util.DateStr(ms));
+	$('#cursor-time').html(L.Playback.Util.TimeStr(ms));
 	$('#time-slider').slider('value', ms);
 }
 
