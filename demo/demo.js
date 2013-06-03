@@ -74,7 +74,6 @@ $(function() {
   startTime = playback.getStartTime();
 	$('#cursor-date').html(L.Playback.Util.DateStr(startTime));
   $('#cursor-time').html(L.Playback.Util.TimeStr(startTime));
-  // $('#time-slider').slider('value', startTime);
 
 	$('#time-slider').slider({
 		min: playback.getStartTime(),
@@ -96,24 +95,35 @@ $(function() {
 		max: 9,
 		step: .1,
 		value: speedToSliderVal(playback.getSpeed()),
+    orientation: 'vertical',
 		slide: function( event, ui ) {
 			var speed = sliderValToSpeed(parseFloat(ui.value));
 			playback.setSpeed(speed);
-			$('#speed').val(speed);
+			$('.speed').html(speed).val(speed);
 		}
 	});
 
-	$('#set-speed').on('click', function(e) {
-		var speed = parseInt($('#speed').val());
-		if (!speed) return;
-		playback.setSpeed(speed);
-		$('#speed-slider').slider('value', speedToSliderVal(speed));
-	})
+  $('#speed-input').on('keyup', function(e) {
+    var speed = parseFloat($('#speed-input').val());
+    if (!speed) return;
+    playback.setSpeed(speed);
+    $('#speed-slider').slider('value', speedToSliderVal(speed));
+    $('#speed-icon-val').html(speed);
+    if (e.keyCode === 13) {
+      $('.speed-menu').dropdown('toggle');
+    }
+  });
 
-	$('#close-right-panel').click(function(e){
-		$('#right-panel').hide();
-	});
+  $('#calendar').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    altField: '#date-input',
+    altFormat: 'mm/dd/yy'
+  }); 
 
+  $('.dropup input, .dropup i').on('click', function(e) {
+    e.stopPropagation();
+  });
 
 	// Initialize the draw control and pass it the FeatureGroup of editable layers
 	var drawControl = new L.Control.Draw({

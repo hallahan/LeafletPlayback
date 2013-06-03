@@ -32,6 +32,10 @@ label {
   width:400px;
 }
 
+#calendar {
+  margin: 5px;
+}
+
 input {
   vertical-align: baseline;
 }
@@ -40,6 +44,15 @@ input {
   margin-bottom: 0;
 }
 
+.speed-menu {
+  width:70px;
+  min-width: 70px;
+}
+
+#speed-slider {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .navbar .btn,
 .navbar .btn-group {

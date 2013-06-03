@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <link rel="stylesheet" href="../lib/leaflet-draw/leaflet.draw.css" />
   <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../lib/jquery-timepicker/jquery.timepicker.css" />
   <link rel="stylesheet" href="demo.css" />
 </head>
 
@@ -52,25 +53,36 @@
         <a class="brand" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
         <ul class="nav">
           <li class="btn"><a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a></li>
-          <li class="btn">
-            <a class="clock" href="#">
+          <li class="btn dropup">
+            <a id="clock-btn" class="clock" data-toggle="dropdown" href="#">
               <span id="cursor-date"></span><br/>
               <span id="cursor-time"></span>
             </a>
+            <div class="dropdown-menu" role="menu" aria-labelledby="clock-btn">
+              <label>Playback Cursor Time</label>
+              <div class="input-append">
+                <input id="timepicker" type="text" class="input-small">
+                <span class="add-on"><i class="icon-time"></i></span>
+              </div>
+              <div id="calendar"></div>
+              <div class="input-append">
+                <input id="date-input" type="text" class="input-small">
+                <span class="add-on"><i class="icon-calendar"></i></span>
+              </div>
+            </div>
           </li>
           <li>
             <div id="time-slider"></div>
           </li>
-          <li class="btn dropdown">
-            <a href="#"><i class="icon-dashboard icon-large"></i> 1x</a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-              <li role="presentation" class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-            </ul>
+          <li class="btn dropup">
+            <a id="speed-btn" data-toggle="dropdown" href="#"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</a>
+            <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
+              <label>Playback<br/>Speed</label>
+              <input id="speed-input" class="span1 speed" type="text" value="1" />
+              <div id="speed-slider"></div>
+            </div>
           </li>
+
         </ul>
         <ul class="nav pull-right">
           <li class="btn"><a href="#"><i class="icon-bell icon-large"></i> Add Fence</a></li>
@@ -110,6 +122,7 @@
   <script src="../lib/jquery1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <script src="http://files.theoutpost.io/bootstrap/js/bootstrap.js"></script>
+  <script src="../lib/jquery-timepicker/jquery.timepicker.js"></script>
   <script src="../lib/leaflet/leaflet-src.js"></script>
   <script src="../src/Util.js"></script>
 	<script src="../src/MoveableMarker.js"></script>
