@@ -118,11 +118,30 @@ $(function() {
     changeMonth: true,
     changeYear: true,
     altField: '#date-input',
-    altFormat: 'mm/dd/yy'
+    altFormat: 'mm/dd/yy',
+    defaultDate: new Date(playback.getTime())
   }); 
 
-  $('.dropup input, .dropup i').on('click', function(e) {
+  $('#date-input').on('keyup', function(e) {
+    $('#calendar').datepicker('setDate', $('#date-input').val());
+  });
+
+
+  $('.dropdown-menu').on('click', function(e) {
     e.stopPropagation();
+  });
+
+  $('#timepicker').timepicker({
+    showSeconds: true
+  });
+  $('#timepicker').timepicker('setTime', 
+      new Date(playback.getTime()).toTimeString());
+
+  $('#timepicker').timepicker().on('changeTime.timepicker', function(e) {
+    var date = $('#calendar').datepicker('getDate');
+    var ts = combineDateAndTime(date, e.time);
+    playback.setCursor(ts);
+    $('#time-slider').slider('value', ts);
   });
 
 	// Initialize the draw control and pass it the FeatureGroup of editable layers
@@ -216,6 +235,7 @@ function clockCallback(ms) {
 	$('#cursor-date').html(L.Playback.Util.DateStr(ms));
 	$('#cursor-time').html(L.Playback.Util.TimeStr(ms));
 	$('#time-slider').slider('value', ms);
+  // $('#timepicker').timepicker('setTime', new Date(ms).toTimeString());
 }
 
 function speedToSliderVal(speed) {
@@ -230,4 +250,15 @@ function sliderValToSpeed(val) {
 
 function triggerFired(trigger) {
   console.log(['triggerFired',trigger]);
+}
+
+function combineDateAndTime(date, time) {
+  var yr = date.getFullYear();
+  var mo = date.getMonth();
+  var dy = date.getDate();
+  var hr = time.hours;
+  if (time.meridian == 'AM') hr += 12;
+  var min = time.minutes;
+  var sec = time.seconds;
+  return new Date(yr, mo, dy, hr, min, sec).getTime();
 }
