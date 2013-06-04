@@ -36,6 +36,11 @@ label {
   margin: 5px;
 }
 
+/*TODO: make this work*/
+/*a.leaflet-popup-close-button {
+  top: 3px;
+  right: 3px;
+}*/
 
 input {
   vertical-align: baseline;

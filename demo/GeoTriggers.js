@@ -207,7 +207,23 @@ GeoTriggers.prototype._displayTrigger = function(trigger) {
     fillColor: '#FF9500'
   });
   var popup = new L.Popup();
-  popup.setContent(JSON.stringify(trigger, null, 2));
+  console.log(['trigger', trigger]);
+
+  var title = trigger.place.name;
+  var message = trigger.text;
+  var visits = trigger.place.visits || 0;
+
+  var html = 
+'<legend>' + title + '</legend>' +
+'<p>' + message + '</p>' +
+'<p>Visits: <span class="badge badge-info">' + visits + '</span></p>' +
+'<div class="btn-group">' +
+'  <button class="btn btn-danger"><i class="icon-trash"></i> Delete</button>' +
+'  <button class="btn btn-info"><i class="icon-edit"></i> Edit Details</button>' +
+'  <button class="btn btn-success"><i class="icon-move"></i> Move</button>' +
+'</div>';
+
+  popup.setContent(html);
   circle.bindPopup(popup);
   circle.placeId = place.place_id;
   this.featureGroup.addLayer(circle);
