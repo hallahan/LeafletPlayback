@@ -182,7 +182,7 @@ $(function() {
       $('#create-geotrigger-modal').modal();
     }
 
-		geoTriggerFeatureGroup.addLayer(layer);
+		// geoTriggerFeatureGroup.addLayer(layer);
 	});
 
 	map.on('draw:edited', function (e) {

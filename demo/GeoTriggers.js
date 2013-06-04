@@ -160,6 +160,7 @@ GeoTriggers.prototype.stopPolling = function() {
 
 
 GeoTriggers.prototype.createTrigger = function(args) {
+  var self = this;
   geoloqi.post("place/create", {
     layer_id: LAYER_ID,
     latitude: args.lat,
@@ -175,6 +176,7 @@ GeoTriggers.prototype.createTrigger = function(args) {
       }
       if (res) {
         console.log(res);
+
         geoloqi.post('trigger/create', {
           place_id: res.place_id,
           type: 'message',
@@ -183,6 +185,21 @@ GeoTriggers.prototype.createTrigger = function(args) {
         }, function(res,err) {
           console.log('trigger/create');
           console.log(res||err);
+
+
+          var place = res.place;
+          var latlng = new L.LatLng(place.latitude,place.longitude);
+          var radius = place.radius;
+          var circle = new L.Circle(latlng, radius, {
+            color: '#FF9500',
+            fillColor: '#FF9500'
+          });
+          var popup = new L.Popup();
+          popup.setContent(JSON.stringify(res,null,2));
+          circle.bindPopup(popup);
+          circle.placeId = place.place_id;
+          self.featureGroup.addLayer(circle);
+    
         });
       }
   });
