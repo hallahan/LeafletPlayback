@@ -12,7 +12,7 @@ function GeoTriggers(featureGroup, callback) {
   this.logLayers();
   this.logPlaces();
   this.logTriggers();
-  this.showPlaces();
+  this.showTriggers();
 }
 
 
@@ -43,7 +43,8 @@ GeoTriggers.prototype.logPlaces = function() {
   });
 }
 
-
+// NOTE: Requesting triggers with 'trigger/list' does NOT
+// work. Something is broken with the API.
 GeoTriggers.prototype.logTriggers = function() {
   geoloqi.get("place/list", {
     "layer_id": LAYER_ID
@@ -65,29 +66,32 @@ GeoTriggers.prototype.logTriggers = function() {
 }
 
 
-GeoTriggers.prototype.showPlaces = function() {
+// I have to do it this way, because we can only get 
+// triggers by the place_id. layer_id does not work
+GeoTriggers.prototype.showTriggers = function() {
   var self = this;
   geoloqi.get("place/list", {
     "layer_id": LAYER_ID
   }, function(res, err) {
     if (err) {
-      console.log(['err showing places',err]);
+      console.log(["place/list ERROR for showTriggers", err]);
       return;
     }
     var places = res.places;
     for (var i=0, len=places.length; i<len; i++) {
       var place = places[i];
-      var latlng = new L.LatLng(place.latitude,place.longitude);
-      var radius = place.radius;
-      var circle = new L.Circle(latlng, radius, {
-        color: '#FF9500',
-        fillColor: '#FF9500'
+      geoloqi.get("trigger/list", {
+        "place_id": place.place_id
+      }, function(res, err) {
+        if (err) {
+          console.log(['err showTriggers', err]);
+          return;
+        }
+        var triggers = res.triggers;
+        for(var i=0, len=triggers.length; i < len; i++) {
+          self._displayTrigger(triggers[i]);
+        }
       });
-      var popup = new L.Popup();
-      popup.setContent(JSON.stringify(place,null,2));
-      circle.bindPopup(popup);
-      circle.placeId = place.place_id;
-      self.featureGroup.addLayer(circle);
     }
   });
 }
@@ -185,24 +189,28 @@ GeoTriggers.prototype.createTrigger = function(args) {
         }, function(res,err) {
           console.log('trigger/create');
           console.log(res||err);
-
-
-          var place = res.place;
-          var latlng = new L.LatLng(place.latitude,place.longitude);
-          var radius = place.radius;
-          var circle = new L.Circle(latlng, radius, {
-            color: '#FF9500',
-            fillColor: '#FF9500'
-          });
-          var popup = new L.Popup();
-          popup.setContent(JSON.stringify(res,null,2));
-          circle.bindPopup(popup);
-          circle.placeId = place.place_id;
-          self.featureGroup.addLayer(circle);
+          if (res)
+            self._displayTrigger(res);
     
         });
       }
   });
+}
+
+
+GeoTriggers.prototype._displayTrigger = function(trigger) {
+  var place = trigger.place;
+  var latlng = new L.LatLng(place.latitude,place.longitude);
+  var radius = place.radius;
+  var circle = new L.Circle(latlng, radius, {
+    color: '#FF9500',
+    fillColor: '#FF9500'
+  });
+  var popup = new L.Popup();
+  popup.setContent(JSON.stringify(trigger, null, 2));
+  circle.bindPopup(popup);
+  circle.placeId = place.place_id;
+  this.featureGroup.addLayer(circle);
 }
 
 
