@@ -152,9 +152,7 @@ GeoTriggers.prototype._poll = function() {
       var oldLatestTime = self._latestTime;
       self._latestTime = history[0].date_ts;
       for(var i=0,len=history.length; i<len && history[i].date_ts > oldLatestTime; i++){
-        var trig = history[i];
-        console.log('trig');
-        console.log(trig);
+        self.callback(history[i]);
       }
     }
 
