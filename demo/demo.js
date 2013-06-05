@@ -260,6 +260,16 @@ function sliderValToSpeed(val) {
 
 function triggerFired(trigger) {
   console.log(['triggerFired',trigger]);
+
+  var html = 
+'<div class="accordion-inner">' +
+'  <strong>'+trigger.place.name+'</strong>' +
+'<span class="broadcast-time">'+ trigger.display_date + '</span>' +
+'  <br>' +
+   trigger.trigger.text +
+'</div>';
+
+  $('#notifications').prepend(html);
 }
 
 function combineDateAndTime(date, time) {
