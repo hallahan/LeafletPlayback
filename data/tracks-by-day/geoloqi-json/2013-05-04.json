@@ -1,0 +1,1383 @@
+{
+  "distance": 95.78,
+  "start": {
+    "uuid": "b3aecee2-577e-42b9-bf07-833ed5753e5b",
+    "date": "2013-05-04T00:02:30-07:00",
+    "date_ts": 1367650950,
+    "location": {
+      "position": {
+        "latitude": 44.5492463,
+        "longitude": -123.2630533,
+        "speed": 0,
+        "altitude": 0,
+        "heading": 0,
+        "horizontal_accuracy": 25,
+        "vertical_accuracy": 0
+      },
+      "type": "point"
+    },
+    "raw": {
+      "distance_filter": 30,
+      "battery_state": "discharging",
+      "access_points": {
+        "nearby": [
+          {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -59,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "Chiquita",
+            "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+            "rssi": 0,
+            "frequency": 2462
+          }
+        ],
+        "current": {
+          "bssid": "00:24:b2:bf:d7:26",
+          "ip_address": 167880896,
+          "hidden_ssid": false,
+          "level": 0,
+          "network_id": 12,
+          "link_speed": 48,
+          "ssid": "Chiquita",
+          "link_speed_units": "Mbps",
+          "rssi": -59,
+          "frequency": 0
+        }
+      },
+      "power_source": "battery",
+      "battery": 99,
+      "hop_distance": 30,
+      "profile": "adaptive",
+      "tracking_limit": 900
+    }
+  },
+  "end": {
+    "uuid": "aed005e6-53bf-4ce3-b0bd-9b873c8b54b5",
+    "date": "2013-05-04T00:08:41-07:00",
+    "date_ts": 1367651321,
+    "location": {
+      "position": {
+        "latitude": 44.5492461,
+        "longitude": -123.2630535,
+        "speed": 0,
+        "altitude": 0,
+        "heading": 0,
+        "horizontal_accuracy": 25,
+        "vertical_accuracy": 0
+      },
+      "type": "point"
+    },
+    "raw": {
+      "distance_filter": 124,
+      "battery_state": "discharging",
+      "access_points": {
+        "nearby": [
+          {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -67,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "Chiquita",
+            "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+            "rssi": 0,
+            "frequency": 2462
+          }
+        ],
+        "current": {
+          "bssid": "00:24:b2:bf:d7:26",
+          "ip_address": 167880896,
+          "hidden_ssid": false,
+          "level": 0,
+          "network_id": 12,
+          "link_speed": 24,
+          "ssid": "Chiquita",
+          "link_speed_units": "Mbps",
+          "rssi": -68,
+          "frequency": 0
+        }
+      },
+      "power_source": "battery",
+      "battery": 96,
+      "hop_distance": 124,
+      "profile": "adaptive",
+      "tracking_limit": 89
+    }
+  },
+  "timerange": {
+    "from": "2013-05-04T00:02:30-07:00",
+    "from_ts": 1367650950,
+    "to": "2013-05-04T00:08:41-07:00",
+    "to_ts": 1367651321
+  },
+  "bounds": {
+    "sw": {
+      "latitude": 44.54917366,
+      "longitude": -123.2631329
+    },
+    "ne": {
+      "latitude": 44.54929279,
+      "longitude": -123.26303376
+    },
+    "center": {
+      "latitude": 44.549250048996,
+      "longitude": -123.26308234859
+    },
+    "radius": 7.7092,
+    "map": "http://map.geoloqi.com/44.549250048996,-123.26308234859?radius=7.7091746114833"
+  },
+  "points": [
+    {
+      "uuid": "b3aecee2-577e-42b9-bf07-833ed5753e5b",
+      "date": "2013-05-04T00:02:30-07:00",
+      "date_ts": 1367650950,
+      "location": {
+        "position": {
+          "latitude": 44.5492463,
+          "longitude": -123.2630533,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 25,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 30,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -59,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 48,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -59,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 99,
+        "hop_distance": 30,
+        "profile": "adaptive",
+        "tracking_limit": 900
+      }
+    },
+    {
+      "uuid": "354ea6e4-8bdc-47a7-89ea-36b35b01172e",
+      "date": "2013-05-04T00:03:07-07:00",
+      "date_ts": 1367650987,
+      "location": {
+        "position": {
+          "latitude": 44.5492147,
+          "longitude": -123.2630909,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 45,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 135,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -67,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -92,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            },
+            {
+              "bssid": "20:aa:4b:93:8d:85",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -95,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Kaisertopia",
+              "capabilities": "[WPA2-PSK-CCMP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2437
+            },
+            {
+              "bssid": "b8:9b:c9:77:8e:a8",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -96,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "HOME-8EA8",
+              "capabilities": "[WPA-PSK-TKIP+CCMP][WPA2-PSK-TKIP+CCMP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 24,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -71,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 98,
+        "hop_distance": 135,
+        "profile": "adaptive",
+        "tracking_limit": 97
+      }
+    },
+    {
+      "uuid": "611dac69-8ad4-44d8-8ce3-2ae23d8ea296",
+      "date": "2013-05-04T00:03:11-07:00",
+      "date_ts": 1367650991,
+      "location": {
+        "position": {
+          "latitude": 44.54929279,
+          "longitude": -123.26309142,
+          "speed": 0,
+          "altitude": 13,
+          "heading": 0,
+          "horizontal_accuracy": 73,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -67,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -92,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            },
+            {
+              "bssid": "20:aa:4b:93:8d:85",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -95,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Kaisertopia",
+              "capabilities": "[WPA2-PSK-CCMP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2437
+            },
+            {
+              "bssid": "b8:9b:c9:77:8e:a8",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -96,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "HOME-8EA8",
+              "capabilities": "[WPA-PSK-TKIP+CCMP][WPA2-PSK-TKIP+CCMP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 36,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -73,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 98,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "6ee887c0-b847-4daa-b009-4686e858ed75",
+      "date": "2013-05-04T00:04:39-07:00",
+      "date_ts": 1367651079,
+      "location": {
+        "position": {
+          "latitude": 44.54925592,
+          "longitude": -123.26303376,
+          "speed": 0,
+          "altitude": 37,
+          "heading": 0,
+          "horizontal_accuracy": 56,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 0,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -59,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -91,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            },
+            {
+              "bssid": "00:24:a5:6f:9a:96",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -88,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Kyle_Secure",
+              "capabilities": "[WPA-PSK-TKIP][ESS]",
+              "rssi": 0,
+              "frequency": 2437
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 54,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -60,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 0,
+        "profile": "logging",
+        "tracking_limit": 0
+      }
+    },
+    {
+      "uuid": "515ccd6e-8b36-4d17-901b-aa9480ee54c4",
+      "date": "2013-05-04T00:04:41-07:00",
+      "date_ts": 1367651081,
+      "location": {
+        "position": {
+          "latitude": 44.54925521,
+          "longitude": -123.26303401,
+          "speed": 0,
+          "altitude": 36,
+          "heading": 0,
+          "horizontal_accuracy": 39,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -59,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -91,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            },
+            {
+              "bssid": "00:24:a5:6f:9a:96",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -88,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Kyle_Secure",
+              "capabilities": "[WPA-PSK-TKIP][ESS]",
+              "rssi": 0,
+              "frequency": 2437
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 54,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -60,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "b1e000f4-704b-4c0e-950c-7c750e3c7a25",
+      "date": "2013-05-04T00:04:42-07:00",
+      "date_ts": 1367651082,
+      "location": {
+        "position": {
+          "latitude": 44.5492519,
+          "longitude": -123.263101,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 23,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -59,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -93,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            },
+            {
+              "bssid": "00:24:a5:6f:9a:96",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -91,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Kyle_Secure",
+              "capabilities": "[WPA-PSK-TKIP][ESS]",
+              "rssi": 0,
+              "frequency": 2437
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 54,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -59,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "392e046d-2bca-4cdb-b18d-223b198db49a",
+      "date": "2013-05-04T00:05:29-07:00",
+      "date_ts": 1367651129,
+      "location": {
+        "position": {
+          "latitude": 44.54925173,
+          "longitude": -123.26304274,
+          "speed": 0,
+          "altitude": 36,
+          "heading": 0,
+          "horizontal_accuracy": 84,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 0,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -71,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -92,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 0,
+        "profile": "logging",
+        "tracking_limit": 0
+      }
+    },
+    {
+      "uuid": "6eff7a4e-9658-4afd-a9e5-5d02cb48fdbc",
+      "date": "2013-05-04T00:05:31-07:00",
+      "date_ts": 1367651131,
+      "location": {
+        "position": {
+          "latitude": 44.5492638,
+          "longitude": -123.2631329,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 26,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -67,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -91,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "1f28f367-ad9f-473d-aaf5-5652ce568bf1",
+      "date": "2013-05-04T00:05:33-07:00",
+      "date_ts": 1367651133,
+      "location": {
+        "position": {
+          "latitude": 44.5491845,
+          "longitude": -123.2630754,
+          "speed": 0,
+          "altitude": 34,
+          "heading": 0,
+          "horizontal_accuracy": 25,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -67,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -91,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "9ccbc365-d0b0-4108-8403-66dc2684a60f",
+      "date": "2013-05-04T00:06:12-07:00",
+      "date_ts": 1367651172,
+      "location": {
+        "position": {
+          "latitude": 44.54918127,
+          "longitude": -123.26307025,
+          "speed": 0,
+          "altitude": 34,
+          "heading": 0,
+          "horizontal_accuracy": 37,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 0,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -68,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -84,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 0,
+        "profile": "logging",
+        "tracking_limit": 0
+      }
+    },
+    {
+      "uuid": "9c87f4f8-ec4d-407f-9064-afbda827a729",
+      "date": "2013-05-04T00:06:13-07:00",
+      "date_ts": 1367651173,
+      "location": {
+        "position": {
+          "latitude": 44.54918086,
+          "longitude": -123.26307036,
+          "speed": 0,
+          "altitude": 34,
+          "heading": 0,
+          "horizontal_accuracy": 27,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -68,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -84,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "25b5c4c5-1717-4045-9875-9d9e1059a1ca",
+      "date": "2013-05-04T00:06:15-07:00",
+      "date_ts": 1367651175,
+      "location": {
+        "position": {
+          "latitude": 44.5492601,
+          "longitude": -123.2631296,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 25,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -68,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -86,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 97,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "f060b9b1-7d4d-4554-8ac7-693044d5a7ed",
+      "date": "2013-05-04T00:07:10-07:00",
+      "date_ts": 1367651230,
+      "location": {
+        "position": {
+          "latitude": 44.54917366,
+          "longitude": -123.26308499,
+          "speed": 0,
+          "altitude": 36,
+          "heading": 0,
+          "horizontal_accuracy": 50,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 0,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -66,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -84,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 96,
+        "hop_distance": 0,
+        "profile": "logging",
+        "tracking_limit": 0
+      }
+    },
+    {
+      "uuid": "caaca11e-3f0c-42f1-b806-cae8977e0737",
+      "date": "2013-05-04T00:07:13-07:00",
+      "date_ts": 1367651233,
+      "location": {
+        "position": {
+          "latitude": 44.54917366,
+          "longitude": -123.26308499,
+          "speed": 0,
+          "altitude": 36,
+          "heading": 0,
+          "horizontal_accuracy": 32,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -66,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -84,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 96,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "81c4f6fb-b1ae-4046-bb7b-85c2819f7dfe",
+      "date": "2013-05-04T00:07:13-07:00",
+      "date_ts": 1367651233,
+      "location": {
+        "position": {
+          "latitude": 44.549258,
+          "longitude": -123.2631295,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 24,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -66,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -84,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 18,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -81,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 96,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "7d2b97e6-a14c-4dc0-bb06-984b2efb15d8",
+      "date": "2013-05-04T00:08:38-07:00",
+      "date_ts": 1367651318,
+      "location": {
+        "position": {
+          "latitude": 44.54917552,
+          "longitude": -123.26309405,
+          "speed": 0,
+          "altitude": 37,
+          "heading": 0,
+          "horizontal_accuracy": 76,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 0,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -64,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -89,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 54,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -66,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 96,
+        "hop_distance": 0,
+        "profile": "logging",
+        "tracking_limit": 0
+      }
+    },
+    {
+      "uuid": "b940eb38-62f0-4cb2-b58a-ce4f730b3499",
+      "date": "2013-05-04T00:08:41-07:00",
+      "date_ts": 1367651321,
+      "location": {
+        "position": {
+          "latitude": 44.54917504,
+          "longitude": -123.26309352,
+          "speed": 0,
+          "altitude": 37,
+          "heading": 0,
+          "horizontal_accuracy": 47,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -64,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            },
+            {
+              "bssid": "00:22:2d:8f:61:8a",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -89,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Max Power",
+              "capabilities": "[WPA2-PSK-CCMP][ESS]",
+              "rssi": 0,
+              "frequency": 2432
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 24,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -68,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 96,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    },
+    {
+      "uuid": "aed005e6-53bf-4ce3-b0bd-9b873c8b54b5",
+      "date": "2013-05-04T00:08:41-07:00",
+      "date_ts": 1367651321,
+      "location": {
+        "position": {
+          "latitude": 44.5492461,
+          "longitude": -123.2630535,
+          "speed": 0,
+          "altitude": 0,
+          "heading": 0,
+          "horizontal_accuracy": 25,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 124,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "00:24:b2:bf:d7:26",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -67,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Chiquita",
+              "capabilities": "[WPA-PSK-TKIP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2462
+            }
+          ],
+          "current": {
+            "bssid": "00:24:b2:bf:d7:26",
+            "ip_address": 167880896,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": 12,
+            "link_speed": 24,
+            "ssid": "Chiquita",
+            "link_speed_units": "Mbps",
+            "rssi": -68,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 96,
+        "hop_distance": 124,
+        "profile": "adaptive",
+        "tracking_limit": 89
+      }
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "distance": 0,
+  "start": {
+    "uuid": "ac97cec2-f6ea-49bf-a606-ad45d34ad448",
+    "date": "2013-05-06T20:44:46-07:00",
+    "date_ts": 1367898286,
+    "location": {
+      "position": {
+        "latitude": 45.46457018,
+        "longitude": -122.66024827,
+        "speed": 0,
+        "altitude": 20,
+        "heading": 0,
+        "horizontal_accuracy": 14,
+        "vertical_accuracy": 0
+      },
+      "type": "point"
+    },
+    "raw": {
+      "distance_filter": 30,
+      "battery_state": "discharging",
+      "access_points": {
+        "nearby": [
+          {
+            "bssid": "20:10:7a:58:a1:5c",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -50,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "Glynis's_PinkTaco_Express",
+            "capabilities": "[WPA-PSK-TKIP][ESS]",
+            "rssi": 0,
+            "frequency": 2447
+          },
+          {
+            "bssid": "20:4e:7f:7a:e1:e0",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -93,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "Mom's Friendly Robot Company",
+            "capabilities": "[WPA2-PSK-CCMP][WPS][ESS]",
+            "rssi": 0,
+            "frequency": 2422
+          },
+          {
+            "bssid": "b8:9b:c9:59:b8:e8",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -91,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "HOME-B8E8",
+            "capabilities": "[WPA-PSK-TKIP+CCMP][WPA2-PSK-TKIP+CCMP][WPS][ESS]",
+            "rssi": 0,
+            "frequency": 2412
+          }
+        ],
+        "current": {
+          "ip_address": 0,
+          "hidden_ssid": false,
+          "level": 0,
+          "network_id": -1,
+          "link_speed": -1,
+          "ssid": "",
+          "link_speed_units": "Mbps",
+          "rssi": -9999,
+          "frequency": 0
+        }
+      },
+      "power_source": "battery",
+      "battery": 1,
+      "hop_distance": 30,
+      "profile": "adaptive",
+      "tracking_limit": 900
+    }
+  },
+  "end": {
+    "uuid": "ac97cec2-f6ea-49bf-a606-ad45d34ad448",
+    "date": "2013-05-06T20:44:46-07:00",
+    "date_ts": 1367898286,
+    "location": {
+      "position": {
+        "latitude": 45.46457018,
+        "longitude": -122.66024827,
+        "speed": 0,
+        "altitude": 20,
+        "heading": 0,
+        "horizontal_accuracy": 14,
+        "vertical_accuracy": 0
+      },
+      "type": "point"
+    },
+    "raw": {
+      "distance_filter": 30,
+      "battery_state": "discharging",
+      "access_points": {
+        "nearby": [
+          {
+            "bssid": "20:10:7a:58:a1:5c",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -50,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "Glynis's_PinkTaco_Express",
+            "capabilities": "[WPA-PSK-TKIP][ESS]",
+            "rssi": 0,
+            "frequency": 2447
+          },
+          {
+            "bssid": "20:4e:7f:7a:e1:e0",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -93,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "Mom's Friendly Robot Company",
+            "capabilities": "[WPA2-PSK-CCMP][WPS][ESS]",
+            "rssi": 0,
+            "frequency": 2422
+          },
+          {
+            "bssid": "b8:9b:c9:59:b8:e8",
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": -91,
+            "network_id": 0,
+            "link_speed": 0,
+            "ssid": "HOME-B8E8",
+            "capabilities": "[WPA-PSK-TKIP+CCMP][WPA2-PSK-TKIP+CCMP][WPS][ESS]",
+            "rssi": 0,
+            "frequency": 2412
+          }
+        ],
+        "current": {
+          "ip_address": 0,
+          "hidden_ssid": false,
+          "level": 0,
+          "network_id": -1,
+          "link_speed": -1,
+          "ssid": "",
+          "link_speed_units": "Mbps",
+          "rssi": -9999,
+          "frequency": 0
+        }
+      },
+      "power_source": "battery",
+      "battery": 1,
+      "hop_distance": 30,
+      "profile": "adaptive",
+      "tracking_limit": 900
+    }
+  },
+  "timerange": {
+    "from": "2013-05-06T20:44:46-07:00",
+    "from_ts": 1367898286,
+    "to": "2013-05-06T20:44:46-07:00",
+    "to_ts": 1367898286
+  },
+  "bounds": {
+    "sw": {
+      "latitude": 45.46457018,
+      "longitude": -122.66024827
+    },
+    "ne": {
+      "latitude": 45.46457018,
+      "longitude": -122.66024827
+    },
+    "center": {
+      "latitude": 45.46457018,
+      "longitude": -122.66024827
+    },
+    "radius": 0,
+    "map": "http://map.geoloqi.com/45.46457018,-122.66024827"
+  },
+  "points": [
+    {
+      "uuid": "ac97cec2-f6ea-49bf-a606-ad45d34ad448",
+      "date": "2013-05-06T20:44:46-07:00",
+      "date_ts": 1367898286,
+      "location": {
+        "position": {
+          "latitude": 45.46457018,
+          "longitude": -122.66024827,
+          "speed": 0,
+          "altitude": 20,
+          "heading": 0,
+          "horizontal_accuracy": 14,
+          "vertical_accuracy": 0
+        },
+        "type": "point"
+      },
+      "raw": {
+        "distance_filter": 30,
+        "battery_state": "discharging",
+        "access_points": {
+          "nearby": [
+            {
+              "bssid": "20:10:7a:58:a1:5c",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -50,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Glynis's_PinkTaco_Express",
+              "capabilities": "[WPA-PSK-TKIP][ESS]",
+              "rssi": 0,
+              "frequency": 2447
+            },
+            {
+              "bssid": "20:4e:7f:7a:e1:e0",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -93,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "Mom's Friendly Robot Company",
+              "capabilities": "[WPA2-PSK-CCMP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2422
+            },
+            {
+              "bssid": "b8:9b:c9:59:b8:e8",
+              "ip_address": 0,
+              "hidden_ssid": false,
+              "level": -91,
+              "network_id": 0,
+              "link_speed": 0,
+              "ssid": "HOME-B8E8",
+              "capabilities": "[WPA-PSK-TKIP+CCMP][WPA2-PSK-TKIP+CCMP][WPS][ESS]",
+              "rssi": 0,
+              "frequency": 2412
+            }
+          ],
+          "current": {
+            "ip_address": 0,
+            "hidden_ssid": false,
+            "level": 0,
+            "network_id": -1,
+            "link_speed": -1,
+            "ssid": "",
+            "link_speed_units": "Mbps",
+            "rssi": -9999,
+            "frequency": 0
+          }
+        },
+        "power_source": "battery",
+        "battery": 1,
+        "hop_distance": 30,
+        "profile": "adaptive",
+        "tracking_limit": 900
+      }
+    }
+  ]
+}

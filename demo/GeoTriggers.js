@@ -137,8 +137,17 @@ GeoTriggers.prototype._poll = function() {
   var self = this;
   self.updateLocation();
   geoloqi.get("trigger/history", {}, function(res, err) {
-    this.triggerHistory = res.history;
+    var history = this.triggerHistory = res.history;
     console.log(['triggerHistory', res.history]);
+
+    for(var i=0, len = history.length; i<len; i++) {
+      var trigger = history[i];
+      var time = new Date(trigger.date);
+      var title = trigger.place.name;
+      var message = trigger.trigger.text;
+      var visits = trigger.place.visits || 0;
+      
+    }
 
     // poll timer
     self._timeoutID = window.setTimeout(function(self) {
