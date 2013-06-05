@@ -14,7 +14,7 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	var samples = new L.GeoJSON(data2, {
+	var samples = new L.GeoJSON(data, {
 		pointToLayer: function(geojson, latlng) {
 			var circle = new L.CircleMarker(latlng, {radius:6});
 			// circle.bindPopup(i);
@@ -36,7 +36,7 @@ $(function() {
 
   L.control.scale({metric:false}).addTo(map);
 
-	playback = new L.Playback(map, data2, clockCallback);
+	playback = new L.Playback(map, data, clockCallback);
 
 	map.on('mousemove', function(e) {
 		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
