@@ -16,6 +16,13 @@ L.Playback.Tick = L.Class.extend({
     }
   },
 
+  addTickPoint: function(tickPoint) {
+    this._tickPoints.push(tickPoint);
+    var firstLngLat = tickPoint.getFirstTick();
+    var latLng = new L.LatLng(firstLngLat[1], firstLngLat[0]);
+    this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(map));
+  },
+
   tock: function (ms, transitionTime) {
     for(var i=0,len=this._tickPoints.length;i<len;i++){
       var lngLat = this._tickPoints[i].tick(ms);

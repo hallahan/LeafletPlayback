@@ -16,6 +16,13 @@ L.Playback = L.Playback.Clock.extend({
     L.Playback.Clock.prototype.initialize.call(this, this.tick, callback, this.options);
     // this.transport = new L.Playback.Transport();
     // map.addControl(this.transport);
+  },
+
+  addTracks: function(geoJSON) {
+    console.log('addTracks');
+    console.log(geoJSON);
+    var newTickPoint = new L.Playback.TickPoint(geoJSON, this.options.tickLen);
+    this.tick.addTickPoint(newTickPoint);
   }
 
 });

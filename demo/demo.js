@@ -278,8 +278,7 @@ function loadTracksFromFile(file) {
   reader.readAsText(file);
   reader.onload = function(e) {
     var tracks = JSON.parse(e.target.result);
-    console.log('loadTracksFromFile');
-    console.log(tracks);
+    playback.addTracks(tracks);
     $('#load-tracks-modal').modal('hide');
   }
 }
