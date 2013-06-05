@@ -14,7 +14,7 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	var samples = new L.GeoJSON(data, {
+	var samples = new L.GeoJSON(data2, {
 		pointToLayer: function(geojson, latlng) {
 			var circle = new L.CircleMarker(latlng, {radius:6});
 			// circle.bindPopup(i);
@@ -36,7 +36,7 @@ $(function() {
 
   L.control.scale({metric:false}).addTo(map);
 
-	playback = new L.Playback(map, data, clockCallback);
+	playback = new L.Playback(map, data2, clockCallback);
 
 	map.on('mousemove', function(e) {
 		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
@@ -144,6 +144,10 @@ $(function() {
     $('#time-slider').slider('value', ts);
   });
 
+  $('#load-tracks-btn').on('click', function(e) {
+    $('#load-tracks-modal').modal();
+  });
+
 	// Initialize the draw control and pass it the FeatureGroup of editable layers
 	var drawControl = new L.Control.Draw({
 		draw: {
@@ -229,6 +233,12 @@ $(function() {
   	$('#create-geotrigger-modal').modal('hide');
   });
 
+
+  $('#load-tracks-save').on('click', function(e) {
+    var file = $('#load-tracks-file').get(0).files[0];
+    loadTracksFromFile(file);
+  });
+
 });
 
 function clockCallback(ms) {
@@ -261,4 +271,15 @@ function combineDateAndTime(date, time) {
   var min = time.minutes;
   var sec = time.seconds;
   return new Date(yr, mo, dy, hr, min, sec).getTime();
+}
+
+function loadTracksFromFile(file) {
+  var reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = function(e) {
+    var tracks = JSON.parse(e.target.result);
+    console.log('loadTracksFromFile');
+    console.log(tracks);
+    $('#load-tracks-modal').modal('hide');
+  }
 }

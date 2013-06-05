@@ -87,9 +87,8 @@
 
         </ul>
         <ul class="nav pull-right">
-          <li class="btn"><a href="#"><i class="icon-bell icon-large"></i> Add Fence</a></li>
-          <li class="btn"><a href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
-    
+          <li class="btn"><a id="add-fence-btn" href="#"><i class="icon-bell icon-large"></i> Add Fence</a></li>
+          <li class="btn"><a id="load-tracks-btn" href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
         </ul>
       </div>
     </div>
@@ -128,7 +127,13 @@
       <h3 id="load-tracks-label">Load GPS Tracks</h3>
     </div>
     <div class="modal-body">
-      asdf
+      <p>
+        At the current moment, LeafletPlayback only supports GeoJSON files.
+      </p>
+      <label>Upload a File</label>
+
+      <input type="file" id="load-tracks-file" />
+
     </div>
     <div class="modal-footer">
       <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
@@ -149,6 +154,7 @@
   <script src="../src/Clock.js"></script>
   <script src="../src/Playback.js"></script>
   <script src="../data/drive.js"></script>
+  <script src="../data/tracks-by-day/2013-06-04.js"></script>
   <script src="../lib/leaflet-draw/leaflet.draw-src.js"></script>
   <script src="../lib/geoloqi.min.js"></script>
   <script src="GeoTriggers.js"></script>
