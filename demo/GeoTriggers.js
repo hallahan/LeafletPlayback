@@ -1,6 +1,7 @@
 LAYER_ID = "7j6V";
 
 function GeoTriggers(featureGroup, callback) {
+  var self = this;
   this.featureGroup = featureGroup;
   this.callback = callback;
 
@@ -13,6 +14,13 @@ function GeoTriggers(featureGroup, callback) {
   this.logPlaces();
   this.logTriggers();
   this.showTriggers();
+
+  // we want to know the most recent timestamp of the trigger history
+  geoloqi.get("trigger/history", {}, function(res, err) {
+    if (res && res.history && res.history[0]) {
+      self._latestTime = res.history[0].date_ts;
+    }
+  });
 }
 
 
@@ -140,13 +148,14 @@ GeoTriggers.prototype._poll = function() {
     var history = this.triggerHistory = res.history;
     console.log(['triggerHistory', res.history]);
 
-    for(var i=0, len = history.length; i<len; i++) {
-      var trigger = history[i];
-      var time = new Date(trigger.date);
-      var title = trigger.place.name;
-      var message = trigger.trigger.text;
-      var visits = trigger.place.visits || 0;
-      
+    if (history[0].date_ts > self._latestTime) {
+      var oldLatestTime = self._latestTime;
+      self._latestTime = history[0].date_ts;
+      for(var i=0,len=history.length; i<len && history[i].date_ts > oldLatestTime; i++){
+        var trig = history[i];
+        console.log('trig');
+        console.log(trig);
+      }
     }
 
     // poll timer
