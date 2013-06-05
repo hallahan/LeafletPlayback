@@ -292,3 +292,25 @@ function loadTracksFromFile(file) {
     $('#load-tracks-modal').modal('hide');
   }
 }
+
+function save(data, name) {
+  var json = JSON.stringify(data, null, 2);
+  var blob = new Blob([json], {type:'text/plain'});
+  var downloadLink = document.createElement("a");
+  var url = (window.webkitURL != null ? window.webkitURL : window.URL);
+  downloadLink.href = url.createObjectURL(blob);
+  downloadLink.download = name || 'data.json';
+  downloadLink.click();   
+}
+
+function sliceData(start,end) {
+  end = end || data.geometry.coordinates.length-1;
+  data.geometry.coordinates = data.geometry.coordinates.slice(start,end);
+  data.properties.time = data.properties.time.slice(start,end);
+  data.properties.speed = data.properties.speed.slice(start,end);
+  data.properties.altitude = data.properties.altitude.slice(start,end);
+  data.properties.heading = data.properties.heading.slice(start,end);
+  data.properties.horizontal_accuracy = data.properties.horizontal_accuracy.slice(start,end);
+  data.properties.vertical_accuracy = data.properties.vertical_accuracy.slice(start,end);
+  save(data,'sliced-data.json');
+}
