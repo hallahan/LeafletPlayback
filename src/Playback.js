@@ -11,11 +11,16 @@ L.Playback = L.Playback.Clock.extend({
   initialize: function (map, geoJSON, callback, options) {
     this.map = map;
     this.geoJSON = geoJSON;
-    this.tickPoint = new L.Playback.TickPoint(geoJSON, this.options.tickLen);
-    this.tick = new L.Playback.Tick(map, this.tickPoint);
+    this.tickPoints = [];
+    if (geoJSON instanceof Array) {
+      for(var i=0,len=geoJSON.length;i<len;i++){
+        this.tickPoints.push( new L.Playback.TickPoint(geoJSON[i], this.options.tickLen) );
+      }
+    } else {
+      this.tickPoints.push( new L.Playback.TickPoint(geoJSON, this.options.tickLen) );
+    }
+    this.tick = new L.Playback.Tick(map, this.tickPoints);
     L.Playback.Clock.prototype.initialize.call(this, this.tick, callback, this.options);
-    // this.transport = new L.Playback.Transport();
-    // map.addControl(this.transport);
   },
 
   addTracks: function(geoJSON) {

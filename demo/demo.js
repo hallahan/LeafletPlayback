@@ -1,4 +1,6 @@
 $(function() {
+  demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
+
 	//creates a new map
 	map = new L.Map('map', {zoomControl:false});
 
@@ -36,7 +38,7 @@ $(function() {
 
   L.control.scale({metric:false}).addTo(map);
 
-	playback = new L.Playback(map, tillicum, clockCallback);
+	playback = new L.Playback(map, demoTracks, clockCallback);
 
 	map.on('mousemove', function(e) {
 		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
