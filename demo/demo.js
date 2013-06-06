@@ -1,4 +1,8 @@
 $(function() {
+  $('.close-header').on('click', function(e) {
+    $('header').fadeOut();
+  });
+
   demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
 
 	//creates a new map
