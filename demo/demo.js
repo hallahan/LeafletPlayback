@@ -14,7 +14,7 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	var samples = new L.GeoJSON(data, {
+	var samples = new L.GeoJSON(tillicum, {
 		pointToLayer: function(geojson, latlng) {
 			var circle = new L.CircleMarker(latlng, {radius:6});
 			// circle.bindPopup(i);
@@ -36,7 +36,7 @@ $(function() {
 
   L.control.scale({metric:false}).addTo(map);
 
-	playback = new L.Playback(map, data, clockCallback);
+	playback = new L.Playback(map, tillicum, clockCallback);
 
 	map.on('mousemove', function(e) {
 		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
@@ -303,7 +303,7 @@ function save(data, name) {
   downloadLink.click();   
 }
 
-function sliceData(start,end) {
+function sliceData(data, start,end) {
   end = end || data.geometry.coordinates.length-1;
   data.geometry.coordinates = data.geometry.coordinates.slice(start,end);
   data.properties.time = data.properties.time.slice(start,end);
