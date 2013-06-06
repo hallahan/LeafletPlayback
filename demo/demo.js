@@ -3,6 +3,14 @@ $(function() {
     $('header').fadeOut();
   });
 
+  $('#play-demo-btn').on('click', function(e) {
+    playback.start();
+    geoTriggers.startPolling();
+    $('#play-pause-icon').removeClass('icon-play');
+    $('#play-pause-icon').addClass('icon-pause');
+    isPlaying = true;
+  });
+
   demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
 
 	//creates a new map
@@ -192,6 +200,8 @@ $(function() {
       $('#new-trigger-lng').html(latlng.lng);
       var radius = layer.getRadius();
       $('#new-trigger-radius').html(radius);
+
+      $('input, textarea').val('').html('');
       $('#create-geotrigger-modal').modal();
     }
 
