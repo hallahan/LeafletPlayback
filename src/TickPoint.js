@@ -125,6 +125,8 @@ L.Playback.TickPoint = L.Class.extend({
   },
 
   tick: function(ms) {
+    if (ms > this._endTime) ms = this._endTime;
+    if (ms < this._startTime) ms = this._startTime;
     return this._ticks[ms];
   }
 
