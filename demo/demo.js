@@ -16,9 +16,9 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	var samples = new L.GeoJSON(tillicum, {
+	samples = new L.GeoJSON(demoTracks, {
 		pointToLayer: function(geojson, latlng) {
-			var circle = new L.CircleMarker(latlng, {radius:6});
+			var circle = new L.CircleMarker(latlng, {radius:5});
 			// circle.bindPopup(i);
 			return circle;
 		}
@@ -40,13 +40,13 @@ $(function() {
 
 	playback = new L.Playback(map, demoTracks, clockCallback);
 
-	map.on('mousemove', function(e) {
-		$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
-	});
+	// map.on('mousemove', function(e) {
+	// 	$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
+	// });
 
-	map.on('click', function(e) {
-		$('#click-latlng').html(e.latlng.lat+', '+e.latlng.lng);
-	});
+	// map.on('click', function(e) {
+	// 	$('#click-latlng').html(e.latlng.lat+', '+e.latlng.lng);
+	// });
 
 
 	isPlaying = false;
@@ -291,6 +291,7 @@ function loadTracksFromFile(file) {
   reader.onload = function(e) {
     var tracks = JSON.parse(e.target.result);
     playback.addTracks(tracks);
+    samples.addData(tracks);
     $('#load-tracks-modal').modal('hide');
   }
 }
