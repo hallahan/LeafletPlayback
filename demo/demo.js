@@ -147,7 +147,7 @@ $(function() {
   });
 
 	// Initialize the draw control and pass it the FeatureGroup of editable layers
-	var drawControl = new L.Control.Draw({
+	drawControl = new L.Control.Draw({
 		draw: {
 			position: 'topleft',
 			polyline: false,
@@ -155,7 +155,7 @@ $(function() {
 			rectangle: false,
 			marker: false,
 			circle: {
-				title: "Create a GeoTrigger!",
+				title: "Create a Virtual Fence!",
 				shapeOptions: {
 					color: '#662d91'
 				}
