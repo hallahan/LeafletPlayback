@@ -16,10 +16,10 @@ L.Playback.Tick = L.Class.extend({
     }
   },
 
-  addTickPoint: function(tickPoint) {
+  addTickPoint: function(tickPoint, ms) {
     this._tickPoints.push(tickPoint);
-    var firstLngLat = tickPoint.getFirstTick();
-    var latLng = new L.LatLng(firstLngLat[1], firstLngLat[0]);
+    var lngLat = tickPoint.tick(ms);
+    var latLng = new L.LatLng(lngLat[1], lngLat[0]);
     this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(map));
   },
 

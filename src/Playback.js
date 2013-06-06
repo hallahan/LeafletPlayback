@@ -27,7 +27,7 @@ L.Playback = L.Playback.Clock.extend({
     console.log('addTracks');
     console.log(geoJSON);
     var newTickPoint = new L.Playback.TickPoint(geoJSON, this.options.tickLen);
-    this.tick.addTickPoint(newTickPoint);
+    this.tick.addTickPoint(newTickPoint, this.getTime());
   }
 
 });
