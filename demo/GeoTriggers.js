@@ -168,7 +168,8 @@ GeoTriggers.prototype._poll = function() {
   var self = this;
   self.updateLocation();
 
-  for(var i=0,len=self.users.length;i<len;i++){
+  var markers = playback.tick.getMarkers();
+  for(var i=0,len=markers.length;i<len;i++){
     geoloqi.auth = self.users[i];
     geoloqi.get("trigger/history", {}, function(res, err) {
       var history = this.triggerHistory = res.history;
