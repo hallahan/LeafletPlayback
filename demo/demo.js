@@ -263,9 +263,9 @@ function triggerFired(trigger) {
   var html = 
 '<div class="accordion-inner">' +
 '  <strong>'+trigger.place.name+'</strong>' +
-'<span class="broadcast-time">'+ trigger.display_date + '</span>' +
-'  <br>' +
-   trigger.trigger.text +
+'  <span class="broadcast-time">'+ trigger.display_date + '</span>' +
+'  <br/>' +
+   trigger.trigger.text + '<br/>' +
 '  <button class="btn btn-info btn-small view-notification"><i class="icon-eye-open"></i> View</button>'+
 '</div>';
 
