@@ -4,6 +4,8 @@ function GeoTriggers(featureGroup, callback) {
   var self = this;
   this.featureGroup = featureGroup;
   this.callback = callback;
+  this.timeoutIds = [];
+  this._isPlaying = false;
 
   geoloqi.init({
     client_id: "d8e57ca4439b8ac89bc0be27c4ed9b8e"
@@ -157,24 +159,28 @@ GeoTriggers.prototype._poll = function() {
     }
 
     // poll timer
-    self._timeoutID = window.setTimeout(function(self) {
+    if (!self._isPlaying) return;
+    var timeoutId = window.setTimeout(function(self) {
       self._poll();
     }, 1000, self);
+    self.timeoutIds.push(timeoutId);
   });
   
 }
 
 
 GeoTriggers.prototype.startPolling = function() {
-  if (this._timeoutID) return;
+  if (this.timeoutIds.length>0) return;
+  this._isPlaying = true;
   this._poll();
 }
 
 
 GeoTriggers.prototype.stopPolling = function() {
-  if (this._timeoutID) {
-    window.clearTimeout(this._timeoutID);
-    this._timeoutID = null;
+  this._isPlaying = false;
+  while (this.timeoutIds.length>0) {
+    var id = this.timeoutIds.pop();
+    window.clearTimeout(id);
   }
 }
 
