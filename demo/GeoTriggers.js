@@ -1,9 +1,19 @@
-LAYER_ID = "7j6V";
 
 function GeoTriggers(featureGroup, callback) {
   var self = this;
   this.featureGroup = featureGroup;
   this.callback = callback;
+  this.layerId = "7j6V";
+  this.users = [];
+  this._loginIdx = 0;
+
+  geoloqi.onAuthorize = function(res, err){
+    console.log('onAuthorize');
+    console.log(res||err);
+    if (err) return;
+    var i = parseInt(res.display_name.slice(2)); 
+    self.users[i] = res;
+  }
 
   geoloqi.init({
     client_id: "d8e57ca4439b8ac89bc0be27c4ed9b8e"
@@ -27,11 +37,22 @@ GeoTriggers.prototype.getProfile = function() {
   });
 }
 
-
 GeoTriggers.prototype.login = function() {
-  geoloqi.login({username:"LeafletPlayback2",password:"LeafletPlayback2"});
-}
+  window.setTimeout(function(self) {
+    if (self._loginIdx > 10) return;
+    geoloqi.login({username:"lp"+self._loginIdx,password:"lp"+self._loginIdx});
+    console.log('loggedin '+ self._loginIdx);
 
+    // window.setTimeout(function(self) {
+    //   console.log('auth');
+    //   console.log(geoloqi.auth);
+    //   self.users[self._loginIdx] = geoloqi.auth;
+    // }, 1000, self);
+
+    self._loginIdx++;
+    self.login();
+  }, 100, this);
+}
 
 GeoTriggers.prototype.logLayers = function() {
   geoloqi.get('layer/list', function(res) {
@@ -41,8 +62,9 @@ GeoTriggers.prototype.logLayers = function() {
 
 
 GeoTriggers.prototype.logPlaces = function() {
+  var self = this;
   geoloqi.get("place/list", {
-    "layer_id": LAYER_ID
+    "layer_id": self.layerId
   }, function(response, error) {
     console.log(['place/list', response || error]);
   });
@@ -51,8 +73,9 @@ GeoTriggers.prototype.logPlaces = function() {
 // NOTE: Requesting triggers with 'trigger/list' does NOT
 // work. Something is broken with the API.
 GeoTriggers.prototype.logTriggers = function() {
+  var self = this;
   geoloqi.get("place/list", {
-    "layer_id": LAYER_ID
+    "layer_id": self.layerId
   }, function(res, err) {
     if (err) {
       console.log(["place/list ERROR for logging triggers", err]);
@@ -76,7 +99,7 @@ GeoTriggers.prototype.logTriggers = function() {
 GeoTriggers.prototype.showTriggers = function() {
   var self = this;
   geoloqi.get("place/list", {
-    "layer_id": LAYER_ID
+    "layer_id": self.layerId
   }, function(res, err) {
     if (err) {
       console.log(["place/list ERROR for showTriggers", err]);
@@ -132,7 +155,7 @@ GeoTriggers.prototype.updateLocation = function() {
         version: '0.0.1'
       }
     }];
-
+    geoloqi.auth = this.users[i];
     geoloqi.post('location/update', points, function(res, err) {
       // console.log(['location/update',res||err]);
     });
@@ -144,23 +167,29 @@ GeoTriggers.prototype._poll = function() {
   var updated = false;
   var self = this;
   self.updateLocation();
-  geoloqi.get("trigger/history", {}, function(res, err) {
-    var history = this.triggerHistory = res.history;
-    // console.log(['triggerHistory', res.history]);
 
-    if (history[0].date_ts > self._latestTime) {
-      var oldLatestTime = self._latestTime;
-      self._latestTime = history[0].date_ts;
-      for(var i=0,len=history.length; i<len && history[i].date_ts > oldLatestTime; i++){
-        self.callback(history[i]);
+  for(var i=0,len=self.users.length;i<len;i++){
+    geoloqi.auth = self.users[i];
+    geoloqi.get("trigger/history", {}, function(res, err) {
+      var history = this.triggerHistory = res.history;
+      // console.log(['triggerHistory', res.history]);
+
+      if (history.length > 0 && history[0].date_ts > self._latestTime) {
+        var oldLatestTime = self._latestTime;
+        self._latestTime = history[0].date_ts;
+        for(var i=0,len=history.length; i<len && history[i].date_ts > oldLatestTime; i++){
+          self.callback(history[i]);
+        }
       }
-    }
 
-    // poll timer
-    self._timeoutID = window.setTimeout(function(self) {
-      self._poll();
-    }, 1000, self);
-  });
+      // poll timer
+      self._timeoutID = window.setTimeout(function(self) {
+        self._poll();
+      }, 1000, self);
+    });   
+  }
+
+
   
 }
 
@@ -182,7 +211,7 @@ GeoTriggers.prototype.stopPolling = function() {
 GeoTriggers.prototype.createTrigger = function(args) {
   var self = this;
   geoloqi.post("place/create", {
-    layer_id: LAYER_ID,
+    layer_id: self.layerId,
     latitude: args.lat,
     longitude: args.lng,
     radius: args.radius,
@@ -263,4 +292,18 @@ GeoTriggers.prototype.deleteTrigger = function(placeId) {
     console.log('place/delete/'+placeId);
     console.log(res||err);
   });
+}
+
+
+GeoTriggers.prototype.subscribeToLayer = function() {
+  var self = this;
+  for (var i=0,len=self.users.length;i<len;i++){
+    geoloqi.auth = self.users[i];
+    geoloqi.post('layer/subscribe/'+self.layerId, {
+      user_id: self.users[i].user_id
+    }, function(res,err) {
+      console.log('layer/subscribe/'+self.layerId);
+      console.log(res||err);
+    });
+  }
 }
