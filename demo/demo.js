@@ -117,7 +117,14 @@ $(function() {
     changeYear: true,
     altField: '#date-input',
     altFormat: 'mm/dd/yy',
-    defaultDate: new Date(playback.getTime())
+    defaultDate: new Date(playback.getTime()),
+    onSelect: function(date) {
+      var date = new Date(date);
+      var time = $('#timepicker').data('timepicker');
+      var ts = combineDateAndTime(date, time);
+      playback.setCursor(ts);
+      $('#time-slider').slider('value', ts);
+    }
   }); 
 
   $('#date-input').on('keyup', function(e) {
@@ -293,10 +300,11 @@ function combineDateAndTime(date, time) {
   var yr = date.getFullYear();
   var mo = date.getMonth();
   var dy = date.getDate();
-  var hr = time.hours;
-  if (time.meridian == 'AM') hr += 12;
-  var min = time.minutes;
-  var sec = time.seconds;
+  // the calendar uses hour and the timepicker uses hours...
+  var hr = time.hours || time.hour;
+  if (time.meridian == 'PM' && hr != 12) hr += 12;
+  var min = time.minutes || time.minute;
+  var sec = time.seconds || time.second;
   return new Date(yr, mo, dy, hr, min, sec).getTime();
 }
 
