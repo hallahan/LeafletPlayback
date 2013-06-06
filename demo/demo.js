@@ -261,7 +261,8 @@ function sliderValToSpeed(val) {
 }
 
 function triggerFired(trigger) {
-  console.log(['triggerFired',trigger]);
+  console.log('triggerFired');
+  console.log(trigger);
 
   var html = 
 '<div class="accordion-inner">' +

@@ -10,9 +10,6 @@ function GeoTriggers(featureGroup, callback) {
   });
 
   this.login();
-  this.logLayers();
-  this.logPlaces();
-  this.logTriggers();
   this.showTriggers();
 
   // we want to know the most recent timestamp of the trigger history
@@ -106,37 +103,40 @@ GeoTriggers.prototype.showTriggers = function() {
 
 
 GeoTriggers.prototype.updateLocation = function() {
-  var latlng = playback.tick.getMarkers()[0].getLatLng();
   var timestamp = playback.getTime();
   var timeString = new Date().toISOString();
 
-  var points = [{
-    date: timeString,
-    location: {
-      type: 'point',
-      position: {
-        latitude: latlng.lat,
-        longitude: latlng.lng
+  var markers = playback.tick.getMarkers();
+  for(var i=0,len=markers.length;i<len;i++){
+    var latlng = markers[i].getLatLng();
+    var points = [{
+      date: timeString,
+      location: {
+        type: 'point',
+        position: {
+          latitude: latlng.lat,
+          longitude: latlng.lng
+        }
+      },
+      client: {
+        platform: 'LeafletPlayback',
+        hardware: 'browser',
+        name: 'LeafletPlayback',
+        version: '0.0.1'
+      },
+      raw: {
+        inBrowser: true,
+        simulation: true,
+        clockTime: timestamp,
+        application: 'LeafletPlayback',
+        version: '0.0.1'
       }
-    },
-    client: {
-      platform: 'LeafletPlayback',
-      hardware: 'browser',
-      name: 'LeafletPlayback',
-      version: '0.0.1'
-    },
-    raw: {
-      inBrowser: true,
-      simulation: true,
-      clockTime: timestamp,
-      application: 'LeafletPlayback',
-      version: '0.0.1'
-    }
-  }];
+    }];
 
-  geoloqi.post('location/update', points, function(res, err) {
-    // console.log(['location/update',res||err]);
-  });
+    geoloqi.post('location/update', points, function(res, err) {
+      // console.log(['location/update',res||err]);
+    });
+  }  
 }
 
 
@@ -146,7 +146,7 @@ GeoTriggers.prototype._poll = function() {
   self.updateLocation();
   geoloqi.get("trigger/history", {}, function(res, err) {
     var history = this.triggerHistory = res.history;
-    console.log(['triggerHistory', res.history]);
+    // console.log(['triggerHistory', res.history]);
 
     if (history[0].date_ts > self._latestTime) {
       var oldLatestTime = self._latestTime;
@@ -223,7 +223,7 @@ GeoTriggers.prototype._displayTrigger = function(trigger) {
     fillColor: '#FF9500'
   });
   var popup = new L.Popup();
-  console.log(['trigger', trigger]);
+  // console.log(['trigger', trigger]);
 
   var title = trigger.place.name;
   var message = trigger.text;
