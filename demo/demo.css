@@ -9,11 +9,11 @@
 
 #right-panel {
   position: absolute;
-  /*bottom: 40px;*/
   top: 7px;
+  bottom:44px;
   right: 7px;
   width: 298px;
-
+  overflow:auto;
 }
 
 label {
