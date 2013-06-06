@@ -272,6 +272,17 @@ function triggerFired(trigger) {
   $('#notifications').prepend(html);
   var count = $('#notifications').children().length;
   $('#notification-count').html('<span class="badge badge-important pull-right">'+count+'</span>');
+  var $btn = $('#notifications').find('button').first();
+  $btn.data('trigger',trigger);
+  $btn.on('click', function(e) {
+    console.log('view trigger');
+    var lat = trigger.place.latitude;
+    var lng = trigger.place.longitude;
+    var radius = trigger.place.radius;
+    var circle = new L.Circle([lat,lng],radius);
+    var bounds = circle.getBounds();
+    map.fitBounds(bounds);
+  });
 }
 
 function combineDateAndTime(date, time) {
