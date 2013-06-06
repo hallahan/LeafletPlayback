@@ -4,8 +4,8 @@ $(function() {
 	//creates a new map
 	map = new L.Map('map', {zoomControl:false});
 
-  var basemapURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
-	// var basemapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  // var basemapURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
+	var basemapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var basemapLayer = new L.TileLayer(basemapURL, {
 		maxZoom : 19
 	});
@@ -266,9 +266,12 @@ function triggerFired(trigger) {
 '<span class="broadcast-time">'+ trigger.display_date + '</span>' +
 '  <br>' +
    trigger.trigger.text +
+'  <button class="btn btn-info btn-small view-notification"><i class="icon-eye-open"></i> View</button>'+
 '</div>';
 
   $('#notifications').prepend(html);
+  var count = $('#notifications').children().length;
+  $('#notification-count').html('<span class="badge badge-important pull-right">'+count+'</span>');
 }
 
 function combineDateAndTime(date, time) {
