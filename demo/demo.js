@@ -237,6 +237,10 @@ $(function() {
     loadTracksFromFile(file);
   });
 
+  $('#view-all-fences-btn').on('click', function(e) {
+    var bounds = geoTriggerFeatureGroup.getBounds();
+    map.fitBounds(bounds);
+  })
 });
 
 function clockCallback(ms) {
