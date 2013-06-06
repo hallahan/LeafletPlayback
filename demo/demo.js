@@ -11,7 +11,7 @@ $(function() {
 	});
 
 	//centers map and default zoom level
-	map.setView([44.3, -123.19], 10);
+	map.setView([44.44751, -123.49], 10);
 
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
@@ -40,13 +40,9 @@ $(function() {
 
 	playback = new L.Playback(map, demoTracks, clockCallback);
 
-	// map.on('mousemove', function(e) {
-	// 	$('#mouse-latlng').html(e.latlng.lat+', '+e.latlng.lng);
-	// });
-
-	// map.on('click', function(e) {
-	// 	$('#click-latlng').html(e.latlng.lat+', '+e.latlng.lng);
-	// });
+	map.on('click', function(e) {
+    console.log(e.latlng.toString());
+	});
 
 
 	isPlaying = false;
