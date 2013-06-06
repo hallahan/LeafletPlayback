@@ -278,7 +278,7 @@ function triggerFired(trigger) {
     console.log('view trigger');
     var lat = trigger.place.latitude;
     var lng = trigger.place.longitude;
-    var radius = trigger.place.radius;
+    var radius = trigger.place.radius * 1.5;
     var circle = new L.Circle([lat,lng],radius);
     var bounds = circle.getBounds();
     map.fitBounds(bounds);
