@@ -240,9 +240,9 @@ GeoTriggers.prototype._displayTrigger = function(trigger) {
 '<p>' + message + '</p>' +
 '<p>Visits: <span class="badge badge-info">' + visits + '</span></p>' +
 '<div class="btn-group">' +
-'  <button class="btn btn-danger"><i class="icon-trash"></i> Delete</button>' +
-'  <button class="btn btn-info"><i class="icon-edit"></i> Edit Details</button>' +
-'  <button class="btn btn-success"><i class="icon-move"></i> Move</button>' +
+'  <button class="btn btn-danger delete"><i class="icon-trash"></i> Delete</button>' +
+'  <button class="btn btn-info edit"><i class="icon-edit"></i> Edit Details</button>' +
+'  <button onclick="drawControl._toolbars[3560]._modes.edit.handler.enable()" class="btn btn-success move"><i class="icon-move"></i> Move</button>' +
 '</div>';
 
   popup.setContent(html);
