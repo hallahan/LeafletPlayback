@@ -240,7 +240,7 @@ GeoTriggers.prototype._displayTrigger = function(trigger) {
 '<p>' + message + '</p>' +
 '<p>Visits: <span class="badge badge-info">' + visits + '</span></p>' +
 '<div class="btn-group">' +
-'  <button class="btn btn-danger delete"><i class="icon-trash"></i> Delete</button>' +
+'  <button onclick="geoTriggers.deleteTriggerAndCircle(\''+place.place_id+'\')" class="btn btn-danger delete"><i class="icon-trash"></i> Delete</button>' +
 '  <button class="btn btn-info edit"><i class="icon-edit"></i> Edit Details</button>' +
 '  <button onclick="drawControl._toolbars[3560]._modes.edit.handler.enable()" class="btn btn-success move"><i class="icon-move"></i> Move</button>' +
 '</div>';
@@ -270,3 +270,24 @@ GeoTriggers.prototype.deleteTrigger = function(placeId) {
     console.log(res||err);
   });
 }
+
+GeoTriggers.prototype.deleteTriggerAndCircle = function(placeId) {
+  var self = this;
+  $('#delete-modal-btn').data('placeId',placeId).on('click',function(e){
+    var placeId = $(this).data('placeId');
+    self.deleteTrigger(placeId);
+    var match = null;
+    $.each(geoTriggerFeatureGroup._layers, function(i) {
+      var id = geoTriggerFeatureGroup._layers[i].placeId;
+      if (placeId === id) {
+        var layer = geoTriggerFeatureGroup._layers[i];
+        geoTriggerFeatureGroup.removeLayer(layer);
+        $('#delete-modal').modal('hide');
+        console.log(placeId);
+        return;
+      }
+    });
+  });
+  $('#delete-modal').modal();
+}
+
