@@ -1,9 +1,33 @@
 L.Playback = L.Playback || {};
 
 L.Playback.MoveableMarker = L.Marker.extend({
+  statics: {
+    _colorIdx: 0,
+    _colors: [
+      'green',
+      'blue',
+      'purple',
+      'darkred',
+      'cadetblue',
+      'red',
+      'darkgreen',
+      'darkblue',
+      'darkpurple',
+      'orange'
+    ],
+    _assignColor: function() {
+      return this._colors[this._colorIdx++%10];
+    }
+  }, 
 
   initialize: function (startLatLng) {
-    L.Marker.prototype.initialize.call(this, startLatLng);
+    L.Marker.prototype.initialize.call(this, startLatLng, {
+      icon: L.AwesomeMarkers.icon({
+        icon: 'bullseye', 
+        color: L.Playback.MoveableMarker._assignColor()
+      }) 
+    });
+
     this.bindPopup(this._latlng.toString());
   },
 
