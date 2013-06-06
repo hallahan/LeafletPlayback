@@ -20,8 +20,23 @@
 
 	<div id="map"></div>
 
-	<div id="right-panel">
+  <header>
+    <div class="hero-unit">
+      <button type="button" class="close" data-dismiss="alert"><i class="icon-remove-sign icon-large"></i></button>
+      <h2>Interaction of GPS Tracks and Virtual Fences</h2>
+      <br/>
+      <p>
+        <div class="btn-group">
+        <a href="#" id="explore-btn" class="btn btn-info btn-large"><i class="icon-rocket icon-large"></i> &nbsp;Explore!</a>
+        <a href="#" id="play-demo-btn" class="btn btn-success btn-large"><i class="icon-play icon-large"></i> &nbsp;Play Demo</a>
+        </div>
+        <h2 class="brand pull-right figurehead" href="#"><i class="icon-leaf"></i> Leaflet Playback</h2>
+      </p>
 
+    </div>
+  </header>
+
+	<div id="right-panel">
 
     <div class="accordion" id="broadcasts">
       <div class="accordion-group">
@@ -42,7 +57,7 @@
   <div class="navbar navbar-fixed-bottom" style="position: absolute;">
     <div class="navbar-inner">
       <div class="container" style="width: auto; padding-left: 20px;">
-        <a class="brand" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
+        <span class="brand" href="#"><i class="icon-leaf"></i> Leaflet Playback</span>
         <ul class="nav">
           <li class="btn">
             <a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a>

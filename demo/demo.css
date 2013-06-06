@@ -1,3 +1,28 @@
+header {
+  position: absolute;
+  top: 10px;
+  left: 180px;
+}
+
+.hero-unit {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #878984;
+  padding: 40px;
+}
+
+.figurehead {
+  position: relative;
+  text-shadow: -1px -1px 1px #000, 1px 1px 1px #ccc;
+  /*text-shadow: -1px -1px 1px #fff, 1px 1px 1px #000;*/
+  color: rgb(72, 167, 35);
+  opacity: 0.4;
+  font-size: 36px;
+  top:-10px;
+  left:-10px;
+}
 
 #map {
   position: absolute;
