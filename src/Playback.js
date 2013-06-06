@@ -28,6 +28,8 @@ L.Playback = L.Playback.Clock.extend({
     console.log(geoJSON);
     var newTickPoint = new L.Playback.TickPoint(geoJSON, this.options.tickLen);
     this.tick.addTickPoint(newTickPoint, this.getTime());
+    $('#time-slider').slider('option','min',this.getStartTime());
+    $('#time-slider').slider('option','max',this.getEndTime());
   }
 
 });
