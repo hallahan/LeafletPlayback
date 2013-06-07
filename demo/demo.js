@@ -1,4 +1,8 @@
 $(function() {
+  $('#bottom-branding').on('click', function(e) {
+    $('header').fadeIn();
+  });
+
   $('.close-header').on('click', function(e) {
     $('header').fadeOut();
   });
@@ -19,6 +23,7 @@ $(function() {
   // var basemapURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
 	var basemapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var basemapLayer = new L.TileLayer(basemapURL, {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
 		maxZoom : 19
 	});
 
@@ -261,7 +266,8 @@ $(function() {
   $('#view-all-fences-btn').on('click', function(e) {
     var bounds = geoTriggerFeatureGroup.getBounds();
     map.fitBounds(bounds);
-  })
+  });
+
 });
 
 function clockCallback(ms) {

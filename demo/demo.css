@@ -13,6 +13,10 @@ header {
   padding: 40px;
 }
 
+.brand:hover {
+  color: #a9ff00;
+}
+
 .figurehead {
   position: relative;
   text-shadow: -1px -1px 1px #000, 1px 1px 1px #ccc;
