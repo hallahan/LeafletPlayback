@@ -13,7 +13,7 @@ header {
   padding: 40px;
 }
 
-.brand:hover {
+a.brand:hover {
   color: #a9ff00;
 }
 
