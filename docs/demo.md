@@ -22,3 +22,10 @@ The location of the Virtual Fences as well as the notifications are retrieved dy
 
 ## Issues
 
+The location of the GPS points is sent during replay with the current timestamp, because the GeoTriggers are designed to be a real-time service and do not take into account sending messages for past actions. The current timestamp in reality is sent instead. This becomes a problem, because the API only deals with time in the granularity of a single seconds, and when we have 5 locations sent for the same second, only one of them gets registered for the trigger. The location that is actually registered is indeterminate, seemingly random.
+
+One possible solution may be to get the last recorded location timestamp and simply increment each update by a second rather than using the current time. This will only work for sparse use in the demo and is still a hack.
+
+If you look at the multiuser branch, I attempted to solve this problem by logging in multiple users, one for each GPS Track. See [GeoTriggers.js#L40](https://github.com/hallahan/LeafletPlayback/blob/multiuser/demo/GeoTriggers.js#L40) and [GeoTriggers.js#L10](https://github.com/hallahan/LeafletPlayback/blob/multiuser/demo/GeoTriggers.js#L10). This works for about 15 seconds, but then thousands of errors are thrown by `geoloqi.js`.
+
+For the use case of this demo, it might make more sense to detect when GPS tracks cross into a Virtual Fence within the browser rather than a web service. The fences can be retrieved from a server, but the colision of the moving points should instead be detected by the client.
