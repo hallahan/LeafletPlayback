@@ -6,7 +6,7 @@ Leaflet Playback provides the ability to replay GPS Tracks in the form of GeoJSO
 
 ![alt text](https://raw.github.com/hallahan/LeafletPlayback/master/docs/screenshots/readme.png)
 
-The demo demonstrates the usage of the plug-in in the context of having the replay of GPS tracks trigger Virtual Fences. The location of the GPS tracks during playback are sent to Esri's [Geoloqi](https://geoloqi.com/) API which consumes location updates and fires GeoTrigger messages when a [Virtual Fence](http://en.wikipedia.org/wiki/Geo-fence) is crossed. [Read More...](https://github.com/hallahan/LeafletPlayback/blob/master/docs/demo.md)
+The demo demonstrates the usage of the plug-in in the context of having the replay of GPS tracks trigger Virtual Fences. The location of the GPS tracks during playback are sent to Esri's [Geoloqi](https://geoloqi.com/) API which consumes location updates and fires GeoTrigger messages when a [Virtual Fence](http://en.wikipedia.org/wiki/Geo-fence) is crossed. [See Demo Documentation...](https://github.com/hallahan/LeafletPlayback/blob/master/docs/demo.md)
 
 ## GPS Data Format
 
