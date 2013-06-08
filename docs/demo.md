@@ -1,6 +1,6 @@
-# Leaflet Playback: Interaction of GPS Tracks and Virtual Fences
+# Demo: Interaction of GPS Tracks and Virtual Fences
 
-The user can draw circles with [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw), which in turn creates a GeoTrigger via the Geoloqi API. This can be done by clicking the ![alt text](https://raw.github.com/hallahan/LeafletPlayback/master/docs/screenshots/readme.png) button in the upper left corner.
+The user can draw circles with [Leaflet.draw](https://github.com/Leaflet/Leaflet.draw), which in turn creates a GeoTrigger via the Geoloqi API. This can be done by clicking the ![alt text](https://raw.github.com/hallahan/LeafletPlayback/master/docs/screenshots/create-trigger-btn.png) button in the upper left corner.
 
 The Edit button below that will put the Virtual Fence circles in edit mode where you can move and resize your fences.
 
