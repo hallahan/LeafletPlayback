@@ -4,6 +4,25 @@ header {
   left: 180px;
 }
 
+footer {
+  position: absolute;
+  bottom: 100px;
+  left: 180px;
+}
+
+.clock {
+  padding: 1px 5px 1px 5px;
+  text-align: center;
+}
+
+#play-pause {
+  width: 55px;
+}
+
+span.btn {
+  padding: 0;
+}
+
 .hero-unit {
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
@@ -96,12 +115,12 @@ input {
   /*border: 0;*/
 }
 
-.navbar .nav > li > a.clock {
+/*.navbar .nav > li > a.clock {
   padding: 0 3px 0 3px;
   text-align: center;
   margin-left:4px;
   margin-right:4px;
-}
+}*/
 
 .view-notification {
   margin:3px;

@@ -33,7 +33,6 @@
           <a href="#" id="play-demo-btn" class="close-header btn btn-success btn-large"><i class="icon-play icon-large"></i> &nbsp;Play Demo</a>
         </div>
       </p>
-
     </div>
   </header>
 
@@ -60,43 +59,19 @@
       <div class="container" style="width: auto; padding-left: 20px;">
         <a id="bottom-branding" class="brand" title="View Splash Screen" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
         <ul class="nav">
-          <li class="btn">
+          <!-- <li class="btn">
             <a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a>
-          </li>
+          </li> -->
           <li>
-            <div id="time-slider"></div>
+            
           </li>
-          <li class="btn dropup">
-            <a id="clock-btn" class="clock" data-toggle="dropdown" href="#">
-              <span id="cursor-date"></span><br/>
-              <span id="cursor-time"></span>
-            </a>
-            <div class="dropdown-menu" role="menu" aria-labelledby="clock-btn">
-              <label>Playback Cursor Time</label>
-              <div class="input-append bootstrap-timepicker">
-                <input id="timepicker" type="text" class="input-small span2">
-                <span class="add-on"><i class="icon-time"></i></span>
-              </div>
-              <div id="calendar"></div>
-              <div class="input-append">
-                <input id="date-input" type="text" class="input-small">
-                <span class="add-on"><i class="icon-calendar"></i></span>
-              </div>
-            </div>
-          </li>
-          <li class="btn dropup">
-            <a id="speed-btn" data-toggle="dropdown" href="#"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</a>
-            <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
-              <label>Playback<br/>Speed</label>
-              <input id="speed-input" class="span1 speed" type="text" value="1" />
-              <div id="speed-slider"></div>
-            </div>
-          </li>
+          
+          
 
         </ul>
         <ul class="nav pull-right">
           <li class="btn"><a id="view-all-fences-btn" href="#"><i class="icon-bell icon-large"></i> View All Fences</a></li>
-          <li class="btn"><a id="load-tracks-btn" href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
+          
         </ul>
       </div>
     </div>
@@ -166,6 +141,41 @@
     </div>
   </div>
 
+  <footer>
+    <div class="btn-group">
+      <button id="play-pause" class="btn btn-inverse btn-large">
+        <i id="play-pause-icon" class="icon-play icon-large"></i>
+      </button>
+      <button class="btn btn-inverse clock dropup">
+        <span id="clock-btn" data-toggle="dropdown" href="#">
+          <span id="cursor-date"></span><br/>
+          <span id="cursor-time"></span>
+        </span>
+        <div class="dropdown-menu btn-inverse" role="menu" aria-labelledby="clock-btn">
+          <label>Playback Cursor Time</label>
+          <div class="input-append bootstrap-timepicker">
+            <input id="timepicker" type="text" class="input-small span2">
+            <span class="add-on"><i class="icon-time"></i></span>
+          </div>
+          <div id="calendar"></div>
+          <div class="input-append">
+            <input id="date-input" type="text" class="input-small">
+            <span class="add-on"><i class="icon-calendar"></i></span>
+          </div>
+        </div>
+      </button>
+      <span class="btn btn-inverse"><div id="time-slider"></div></span>
+      <button class="btn btn-inverse btn-large dropup">
+        <span id="speed-btn" data-toggle="dropdown"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</span>
+        <div class="speed-menu btn-inverse dropdown-menu" role="menu" aria-labelledby="speed-btn">
+          <label>Playback<br/>Speed</label>
+          <input id="speed-input" class="span1 speed" type="text" value="1" />
+          <div id="speed-slider"></div>
+        </div>
+      </button>
+      <button class="btn btn-inverse btn-large"><span id="load-tracks-btn"><i class="icon-map-marker icon-large"></i> Tracks</span></button>
+    </div>
+  </footer>
 
   <script src="lib/jquery1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
