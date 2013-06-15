@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Leaflet Playback</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../../lib/leaflet/leaflet.css" />
+	<link href="http://files.theoutpost.io/bootstrap/css/bootstrap.css" rel="stylesheet" />
+  <!-- <link href="http://files.theoutpost.io/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" href="../../lib/leaflet-draw/leaflet.draw.css" />
+  <link rel="stylesheet" href="../../lib/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../../lib/bootstrap-timepicker/bootstrap-timepicker.css" />
+  <link rel="stylesheet" href="../../lib/awesome-markers/leaflet.awesome-markers.css" />
+  <link rel="stylesheet" href="../demo.css" />
+</head>
+
+<body>
+
+	<div id="map"></div>
+
+  <header>
+    <div class="hero-unit">
+      <button type="button" class="close-header close"><i class="icon-remove-sign icon-large"></i></button>
+      <h2 class="brand figurehead" href="#"><i class="icon-leaf"></i> Leaflet Playback</h2>
+      <h2>Interaction of GPS Tracks and Virtual Fences</h2>
+      <br/>
+      <p>
+        <div class="btn-group">
+          <a href="https://github.com/hallahan/LeafletPlayback/" id="github-btn" class="close-header btn-inverse btn btn-large"><i class="icon-github icon-large"></i> &nbsp;GitHub</a>
+          <a href="https://github.com/hallahan/LeafletPlayback/blob/master/README.md#leaflet-playback" id="about-btn" class="close-header btn-info btn btn-large"><i class="icon-info icon-large"></i> &nbsp;About</a>
+          <a href="#" id="play-demo-btn" class="close-header btn btn-success btn-large"><i class="icon-play icon-large"></i> &nbsp;Play Demo</a>
+        </div>
+      </p>
+
+    </div>
+  </header>
+
+	<div id="right-panel">
+
+    <div class="accordion" id="broadcasts">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#broadcasts" href="#notifications">
+            <strong><i class="icon-comments"></i> &nbsp;Virtual Fence Notifications</strong> <span id="notification-count"></span>
+          </a>
+        </div>
+        <div id="notifications" class="accordion-body in collapse">
+    
+        </div>
+      </div>
+    </div>
+
+	</div>
+
+
+  <div class="navbar navbar-fixed-bottom" style="position: absolute;">
+    <div class="navbar-inner">
+      <div class="container" style="width: auto; padding-left: 20px;">
+        <a id="bottom-branding" class="brand" title="View Splash Screen" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
+        <ul class="nav">
+          <li class="btn">
+            <a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a>
+          </li>
+          <li>
+            <div id="time-slider"></div>
+          </li>
+          <li class="btn dropup">
+            <a id="clock-btn" class="clock" data-toggle="dropdown" href="#">
+              <span id="cursor-date"></span><br/>
+              <span id="cursor-time"></span>
+            </a>
+            <div class="dropdown-menu" role="menu" aria-labelledby="clock-btn">
+              <label>Playback Cursor Time</label>
+              <div class="input-append bootstrap-timepicker">
+                <input id="timepicker" type="text" class="input-small span2">
+                <span class="add-on"><i class="icon-time"></i></span>
+              </div>
+              <div id="calendar"></div>
+              <div class="input-append">
+                <input id="date-input" type="text" class="input-small">
+                <span class="add-on"><i class="icon-calendar"></i></span>
+              </div>
+            </div>
+          </li>
+          <li class="btn dropup">
+            <a id="speed-btn" data-toggle="dropdown" href="#"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</a>
+            <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
+              <label>Playback<br/>Speed</label>
+              <input id="speed-input" class="span1 speed" type="text" value="1" />
+              <div id="speed-slider"></div>
+            </div>
+          </li>
+
+        </ul>
+        <ul class="nav pull-right">
+          <li class="btn"><a id="view-all-fences-btn" href="#"><i class="icon-bell icon-large"></i> View All Fences</a></li>
+          <li class="btn"><a id="load-tracks-btn" href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div id="create-geotrigger-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="create-geotrigger-label" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="create-geotrigger-label">Create GeoTrigger</h3>
+    </div>
+    <div class="modal-body">
+      <label>Coordinates</label>
+      <p>( <span id="new-trigger-lat"></span>, <span id="new-trigger-lng"></span> )</p>
+      <label>Radius</label>
+      <p><span id="new-trigger-radius"></span> meters</p>
+      <label>Trigger Name</label>
+      <input id="new-trigger-name" type="text" class="span5"\>
+      <span class="help-block">Choose a name for your trigger. You may want to include the name of the location.</span>
+      <label>Message</label>
+      <textarea id="new-trigger-message" rows="6" class="span5"></textarea>
+      <span class="help-block">Enter the message that the trigger will notify with. Any valid HTML will work.</span>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button id="create-geotrigger-save" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+
+
+  <div id="load-tracks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="load-tracks-label" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="load-tracks-label">Load GPS Tracks</h3>
+    </div>
+    <div class="modal-body">
+      <p>
+        At the current moment, LeafletPlayback only supports GeoJSON files.
+      </p>
+      <label>Upload a File</label>
+
+      <input type="file" id="load-tracks-file" />
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button id="load-tracks-save" class="btn btn-primary">Load</button>
+    </div>
+  </div>
+
+  <div id="delete-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="delete-label" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="delete-label">Delete Virtual Fence?</h3>
+    </div>
+    <div class="modal-body">
+      <p>
+        Are you sure?
+      </p>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button id="delete-modal-btn" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+
+
+  <script src="../../lib/jquery1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script src="http://files.theoutpost.io/bootstrap/js/bootstrap.js"></script>
+  <script src="../../lib/bootstrap-timepicker/bootstrap-timepicker.js"></script>
+  <script src="../../lib/leaflet/leaflet-src.js"></script>
+
+  <script src="../../src/Util.js"></script>
+	<script src="../../src/MoveableMarker.js"></script>
+  <script src="../../src/TickPoint.js"></script>
+	<script src="../../src/Tick.js"></script>
+  <script src="../../src/Clock.js"></script>
+  <script src="../../src/Playback.js"></script>
+
+  <script src="../../data/demo/tillicum.js"></script>
+  <script src="../../data/demo/blodgett.js"></script>
+  <script src="../../data/demo/blue-mountain.js"></script>
+  <script src="../../data/demo/drive.js"></script>
+  <script src="../../data/demo/house-to-coordley.js"></script>
+
+  <script src="../../lib/awesome-markers/leaflet.awesome-markers.js"></script>
+  <script src="../../lib/leaflet-draw/leaflet.draw-src.js"></script>
+  <script src="../../lib/geoloqi.min.js"></script>
+
+  <script src="../GeoTriggers.js"></script>
+	<script src="../demo.js"></script>
+</body>
+</html>
