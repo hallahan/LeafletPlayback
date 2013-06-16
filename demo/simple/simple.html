@@ -18,16 +18,12 @@
 
 	<div id="map"></div>
 
-  <div class="navbar navbar-fixed-bottom" style="position: absolute;">
+  <div class="navbar navbar-fixed-bottom">
     <div class="navbar-inner">
-      <div class="container" style="width: auto; padding-left: 20px;">
-        <a id="bottom-branding" class="brand" title="View Splash Screen" href="#"><i class="icon-leaf"></i> Leaflet Playback</a>
+      <div class="container" style="width: auto;">
         <ul class="nav">
           <li class="btn">
             <a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a>
-          </li>
-          <li>
-            <div id="time-slider"></div>
           </li>
           <li class="btn dropup">
             <a id="clock-btn" class="clock" data-toggle="dropdown" href="#">
@@ -47,6 +43,9 @@
               </div>
             </div>
           </li>
+          <li>
+            <div id="time-slider"></div>
+          </li>
           <li class="btn dropup">
             <a id="speed-btn" data-toggle="dropdown" href="#"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</a>
             <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
@@ -55,8 +54,8 @@
               <div id="speed-slider"></div>
             </div>
           </li>
-
         </ul>
+        
         <ul class="nav pull-right">
           <li class="btn"><a id="load-tracks-btn" href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
         </ul>
