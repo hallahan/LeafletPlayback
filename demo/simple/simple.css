@@ -6,78 +6,79 @@
   bottom: 0;
 }
 
-footer {
+footer.lp {
   position: fixed;
   right: 0;
   left: 0;
   bottom: 10px;
 }
 
-.transport {
+.lp .transport {
   margin: 0 auto;
   width:768px;
 }
 
-.navbar {
+.lp .navbar {
   margin-bottom: 0;
 }
 
-.navbar-inner {
+.lp .navbar-inner {
   padding-right: 0;
   padding-left: 0;
 }
 
-#play-pause {
+.lp #play-pause {
   width: 18px;
 }
 
-#speed-btn {
+.lp #speed-btn {
   width: 58px;
 }
 
-label {
-  font-weight: bold;
-}
-
-.ui-slider {
+.lp .ui-slider {
   margin: 14px;
 }
 
-#time-slider {
+.lp #time-slider {
   width:370px;
 }
 
-#calendar {
+.lp #calendar {
   margin: 5px;
-}
-
-input {
-  vertical-align: baseline;
 }
 
 .leaflet-control-layers-list {
   margin-bottom: 0;
 }
 
-.speed-menu {
+.lp .speed-menu {
   width:70px;
   min-width: 70px;
 }
 
-#speed-slider {
+.lp #speed-slider {
   margin-left: auto;
   margin-right: auto;
 }
 
-.navbar .btn,
-.navbar .btn-group {
+.lp .navbar .btn,
+.lp .navbar .btn-group {
   margin-top: 0;
   padding: 0;
 }
 
-.navbar .nav > li > a.clock {
+.lp .navbar .nav > li > a.clock {
   padding: 0 3px 0 3px;
   text-align: center;
   margin-left:4px;
   margin-right:4px;
+}
+
+/*Bootstrap interfering with leaflet*/
+input {
+  vertical-align: baseline;
+}
+
+label {
+  font-weight: bold;
 }
