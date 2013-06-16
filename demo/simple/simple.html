@@ -18,14 +18,15 @@
 
 	<div id="map"></div>
 
-  <div class="navbar navbar-fixed-bottom">
-    <div class="navbar-inner">
-      <div class="container" style="width: auto;">
+  <footer>
+    <div class="transport">
+    <div class="navbar">
+      <div class="navbar-inner">
         <ul class="nav">
-          <li class="btn">
+          <li>
             <a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a>
           </li>
-          <li class="btn dropup">
+          <li class="dropup">
             <a id="clock-btn" class="clock" data-toggle="dropdown" href="#">
               <span id="cursor-date"></span><br/>
               <span id="cursor-time"></span>
@@ -46,7 +47,7 @@
           <li>
             <div id="time-slider"></div>
           </li>
-          <li class="btn dropup">
+          <li class="dropup">
             <a id="speed-btn" data-toggle="dropdown" href="#"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</a>
             <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
               <label>Playback<br/>Speed</label>
@@ -54,14 +55,12 @@
               <div id="speed-slider"></div>
             </div>
           </li>
-        </ul>
-        
-        <ul class="nav pull-right">
-          <li class="btn"><a id="load-tracks-btn" href="#"><i class="icon-file-alt icon-large"></i> Load Tracks</a></li>
+          <li><a id="load-tracks-btn" href="#"><i class="icon-map-marker icon-large"></i> Tracks</a></li>
         </ul>
       </div>
     </div>
-  </div>
+    </div>
+  </footer>
 
   <div id="load-tracks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="load-tracks-label" aria-hidden="true">
     <div class="modal-header">
