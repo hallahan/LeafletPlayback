@@ -27,6 +27,14 @@ footer {
   padding-left: 0;
 }
 
+#play-pause {
+  width: 18px;
+}
+
+#speed-btn {
+  width: 58px;
+}
+
 label {
   font-weight: bold;
 }
@@ -36,7 +44,7 @@ label {
 }
 
 #time-slider {
-  width:395px;
+  width:370px;
 }
 
 #calendar {
