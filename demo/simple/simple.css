@@ -137,3 +137,21 @@ input {
 label {
   font-weight: bold;
 }
+
+/*bootstrap mod*/
+.navbar .nav > li > .dropdown-menu:before,
+.bootstrap-timepicker-widget.dropdown-menu:before {
+  top: auto;
+  bottom: -7px;
+  border-top: 7px solid #ccc;
+  border-bottom: 0;
+  border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.navbar .nav > li > .dropdown-menu:after,
+.bootstrap-timepicker-widget.dropdown-menu:after {
+  top: auto;
+  bottom: -6px;
+  border-top: 6px solid #ffffff;
+  border-bottom: 0;
+}
