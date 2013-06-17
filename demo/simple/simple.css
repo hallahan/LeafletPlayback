@@ -52,8 +52,12 @@ footer.lp {
 }
 
 .lp .speed-menu {
-  width:70px;
-  min-width: 70px;
+  min-width: 60px;
+}
+
+.lp .dropdown-menu {
+  padding: 5px;
+  text-align: center;
 }
 
 .lp #speed-slider {
@@ -110,6 +114,10 @@ footer.lp {
        -o-transition: background-position 0.1s linear;
           transition: background-position 0.1s linear;
 }
+
+/*.lp li.ctrl:hover a {
+  color: #a9ff00;
+}*/
 
 .lp li.ctrl:active {
   background-color: #e6e6e6;
