@@ -18,22 +18,6 @@ $(function() {
 	//adds the background layer to the map
 	map.addLayer(basemapLayer);
 
-	samples = new L.GeoJSON(demoTracks, {
-		pointToLayer: function(geojson, latlng) {
-			var circle = new L.CircleMarker(latlng, {radius:5});
-			// circle.bindPopup(i);
-			return circle;
-		}
-	});
-
-	var l = {
-		'<i class="icon-bullseye"></i> GPS Tracks': samples
-	};
-
-	L.control.layers(null, l, {
-    collapsed: false
-  }).addTo(map);
-
 	playback = new L.Playback(map, demoTracks, clockCallback);
 
 	isPlaying = false;

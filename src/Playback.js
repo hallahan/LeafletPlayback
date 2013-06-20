@@ -5,10 +5,17 @@ L.Playback = L.Playback.Clock.extend({
     TickPoint: L.Playback.TickPoint,
     Tick: L.Playback.Tick,
     Clock: L.Playback.Clock,
-    Util: L.Playback.Util
+    Util: L.Playback.Util,
+    TracksLayer: L.Playback.TracksLayer,
+    Control: L.Playback.Control
   },
 
+  options : {
+    tracksLayer: true
+  }, 
+
   initialize: function (map, geoJSON, callback, options) {
+    L.setOptions(this, options);
     this.map = map;
     this.geoJSON = geoJSON;
     this.tickPoints = [];
@@ -21,6 +28,9 @@ L.Playback = L.Playback.Clock.extend({
     }
     this.tick = new L.Playback.Tick(map, this.tickPoints);
     L.Playback.Clock.prototype.initialize.call(this, this.tick, callback, this.options);
+    if (this.options.tracksLayer) {
+      this.tracksLayer = new L.Playback.TracksLayer(map, geoJSON);
+    }
   },
 
   addTracks: function(geoJSON) {
@@ -33,3 +43,13 @@ L.Playback = L.Playback.Clock.extend({
   }
 
 });
+
+L.Map.addInitHook(function() {
+  if (this.options.playback) {
+    this.playback = new L.Playback(this);
+  }
+});
+
+L.playback = function(map, geoJSON, callback, options) {
+  return new L.Playback(map, geoJSON, callback, options);
+}
