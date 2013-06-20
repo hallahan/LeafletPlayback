@@ -33,7 +33,7 @@ L.Playback = L.Playback.Clock.extend({
       this.tracksLayer = new L.Playback.TracksLayer(map, geoJSON);
     }
     if (this.options.control) {
-      this.control = new L.Playback.Control();
+      this.control = new L.Playback.Control(this);
       this.control.addTo(map);
     }
   },

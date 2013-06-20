@@ -4,7 +4,8 @@ L.Playback.Clock = L.Class.extend({
 
   initialize: function (tickObj, callback, options) {
     this._tickObj = tickObj;
-    this._callback = callback;
+    this._callbacksArry = [];
+    if (callback) this.addCallback(callback);
     L.setOptions(this, options);
     this._speed = this.options.speed;
     this._tickLen = this.options.tickLen;
@@ -23,8 +24,19 @@ L.Playback.Clock = L.Class.extend({
       return;
     }
     self._tickObj.tock(self._cursor, self._transitionTime);
-    self._callback(self._cursor);
+    self._callbacks(self._cursor);
     self._cursor += self._tickLen;
+  },
+
+  _callbacks: function(cursor) {
+    var arry = this._callbacksArry;
+    for(var i=0, len=arry.length; i<len; i++){
+      arry[i](cursor);
+    }
+  },
+
+  addCallback: function(fn) {
+    this._callbacksArry.push(fn);
   },
 
   start: function () {
@@ -67,7 +79,7 @@ L.Playback.Clock = L.Class.extend({
     }
     this._cursor = time;
     this._tickObj.tock(this._cursor, 0);
-    this._callback(this._cursor);
+    this._callbacks(this._cursor);
   },
 
   getTime: function() {
