@@ -11,7 +11,8 @@ L.Playback = L.Playback.Clock.extend({
   },
 
   options : {
-    tracksLayer: true
+    tracksLayer: true,
+    control: true
   }, 
 
   initialize: function (map, geoJSON, callback, options) {
@@ -30,6 +31,10 @@ L.Playback = L.Playback.Clock.extend({
     L.Playback.Clock.prototype.initialize.call(this, this.tick, callback, this.options);
     if (this.options.tracksLayer) {
       this.tracksLayer = new L.Playback.TracksLayer(map, geoJSON);
+    }
+    if (this.options.control) {
+      this.control = new L.Playback.Control();
+      this.control.addTo(map);
     }
   },
 

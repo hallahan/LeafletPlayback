@@ -45,6 +45,10 @@ L.Playback.Clock = L.Class.extend({
     return this._speed;
   },
 
+  isPlaying: function() {
+    return this._intervalID ? true : false;
+  },
+
   setSpeed: function (speed) {
     this._speed = speed;
     this._transitionTime = this._tickLen / speed;
