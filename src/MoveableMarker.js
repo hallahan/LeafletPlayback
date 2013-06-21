@@ -4,6 +4,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
   statics: {
     _colorIdx: 0,
     _colors: [
+      'orange',
       'green',
       'blue',
       'purple',
@@ -12,8 +13,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
       'red',
       'darkgreen',
       'darkblue',
-      'darkpurple',
-      'orange'
+      'darkpurple'
     ],
     _assignColor: function() {
       return this._colors[this._colorIdx++%10];

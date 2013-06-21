@@ -7,7 +7,7 @@ L.Playback = L.Playback || {};
 L.Playback.TracksLayer = L.Class.extend({
 
   initialize: function(map, tracks) {
-    var tracksLayer = new L.GeoJSON(demoTracks, {
+    this.layer = new L.GeoJSON(demoTracks, {
       pointToLayer: function(geojson, latlng) {
         var circle = new L.CircleMarker(latlng, {radius:5});
         // circle.bindPopup(i);
@@ -16,7 +16,7 @@ L.Playback.TracksLayer = L.Class.extend({
     });
 
     var overlayControl = {
-      '<i class="icon-bullseye"></i> GPS Tracks': tracksLayer
+      '<i class="icon-bullseye"></i> GPS Tracks': this.layer
     };
 
     L.control.layers(null, overlayControl, {

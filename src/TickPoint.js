@@ -53,7 +53,7 @@ L.Playback.TickPoint = L.Class.extend({
       nextSampleTime = sampleTimes[i+1];
 
       tmod = t % tickLen;
-      if (tmod != 0) {
+      if (tmod != 0 && nextSampleTime) {
         rem = tickLen - tmod;
         ratio = rem / (nextSampleTime-currSampleTime);
         t += rem;
@@ -78,9 +78,16 @@ L.Playback.TickPoint = L.Class.extend({
   },
 
   _interpolatePoint: function (start, end, ratio) {
-    var delta = [end[0]-start[0], end[1]-start[1]];
-    var offset = [delta[0]*ratio, delta[1]*ratio];
-    return [start[0]+offset[0], start[1]+offset[1]];
+    try {
+      var delta = [end[0]-start[0], end[1]-start[1]];
+      var offset = [delta[0]*ratio, delta[1]*ratio];
+      return [start[0]+offset[0], start[1]+offset[1]];
+    } catch (e) {
+      console.log('err: cant interpolate a point');
+      console.log(['start',start]);
+      console.log(['end',end]);
+      console.log(['ratio',ratio]);
+    }
   },
 
   getFirstTick: function() {
