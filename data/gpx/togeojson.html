@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src='../../lib/jquery1.9.1.js'></script>
+    <script type="text/javascript">
+      geojson = {
+        type: 'Feature',
+        geometry: {
+          type: 'MultiPoint',
+          coordinates: []
+        },
+        properties: {
+          time: [],
+          speed: [],
+          altitude: [],
+          heading: [],
+          horizontal_accuracy: [],
+          vertical_accuracy: [],
+          raw: []
+        },
+        bbox: []
+      };
+
+      var xmlStr = '';
+      $.ajax('mt-washington.gpx').done(function(xml) {
+        xmlStr = xml;
+        xmlDoc = $.parseXML( xml );
+        $xml = $( xmlDoc );
+        pts = $xml.find('trkpt');
+        for(var i=0, len=pts.length; i<len; i++){
+          var p = pts[i];
+          var lat = parseFloat(p.getAttribute('lat'));
+          var lng = parseFloat(p.getAttribute('lon'));
+          var timeStr = $(p).find('time').text();
+          var eleStr = $(p).find('ele').text();
+          var t = new Date(timeStr);
+          var ele = parseFloat(eleStr);
+
+          var coords = geojson.geometry.coordinates;
+          var time = geojson.properties.time;
+          var altitude = geojson.properties.altitude;
+
+          coords.push([lng,lat]);
+          time.push(t.getTime());
+          altitude.push(ele);
+        }
+        save(geojson, 'mt-washington.json');
+      });
+
+
+      function save(data, name) {
+        var json = JSON.stringify(data, null, 2);
+        var blob = new Blob([json], {type:'text/plain'});
+        var downloadLink = document.createElement("a");
+        var url = (window.webkitURL != null ? window.webkitURL : window.URL);
+        downloadLink.href = url.createObjectURL(blob);
+        downloadLink.download = name || 'data.json';
+        downloadLink.click();   
+      }
+
+    </script>
+    <title>togeojson</title>
+  </head>
+  <body>
+
+  </body>
+</html>
