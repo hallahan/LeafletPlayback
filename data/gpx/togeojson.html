@@ -22,7 +22,7 @@
       };
 
       var xmlStr = '';
-      $.ajax('mt-washington.gpx').done(function(xml) {
+      $.ajax('solstice-spring.gpx').done(function(xml) {
         xmlStr = xml;
         xmlDoc = $.parseXML( xml );
         $xml = $( xmlDoc );
@@ -44,7 +44,7 @@
           time.push(t.getTime());
           altitude.push(ele);
         }
-        save(geojson, 'mt-washington.json');
+        save(geojson, 'solstice-spring.json');
       });
 
 

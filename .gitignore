@@ -1,0 +1,20 @@
+# Ignore Grunt temp files
+.grunt
+
+# Ignore environment variables set on this machine
+.env
+
+# Mac garbage
+.DS_Store
+Icon
+._*
+.Spotlight-V100
+# SublimeText
+/*.sublime-project
+*.sublime-workspace
+
+# SASS
+.sass-cache
+
+#Node
+/node_modules
