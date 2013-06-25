@@ -215,12 +215,13 @@ L.Playback.Control = L.Control.extend({
   },
 
   _loadTracksFromFile: function(file) {
+    var self = this;
     var reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function(e) {
       var tracks = JSON.parse(e.target.result);
-      playback.addTracks(tracks);
-      samples.addData(tracks);
+      self.playback.addTracks(tracks);
+      self.playback.tracksLayer.layer.addData(tracks);
       $('#load-tracks-modal').modal('hide');
     }    
   }
