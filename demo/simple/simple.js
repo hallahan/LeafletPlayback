@@ -1,8 +1,5 @@
 $(function() {
 
-  // These are just some pre-loaded demo tracks, you don't need this.
-  var demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
-
   //creates a new map
   var map = new L.Map('map');
 
@@ -19,7 +16,8 @@ $(function() {
   map.addLayer(basemapLayer);
 
   // I made playback global so you can call methods on it
-  // from the console.
+  // from the console. You can leave out the second argument
+  // if you do not want to preload tracks.
   playback = new L.Playback(map, demoTracks);
 
 });
