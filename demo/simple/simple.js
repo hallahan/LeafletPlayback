@@ -1,23 +1,25 @@
 $(function() {
 
-  demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
+  // These are just some pre-loaded demo tracks, you don't need this.
+  var demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
 
-	//creates a new map
-	map = new L.Map('map');
+  //creates a new map
+  var map = new L.Map('map');
 
-  // var basemapURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
-	var basemapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-	var basemapLayer = new L.TileLayer(basemapURL, {
+  var basemapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var basemapLayer = new L.TileLayer(basemapURL, {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-		maxZoom : 19
-	});
+  	maxZoom : 19
+  });
 
-	//centers map and default zoom level
-	map.setView([44.44751, -123.49], 10);
+  // centers map and default zoom level
+  map.setView([44.44751, -123.49], 10);
 
-	//adds the background layer to the map
-	map.addLayer(basemapLayer);
+  // adds the background layer to the map
+  map.addLayer(basemapLayer);
 
-	playback = new L.Playback(map, demoTracks);
+  // I made playback global so you can call methods on it
+  // from the console.
+  playback = new L.Playback(map, demoTracks);
 
 });
