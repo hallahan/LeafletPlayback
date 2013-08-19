@@ -22,11 +22,8 @@
       };
 
       var xmlStr = '';
-      $.ajax('solstice-spring.gpx').done(function(xml) {
-        xmlStr = xml;
-        xmlDoc = $.parseXML( xml );
-        $xml = $( xmlDoc );
-        pts = $xml.find('trkpt');
+      $.ajax('original-sir/2013-08-11.gpx').done(function(xml) {
+        pts = $(xml).find('trkpt');
         for(var i=0, len=pts.length; i<len; i++){
           var p = pts[i];
           var lat = parseFloat(p.getAttribute('lat'));
@@ -44,7 +41,7 @@
           time.push(t.getTime());
           altitude.push(ele);
         }
-        save(geojson, 'solstice-spring.json');
+        save(geojson, '2013-08-11.geojson');
       });
 
 
