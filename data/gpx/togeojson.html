@@ -22,7 +22,7 @@
       };
 
       var xmlStr = '';
-      $.ajax('original-sir/2013-08-11.gpx').done(function(xml) {
+      $.ajax('original-sir/2013-08-17.gpx').done(function(xml) {
         pts = $(xml).find('trkpt');
         for(var i=0, len=pts.length; i<len; i++){
           var p = pts[i];
@@ -41,7 +41,7 @@
           time.push(t.getTime());
           altitude.push(ele);
         }
-        save(geojson, '2013-08-11.geojson');
+        save(geojson, '2013-08-17.geojson');
       });
 
 
