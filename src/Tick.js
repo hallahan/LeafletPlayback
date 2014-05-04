@@ -3,6 +3,7 @@ L.Playback = L.Playback || {};
 L.Playback.Tick = L.Class.extend({
 
   initialize: function (map, tickPoints) {
+    this._map = map;
     if (tickPoints instanceof Array) {
       this._tickPoints = tickPoints;
     } else {
@@ -20,7 +21,7 @@ L.Playback.Tick = L.Class.extend({
     this._tickPoints.push(tickPoint);
     var lngLat = tickPoint.tick(ms);
     var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-    this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(map));
+    this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(this._map));
   },
 
   tock: function (ms, transitionTime) {

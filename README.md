@@ -65,6 +65,7 @@ Or, you can explicity include the dependencies before including the library:
 <script src="../../lib/bootstrap/js/bootstrap.js"></script>
 <script src="../../lib/bootstrap-timepicker/bootstrap-timepicker.js"></script>
 <script src="../../lib/leaflet/leaflet-src.js"></script>
+<script src="../../lib/awesome-markers/leaflet.awesome-markers.js"></script>
 <script src="../../dist/LeafletPlayback.js"></script>
 <script src="simple.js"></script>
 ```
