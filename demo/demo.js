@@ -1,3 +1,7 @@
+/**
+ * NOTE: This is for the GeoFence Demo. This is not used in the main LeafletPlayback plugin!
+ */
+
 $(function() {
   $('#bottom-branding').on('click', function(e) {
     $('header').fadeIn();

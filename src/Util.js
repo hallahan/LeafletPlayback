@@ -23,6 +23,43 @@ L.Playback.Util = L.Class.extend({
       if (m < 10) m = '0' + m;
       if (s < 10) s = '0' + s;
       return h + ':' + m + ':' + s + dec + ' ' + mer;
+    },
+
+    ParseGPX: function(gpx) {
+      var geojson = {
+        type: 'Feature',
+        geometry: {
+          type: 'MultiPoint',
+          coordinates: []
+        },
+        properties: {
+          time: [],
+          speed: [],
+          altitude: []
+        },
+        bbox: []
+      };
+      var xml = $.parseXML(gpx);
+      var pts = $(xml).find('trkpt');
+      for(var i=0, len=pts.length; i<len; i++){
+        var p = pts[i];
+        var lat = parseFloat(p.getAttribute('lat'));
+        var lng = parseFloat(p.getAttribute('lon'));
+        var timeStr = $(p).find('time').text();
+        var eleStr = $(p).find('ele').text();
+        var t = new Date(timeStr);
+        var ele = parseFloat(eleStr);
+
+        var coords = geojson.geometry.coordinates;
+        var props = geojson.properties;
+        var time = props.time;
+        var altitude = geojson.properties.altitude;
+
+        coords.push([lng,lat]);
+        time.push(t);
+        altitude.push(ele);
+      }
+      return geojson;
     }
   }
 

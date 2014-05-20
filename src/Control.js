@@ -57,7 +57,7 @@ L.Playback.Control = L.Control.extend({
 '  </div>' +
 '  <div class="modal-body">' +
 '    <p>' +
-'      At the current moment, LeafletPlayback only supports GeoJSON files.' +
+'      Leaflet Playback supports GeoJSON and GPX files. CSV support coming soon!' +
 '    </p>' +
 '    <label>Upload a File</label>' +
 '    <input type="file" id="load-tracks-file" />' +
@@ -219,7 +219,25 @@ L.Playback.Control = L.Control.extend({
     var reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function(e) {
-      var tracks = JSON.parse(e.target.result);
+      var fileStr = e.target.result;
+
+      /**
+       * See if we can do GeoJSON...
+       */
+      try {
+        var tracks = JSON.parse(fileStr);
+      } catch (e) {
+        /**
+         * See if we can do GPX...
+         */
+        try {
+          var tracks = L.Playback.Util.ParseGPX(fileStr);
+        } catch (e) {
+          console.error('Unable to load tracks!');
+          return;
+        }
+      }
+
       self.playback.addTracks(tracks);
       self.playback.tracksLayer.layer.addData(tracks);
       $('#load-tracks-modal').modal('hide');

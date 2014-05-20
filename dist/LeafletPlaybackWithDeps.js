@@ -36561,6 +36561,43 @@ L.Playback.Util = L.Class.extend({
       if (m < 10) m = '0' + m;
       if (s < 10) s = '0' + s;
       return h + ':' + m + ':' + s + dec + ' ' + mer;
+    },
+
+    ParseGPX: function(gpx) {
+      var geojson = {
+        type: 'Feature',
+        geometry: {
+          type: 'MultiPoint',
+          coordinates: []
+        },
+        properties: {
+          time: [],
+          speed: [],
+          altitude: []
+        },
+        bbox: []
+      };
+      var xml = $.parseXML(gpx);
+      var pts = $(xml).find('trkpt');
+      for(var i=0, len=pts.length; i<len; i++){
+        var p = pts[i];
+        var lat = parseFloat(p.getAttribute('lat'));
+        var lng = parseFloat(p.getAttribute('lon'));
+        var timeStr = $(p).find('time').text();
+        var eleStr = $(p).find('ele').text();
+        var t = new Date(timeStr);
+        var ele = parseFloat(eleStr);
+
+        var coords = geojson.geometry.coordinates;
+        var props = geojson.properties;
+        var time = props.time;
+        var altitude = geojson.properties.altitude;
+
+        coords.push([lng,lat]);
+        time.push(t);
+        altitude.push(ele);
+      }
+      return geojson;
     }
   }
 
@@ -36762,6 +36799,7 @@ L.Playback = L.Playback || {};
 L.Playback.Tick = L.Class.extend({
 
   initialize: function (map, tickPoints) {
+    this._map = map;
     if (tickPoints instanceof Array) {
       this._tickPoints = tickPoints;
     } else {
@@ -36779,7 +36817,7 @@ L.Playback.Tick = L.Class.extend({
     this._tickPoints.push(tickPoint);
     var lngLat = tickPoint.tick(ms);
     var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-    this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(map));
+    this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(this._map));
   },
 
   tock: function (ms, transitionTime) {
@@ -36925,7 +36963,7 @@ L.Playback = L.Playback || {};
 L.Playback.TracksLayer = L.Class.extend({
 
   initialize: function(map, tracks) {
-    this.layer = new L.GeoJSON(demoTracks, {
+    this.layer = new L.GeoJSON(tracks, {
       pointToLayer: function(geojson, latlng) {
         var circle = new L.CircleMarker(latlng, {radius:5});
         // circle.bindPopup(i);
@@ -37003,7 +37041,7 @@ L.Playback.Control = L.Control.extend({
 '  </div>' +
 '  <div class="modal-body">' +
 '    <p>' +
-'      At the current moment, LeafletPlayback only supports GeoJSON files.' +
+'      Leaflet Playback supports GeoJSON and GPX files. CSV support coming soon!' +
 '    </p>' +
 '    <label>Upload a File</label>' +
 '    <input type="file" id="load-tracks-file" />' +
@@ -37165,7 +37203,25 @@ L.Playback.Control = L.Control.extend({
     var reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function(e) {
-      var tracks = JSON.parse(e.target.result);
+      var fileStr = e.target.result;
+
+      /**
+       * See if we can do GeoJSON...
+       */
+      try {
+        var tracks = JSON.parse(fileStr);
+      } catch (e) {
+        /**
+         * See if we can do GPX...
+         */
+        try {
+          var tracks = L.Playback.Util.ParseGPX(fileStr);
+        } catch (e) {
+          console.error('Unable to load tracks!');
+          return;
+        }
+      }
+
       self.playback.addTracks(tracks);
       self.playback.tracksLayer.layer.addData(tracks);
       $('#load-tracks-modal').modal('hide');
