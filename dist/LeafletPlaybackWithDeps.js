@@ -36585,7 +36585,7 @@ L.Playback.Util = L.Class.extend({
         var lng = parseFloat(p.getAttribute('lon'));
         var timeStr = $(p).find('time').text();
         var eleStr = $(p).find('ele').text();
-        var t = new Date(timeStr);
+        var t = new Date(timeStr).getTime();
         var ele = parseFloat(eleStr);
 
         var coords = geojson.geometry.coordinates;
