@@ -2,28 +2,23 @@ L.Playback = L.Playback || {};
 
 L.Playback.Clock = L.Class.extend({
 
-  initialize: function (tickObj, callback, options) {
-    this._tickObj = tickObj;
+  initialize: function (trackController, callback, options) {
+    this._trackController = trackController;
     this._callbacksArry = [];
     if (callback) this.addCallback(callback);
     L.setOptions(this, options);
     this._speed = this.options.speed;
     this._tickLen = this.options.tickLen;
-    this._cursor = tickObj.getStartTime();
+    this._cursor = trackController.getStartTime();
     this._transitionTime = this._tickLen / this._speed;
   },
 
-  options: {
-    tickLen:    250,
-    speed:      1
-  },
-
   _tick: function (self) {
-    if (self._cursor > self._tickObj.getEndTime()) {
+    if (self._cursor > self._trackController.getEndTime()) {
       clearInterval(self._intervalID);
       return;
     }
-    self._tickObj.tock(self._cursor, self._transitionTime);
+    self._trackController.tock(self._cursor, self._transitionTime);
     self._callbacks(self._cursor);
     self._cursor += self._tickLen;
   },
@@ -78,7 +73,7 @@ L.Playback.Clock = L.Class.extend({
       time += this._tickLen - mod;
     }
     this._cursor = time;
-    this._tickObj.tock(this._cursor, 0);
+    this._trackController.tock(this._cursor, 0);
     this._callbacks(this._cursor);
   },
 
@@ -87,11 +82,11 @@ L.Playback.Clock = L.Class.extend({
   },
 
   getStartTime: function() {
-    return this._tickObj.getStartTime();
+    return this._trackController.getStartTime();
   },
 
   getEndTime: function() {
-    return this._tickObj.getEndTime();
+    return this._trackController.getEndTime();
   },
 
   getTickLen: function() {

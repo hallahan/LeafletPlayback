@@ -4042,6 +4042,8 @@ var tillicum = {
     ]
   },
   "properties": {
+    "title" : "tillicum",
+    "path_options" : { "color" : "red" },
     "time": [
       1369786338000,
       1369786340000,
@@ -35453,4 +35455,4 @@ var houseToCoordley = {
 }
 
 
-var demoTracks = [blodgett, blueMountain, drive, houseToCoordley, tillicum];
+var demoTracks = [blodgett, drive, houseToCoordley, tillicum];
