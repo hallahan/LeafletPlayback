@@ -67,279 +67,358 @@ L.Playback.Util = L.Class.extend({
 
 L.Playback = L.Playback || {};
 
-L.Playback.MoveableMarker = L.Marker.extend({
-  statics: {
-    _colorIdx: 0,
-    _colors: [
-      'orange',
-      'green',
-      'blue',
-      'purple',
-      'darkred',
-      'cadetblue',
-      'red',
-      'darkgreen',
-      'darkblue',
-      'darkpurple'
-    ],
-    _assignColor: function() {
-      return this._colors[this._colorIdx++%10];
-    }
-  }, 
+L.Playback.MoveableMarker = L.Marker.extend({    
+    initialize: function (startLatLng, options, feature) {    
+        var marker_options = options.marker || {};
 
-  initialize: function (startLatLng) {
-    L.Marker.prototype.initialize.call(this, startLatLng, {
-      icon: L.AwesomeMarkers.icon({
-        icon: 'bullseye', 
-        color: L.Playback.MoveableMarker._assignColor()
-      }) 
+        if (jQuery.isFunction(marker_options)){        
+            marker_options = marker_options(feature);
+        }
+        
+        L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
+        
+        this.popupContent = '';
+
+        if (marker_options.getPopup){
+            this.popupContent = marker_options.getPopup(feature);            
+        }
+        
+        this.bindPopup(this.getPopupContent() + startLatLng.toString());
+    },
+    
+    getPopupContent: function(){
+        if (this.popupContent != ''){
+            return '<b>' + this.popupContent + '</b><br/>'
+        }
+        
+        return '';
+    },
+
+    move: function (latLng, transitionTime) {
+        // Only if CSS3 transitions are supported
+        if (L.DomUtil.TRANSITION) {
+            if (this._icon) { 
+                this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+                if (this._popup && this._popup._wrapper)
+                    this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+            }
+            if (this._shadow) { 
+                this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+            }
+        }
+        this.setLatLng(latLng);
+        if (this._popup){
+            this._popup.setContent(this.getPopupContent() + this._latlng.toString());
+        }    
+    }
+});
+
+L.Playback = L.Playback || {};
+
+L.Playback.Track = L.Class.extend({
+
+        initialize : function (geoJSON, options) {
+            options = options || {};
+            var tickLen = options.tickLen || 250;
+            
+            this._geoJSON = geoJSON;
+            this._tickLen = tickLen;
+            this._ticks = [];
+            this._marker = null;
+
+            var sampleTimes = geoJSON.properties.time;
+            var samples = geoJSON.geometry.coordinates;
+            var currSample = samples[0];
+            var nextSample = samples[1];
+            var t = currSampleTime = sampleTimes[0]; // t is used to iterate through tick times
+            var nextSampleTime = sampleTimes[1];
+            var tmod = t % tickLen; // ms past a tick time
+            var rem,
+            ratio;
+
+            // handle edge case of only one t sample
+            if (sampleTimes.length === 1) {
+                if (tmod !== 0)
+                    t += tickLen - tmod;
+                this._ticks[t] = samples[0];
+                this._startTime = t;
+                this._endTime = t;
+                return;
+            }
+
+            // interpolate first tick if t not a tick time
+            if (tmod !== 0) {
+                rem = tickLen - tmod;
+                ratio = rem / (nextSampleTime - currSampleTime);
+                t += rem;
+                this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+            } else {
+                this._ticks[t] = currSample;
+            }
+
+            this._startTime = t;
+            t += tickLen;
+            while (t < nextSampleTime) {
+                ratio = (t - currSampleTime) / (nextSampleTime - currSampleTime);
+                this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+                t += tickLen;
+            }
+
+            // iterating through the rest of the samples
+            for (var i = 1, len = samples.length; i < len; i++) {
+                currSample = samples[i];
+                nextSample = samples[i + 1];
+                t = currSampleTime = sampleTimes[i];
+                nextSampleTime = sampleTimes[i + 1];
+
+                tmod = t % tickLen;
+                if (tmod != 0 && nextSampleTime) {
+                    rem = tickLen - tmod;
+                    ratio = rem / (nextSampleTime - currSampleTime);
+                    t += rem;
+                    this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+                } else {
+                    this._ticks[t] = currSample;
+                }
+
+                t += tickLen;
+                while (t < nextSampleTime) {
+                    ratio = (t - currSampleTime) / (nextSampleTime - currSampleTime);
+                    
+                    if (nextSampleTime - currSampleTime > options.maxInterpolationTime){
+                        this._ticks[t] = currSample;
+                    }
+                    else {
+                        this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+                    }
+                    
+                    t += tickLen;
+                }
+            }
+
+            // the last t in the while would be past bounds
+            this._endTime = t - tickLen;
+            this._lastTick = this._ticks[this._endTime];
+
+        },
+
+        _interpolatePoint : function (start, end, ratio) {
+            try {
+                var delta = [end[0] - start[0], end[1] - start[1]];
+                var offset = [delta[0] * ratio, delta[1] * ratio];
+                return [start[0] + offset[0], start[1] + offset[1]];
+            } catch (e) {
+                console.log('err: cant interpolate a point');
+                console.log(['start', start]);
+                console.log(['end', end]);
+                console.log(['ratio', ratio]);
+            }
+        },
+
+        getFirstTick : function () {
+            return this._ticks[this._startTime];
+        },
+
+        getLastTick : function () {
+            return this._ticks[this._endTime];
+        },
+
+        getStartTime : function () {
+            return this._startTime;
+        },
+
+        getEndTime : function () {
+            return this._endTime;
+        },
+
+        getTickMultiPoint : function () {
+            var t = this.getStartTime();
+            var endT = this.getEndTime();
+            var coordinates = [];
+            var time = [];
+            while (t <= endT) {
+                time.push(t);
+                coordinates.push(this.tick(t));
+                t += this._tickLen;
+            }
+
+            return {
+                type : 'Feature',
+                geometry : {
+                    type : 'MultiPoint',
+                    coordinates : coordinates
+                },
+                properties : {
+                    time : time
+                }
+            };
+        },
+        
+        tick : function (timestamp) {
+            if (timestamp > this._endTime)
+                timestamp = this._endTime;
+            if (timestamp < this._startTime)
+                timestamp = this._startTime;
+            return this._ticks[timestamp];
+        },
+        
+        setMarker : function(timestamp, options){
+            var lngLat = null;
+            
+            // if time stamp is not set, then get first tick
+            if (timestamp){
+                lngLat = this.tick(timestamp);
+            }
+            else {
+                lngLat = this.getFirstTick();
+            }        
+        
+            if (lngLat){
+                var latLng = new L.LatLng(lngLat[1], lngLat[0]);
+                this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);                
+            }
+            
+            return this._marker;
+        },
+        
+        moveMarker : function(latLng, transitionTime){
+            if (this._marker){
+                this._marker.move(latLng, transitionTime);
+            }
+        },
+        
+        getMarker : function(){
+            return this._marker;
+        }
+
     });
-
-    this.bindPopup(this._latlng.toString());
-  },
-
-  move: function (latLng, transitionTime) {
-    // Only if CSS3 transitions are supported
-    if (L.DomUtil.TRANSITION) {
-      if (this._icon) { 
-        this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
-        if (this._popup && this._popup._wrapper)
-          this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
-      }
-      if (this._shadow) { 
-        this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
-      }
-    }
-    this.setLatLng(latLng);
-    this._popup.setContent(this._latlng.toString());
-  }
-});
-
 L.Playback = L.Playback || {};
 
-L.Playback.TickPoint = L.Class.extend({
+L.Playback.TrackController = L.Class.extend({
 
-  initialize: function (geoJSON, tickLen) {
-    tickLen = tickLen || 250;
-    this._geoJSON = geoJSON;
-    this._tickLen = tickLen;
-    this._ticks = [];
+    initialize : function (map, tracks, options) {
+        this.options = options || {};
+    
+        this._map = map;
 
-    var sampleTimes = geoJSON.properties.time;
-    var samples = geoJSON.geometry.coordinates;
-    var currSample = samples[0];
-    var nextSample = samples[1];
-    var t = currSampleTime = sampleTimes[0]; // t is used to iterate through tick times
-    var nextSampleTime = sampleTimes[1];
-    var tmod = t % tickLen; // ms past a tick time
-    var rem, ratio;
+        this._tracks = [];
 
-    // handle edge case of only one t sample
-    if (sampleTimes.length === 1) {
-      if (tmod !== 0) t += tickLen - tmod;
-      this._ticks[t] = samples[0];
-      this._startTime = t;
-      this._endTime = t;
-      return;
+        // initialize tick points
+        this.setTracks(tracks);
+    },
+    
+    clearTracks: function(){
+        while (this._tracks.length > 0){
+            var track = this._tracks.pop();
+            var marker = track.getMarker();
+            
+            if (marker){
+                this._map.removeLayer(marker);
+            }
+        }            
+    },
+
+    setTracks : function (tracks){
+        // reset current tracks
+        this.clearTracks();
+        
+        this.addTracks(tracks);
+    },
+    
+    addTracks : function (tracks) {
+        // return if nothing is set
+        if (!tracks){
+            return;
+        }
+        
+        if (tracks instanceof Array) {            
+            for (var i = 0, len = tracks.length; i < len; i++) {
+                this.addTrack(tracks[i]);
+            }
+        } else {
+            this.addTrack(tracks);
+        }            
+    },
+    
+    // add single track
+    addTrack : function (track, timestamp) {
+        // return if nothing is set
+        if (!track){
+            return;
+        }
+
+        var marker = track.setMarker(timestamp, this.options);
+
+        if (marker){
+            marker.addTo(this._map);
+            
+            this._tracks.push(track);
+        }            
+    },
+
+    tock : function (timestamp, transitionTime) {
+        for (var i = 0, len = this._tracks.length; i < len; i++) {
+            var lngLat = this._tracks[i].tick(timestamp);
+            var latLng = new L.LatLng(lngLat[1], lngLat[0]);
+            this._tracks[i].moveMarker(latLng, transitionTime);
+        }
+    },
+
+    getStartTime : function () {
+        var earliestTime = 0;
+
+        if (this._tracks.length > 0){
+            earliestTime = this._tracks[0].getStartTime();
+            for (var i = 1, len = this._tracks.length; i < len; i++) {
+                var t = this._tracks[i].getStartTime();
+                if (t < earliestTime)
+                    earliestTime = t;
+            }
+        }
+        
+        return earliestTime;
+    },
+
+    getEndTime : function () {
+        var latestTime = 0;
+    
+        if (this._tracks.length > 0){
+            latestTime = this._tracks[0].getEndTime();
+            for (var i = 1, len = this._tracks.length; i < len; i++) {
+                var t = this._tracks[i].getEndTime();
+                if (t > latestTime)
+                    latestTime = t;
+            }
+        }
+    
+        return latestTime;
+    },
+
+    getTracks : function () {
+        return this._tracks;
     }
-
-    // interpolate first tick if t not a tick time
-    if (tmod !== 0) {
-      rem = tickLen - tmod;
-      ratio = rem / (nextSampleTime-currSampleTime);
-      t += rem;
-      this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-    } else {
-      this._ticks[t] = currSample;
-    }
-
-    this._startTime = t;
-    t += tickLen;
-
-    while (t < nextSampleTime) {
-      ratio = (t-currSampleTime) / (nextSampleTime-currSampleTime);
-      this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-      t += tickLen;
-    }
-
-    // iterating through the rest of the samples
-    for(var i=1, len=samples.length; i<len; i++) {
-      currSample = samples[i];
-      nextSample = samples[i+1];
-      t = currSampleTime = sampleTimes[i];
-      nextSampleTime = sampleTimes[i+1];
-
-      tmod = t % tickLen;
-      if (tmod != 0 && nextSampleTime) {
-        rem = tickLen - tmod;
-        ratio = rem / (nextSampleTime-currSampleTime);
-        t += rem;
-        this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-      } else {
-        this._ticks[t] = currSample;
-      }
-
-      t += tickLen;
-
-      while (t < nextSampleTime) {
-        ratio = (t-currSampleTime) / (nextSampleTime-currSampleTime);
-        this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-        t += tickLen;
-      }
-    } 
-
-    // the last t in the while would be past bounds
-    this._endTime = t - tickLen;
-    this._lastTick = this._ticks[this._endTime];
-
-  },
-
-  _interpolatePoint: function (start, end, ratio) {
-    try {
-      var delta = [end[0]-start[0], end[1]-start[1]];
-      var offset = [delta[0]*ratio, delta[1]*ratio];
-      return [start[0]+offset[0], start[1]+offset[1]];
-    } catch (e) {
-      console.log('err: cant interpolate a point');
-      console.log(['start',start]);
-      console.log(['end',end]);
-      console.log(['ratio',ratio]);
-    }
-  },
-
-  getFirstTick: function() {
-    return this._ticks[this._startTime];
-  },
-
-  getLastTick: function() {
-    return this._ticks[this._endTime];
-  },
-
-  getStartTime: function() {
-    return this._startTime;
-  },
-
-  getEndTime: function() {
-    return this._endTime;
-  },
-
-  getTickMultiPoint: function() {
-    var t = this.getStartTime();
-    var endT = this.getEndTime();
-    var tickLen = this._tickLen;
-    var coordinates = [];
-    var time = [];
-
-    while (t <= endT) {
-      time.push(t);
-      coordinates.push(this.tick(t));
-      t += this._tickLen;
-    }
-
-    return {
-      type: 'Feature',
-      geometry: {
-        type: 'MultiPoint',
-        coordinates: coordinates
-      },
-      properties: {
-        time: time
-      }
-    };
-  },
-
-  tick: function(ms) {
-    if (ms > this._endTime) ms = this._endTime;
-    if (ms < this._startTime) ms = this._startTime;
-    return this._ticks[ms];
-  }
-
 });
-
-L.Playback = L.Playback || {};
-
-L.Playback.Tick = L.Class.extend({
-
-  initialize: function (map, tickPoints) {
-    this._map = map;
-    if (tickPoints instanceof Array) {
-      this._tickPoints = tickPoints;
-    } else {
-      this._tickPoints = [tickPoints];
-    }
-    this._markers = [];
-    for(var i=0,len=this._tickPoints.length;i<len;i++){
-      var firstLngLat = this._tickPoints[i].getFirstTick();
-      var latLng = new L.LatLng(firstLngLat[1],firstLngLat[0]);
-      this._markers[i] = new L.Playback.MoveableMarker(latLng).addTo(map);
-    }
-  },
-
-  addTickPoint: function(tickPoint, ms) {
-    this._tickPoints.push(tickPoint);
-    var lngLat = tickPoint.tick(ms);
-    var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-    this._markers.push(new L.Playback.MoveableMarker(latLng).addTo(this._map));
-  },
-
-  tock: function (ms, transitionTime) {
-    for(var i=0,len=this._tickPoints.length;i<len;i++){
-      var lngLat = this._tickPoints[i].tick(ms);
-      var latLng = new L.LatLng(lngLat[1],lngLat[0]);
-      this._markers[i].move(latLng, transitionTime);
-    }
-  },
-
-  getStartTime: function () {
-    var earliestTime = this._tickPoints[0].getStartTime();
-    for(var i=1,len=this._tickPoints.length;i<len;i++){
-      var t = this._tickPoints[i].getStartTime();
-      if (t < earliestTime) earliestTime = t;
-    }
-    return earliestTime;
-  },
-
-  getEndTime: function () {
-    var latestTime = this._tickPoints[0].getEndTime();
-    for(var i=1,len=this._tickPoints.length;i<len;i++){
-      var t = this._tickPoints[i].getEndTime();
-      if (t > latestTime) latestTime = t;
-    }
-    return latestTime;
-  },
-
-  getMarkers: function() {
-    return this._markers;
-  }
-  
-});
-
 L.Playback = L.Playback || {};
 
 L.Playback.Clock = L.Class.extend({
 
-  initialize: function (tickObj, callback, options) {
-    this._tickObj = tickObj;
+  initialize: function (trackController, callback, options) {
+    this._trackController = trackController;
     this._callbacksArry = [];
     if (callback) this.addCallback(callback);
     L.setOptions(this, options);
     this._speed = this.options.speed;
     this._tickLen = this.options.tickLen;
-    this._cursor = tickObj.getStartTime();
+    this._cursor = trackController.getStartTime();
     this._transitionTime = this._tickLen / this._speed;
   },
 
-  options: {
-    tickLen:    250,
-    speed:      1
-  },
-
   _tick: function (self) {
-    if (self._cursor > self._tickObj.getEndTime()) {
+    if (self._cursor > self._trackController.getEndTime()) {
       clearInterval(self._intervalID);
       return;
     }
-    self._tickObj.tock(self._cursor, self._transitionTime);
+    self._trackController.tock(self._cursor, self._transitionTime);
     self._callbacks(self._cursor);
     self._cursor += self._tickLen;
   },
@@ -394,7 +473,7 @@ L.Playback.Clock = L.Class.extend({
       time += this._tickLen - mod;
     }
     this._cursor = time;
-    this._tickObj.tock(this._cursor, 0);
+    this._trackController.tock(this._cursor, 0);
     this._callbacks(this._cursor);
   },
 
@@ -403,11 +482,11 @@ L.Playback.Clock = L.Class.extend({
   },
 
   getStartTime: function() {
-    return this._tickObj.getStartTime();
+    return this._trackController.getStartTime();
   },
 
   getEndTime: function() {
-    return this._tickObj.getEndTime();
+    return this._trackController.getEndTime();
   },
 
   getTickLen: function() {
@@ -418,337 +497,295 @@ L.Playback.Clock = L.Class.extend({
 
 // Simply shows all of the track points as circles.
 // TODO: Associate circle color with the marker color.
-//       Show relevent data about point in popup.
 
 L.Playback = L.Playback || {};
 
 L.Playback.TracksLayer = L.Class.extend({
+    initialize : function (map, options) {
+        var layer_options = options.layer || {};
+        
+        if (jQuery.isFunction(layer_options)){
+            layer_options = layer_options(feature);
+        }
+        
+        if (!layer_options.pointToLayer){
+            layer_options.pointToLayer = function (featureData, latlng) {
+                return new L.CircleMarker(latlng, { radius : 5 });
+            }
+        }
+    
+        this.layer = new L.GeoJSON(null, layer_options);
 
-  initialize: function(map, tracks) {
-    this.layer = new L.GeoJSON(tracks, {
-      pointToLayer: function(geojson, latlng) {
-        var circle = new L.CircleMarker(latlng, {radius:5});
-        // circle.bindPopup(i);
-        return circle;
-      }
-    });
+        var overlayControl = {
+            'GPS Tracks' : this.layer
+        };
 
-    var overlayControl = {
-      '<i class="icon-bullseye"></i> GPS Tracks': this.layer
-    };
+        L.control.layers(null, overlayControl, {
+            collapsed : false
+        }).addTo(map);
+    },
 
-    L.control.layers(null, overlayControl, {
-      collapsed: false
-    }).addTo(map);
-  }
+    // clear all geoJSON layers
+    clearLayer : function(){
+        for (var i in this.layer._layers){
+            this.layer.removeLayer(this.layer._layers[i]);            
+        }
+    },
 
+    // add new geoJSON layer
+    addLayer : function(geoJSON){
+        this.layer.addData(geoJSON);
+    }
 });
-
 L.Playback = L.Playback || {};
 
-L.Playback.Control = L.Control.extend({
+L.Playback.DateControl = L.Control.extend({
+    options : {
+        position : 'bottomleft'
+    },
 
-  _html: 
-'<footer class="lp">' +
-'  <div class="transport">' +
-'    <div class="navbar">' +
-'      <div class="navbar-inner">' +
-'        <ul class="nav">' +
-'          <li class="ctrl">' +
-'            <a id="play-pause" href="#"><i id="play-pause-icon" class="icon-play icon-large"></i></a>' +
-'          </li>' +
-'          <li class="ctrl dropup">' +
-'            <a id="clock-btn" class="clock" data-toggle="dropdown" href="#">' +
-'              <span id="cursor-date"></span><br/>' +
-'              <span id="cursor-time"></span>' +
-'            </a>' +
-'            <div class="dropdown-menu" role="menu" aria-labelledby="clock-btn">' +
-'              <label>Playback Cursor Time</label>' +
-'              <div class="input-append bootstrap-timepicker">' +
-'                <input id="timepicker" type="text" class="input-small span2">' +
-'                <span class="add-on"><i class="icon-time"></i></span>' +
-'              </div>' +
-'              <div id="calendar"></div>' +
-'              <div class="input-append">' +
-'                <input id="date-input" type="text" class="input-small">' +
-'                <span class="add-on"><i class="icon-calendar"></i></span>' +
-'              </div>' +
-'            </div>' +
-'          </li>' +
-'        </ul>' +
-'        <ul class="nav pull-right">' +
-'          <li>' +
-'            <div id="time-slider"></div>' +
-'          </li>' +
-'          <li class="ctrl dropup">' +
-'            <a id="speed-btn" data-toggle="dropdown" href="#"><i class="icon-dashboard icon-large"></i> <span id="speed-icon-val" class="speed">1</span>x</a>' +
-'            <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">' +
-'              <label>Playback<br/>Speed</label>' +
-'              <input id="speed-input" class="span1 speed" type="text" value="1" />' +
-'              <div id="speed-slider"></div>' +
-'            </div>' +
-'          </li>' +
-'          <li class="ctrl">' +
-'            <a id="load-tracks-btn" href="#"><i class="icon-map-marker icon-large"></i> Tracks</a>' +
-'          </li>' +
-'        </ul>' +
-'      </div>' +
-'    </div>' +
-'  </div>' +
-'</footer>' +
-'<div id="load-tracks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="load-tracks-label" aria-hidden="true">' +
-'  <div class="modal-header">' +
-'    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' +
-'    <h3 id="load-tracks-label">Load GPS Tracks</h3>' +
-'  </div>' +
-'  <div class="modal-body">' +
-'    <p>' +
-'      Leaflet Playback supports GeoJSON and GPX files. CSV support coming soon!' +
-'    </p>' +
-'    <label>Upload a File</label>' +
-'    <input type="file" id="load-tracks-file" />' +
-'  </div>' +
-'  <div class="modal-footer">' +
-'    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>' +
-'    <button id="load-tracks-save" class="btn btn-primary">Load</button>' +
-'  </div>' +
-'</div>',
+    initialize : function (playback) {
+        this.playback = playback;
+    },
 
-  initialize: function(playback) {
-    this.playback = playback;
-    playback.addCallback(this._clockCallback);
-  },
+    onAdd : function (map) {
+        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
 
-  onAdd: function(map) {
-    var html = this._html;
-    $('#map').after(html);
-    this._setup();
+        var self = this;
+        var playback = this.playback;
+        var time = playback.getTime();
 
-    // just an empty container
-    // TODO: dont do this
-    return L.DomUtil.create('div');
-  },
+        var datetime = L.DomUtil.create('div', 'datetimeControl', this._container);
 
-  _setup: function() {
-    var self = this;
-    var playback = this.playback;
-    $('#play-pause').click(function() {
-      if (playback.isPlaying() === false) {
-        playback.start();
-        $('#play-pause-icon').removeClass('icon-play');
-        $('#play-pause-icon').addClass('icon-pause');
-      } else {
-        playback.stop();
-        $('#play-pause-icon').removeClass('icon-pause');
-        $('#play-pause-icon').addClass('icon-play');
-      }
-    });
+        // date time
+        this._date = L.DomUtil.create('p', '', datetime);
+        this._time = L.DomUtil.create('p', '', datetime);
 
-    var startTime = playback.getStartTime();
-    $('#cursor-date').html(L.Playback.Util.DateStr(startTime));
-    $('#cursor-time').html(L.Playback.Util.TimeStr(startTime));
+        this._date.innerHTML = L.Playback.Util.DateStr(time);
+        this._time.innerHTML = L.Playback.Util.TimeStr(time);
 
-    $('#time-slider').slider({
-      min: playback.getStartTime(),
-      max: playback.getEndTime(),
-      step: playback.getTickLen(),
-      value: playback.getTime(),
-      slide: function( event, ui ) {
-        playback.setCursor(ui.value);
-        $('#cursor-time').val(ui.value.toString());
-        $('#cursor-time-txt').html(new Date(ui.value).toString());
-      }
-    });
+        // setup callback
+        playback.addCallback(function (ms) {
+            self._date.innerHTML = L.Playback.Util.DateStr(ms);
+            self._time.innerHTML = L.Playback.Util.TimeStr(ms);
+        });
 
-    $('#speed-slider').slider({
-      min: -9,
-      max: 9,
-      step: .1,
-      value: self._speedToSliderVal(this.playback.getSpeed()),
-      orientation: 'vertical',
-      slide: function( event, ui ) {
-        var speed = self._sliderValToSpeed(parseFloat(ui.value));
-        playback.setSpeed(speed);
-        $('.speed').html(speed).val(speed);
-      }
-    });
-
-    $('#speed-input').on('keyup', function(e) {
-      var speed = parseFloat($('#speed-input').val());
-      if (!speed) return;
-      playback.setSpeed(speed);
-      $('#speed-slider').slider('value', speedToSliderVal(speed));
-      $('#speed-icon-val').html(speed);
-      if (e.keyCode === 13) {
-        $('.speed-menu').dropdown('toggle');
-      }
-    });
-
-    $('#calendar').datepicker({
-      changeMonth: true,
-      changeYear: true,
-      altField: '#date-input',
-      altFormat: 'mm/dd/yy',
-      defaultDate: new Date(playback.getTime()),
-      onSelect: function(date) {
-        var date = new Date(date);
-        var time = $('#timepicker').data('timepicker');
-        var ts = self._combineDateAndTime(date, time);
-        playback.setCursor(ts);
-        $('#time-slider').slider('value', ts);
-      }
-    }); 
-
-    $('#date-input').on('keyup', function(e) {
-      $('#calendar').datepicker('setDate', $('#date-input').val());
-    });
-
-    $('.dropdown-menu').on('click', function(e) {
-      e.stopPropagation();
-    });
-
-    $('#timepicker').timepicker({
-      showSeconds: true
-    });
-    
-    $('#timepicker').timepicker('setTime', 
-        new Date(playback.getTime()).toTimeString());
-
-    $('#timepicker').timepicker().on('changeTime.timepicker', function(e) {
-      var date = $('#calendar').datepicker('getDate');
-      var ts = self._combineDateAndTime(date, e.time);
-      playback.setCursor(ts);
-      $('#time-slider').slider('value', ts);
-    });
-
-    $('#load-tracks-btn').on('click', function(e) {
-      $('#load-tracks-modal').modal();
-    });
-
-    $('#load-tracks-save').on('click', function(e) {
-      var file = $('#load-tracks-file').get(0).files[0];
-      self._loadTracksFromFile(file);
-    });
-
-  },
-
-  _clockCallback: function(ms) {
-    $('#cursor-date').html(L.Playback.Util.DateStr(ms));
-    $('#cursor-time').html(L.Playback.Util.TimeStr(ms));
-    $('#time-slider').slider('value', ms);
-  },
-
-  _speedToSliderVal: function(speed) {
-    if (speed < 1) return -10+speed*10;
-    return speed - 1;    
-  },
-
-  _sliderValToSpeed: function(val) {
-    if (val < 0) return parseFloat((1+val/10).toFixed(2));
-    return val + 1;    
-  },
-
-  _combineDateAndTime: function(date, time) {
-    var yr = date.getFullYear();
-    var mo = date.getMonth();
-    var dy = date.getDate();
-    // the calendar uses hour and the timepicker uses hours...
-    var hr = time.hours || time.hour;
-    if (time.meridian == 'PM' && hr != 12) hr += 12;
-    var min = time.minutes || time.minute;
-    var sec = time.seconds || time.second;
-    return new Date(yr, mo, dy, hr, min, sec).getTime();    
-  },
-
-  _loadTracksFromFile: function(file) {
-    var self = this;
-    var reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = function(e) {
-      var fileStr = e.target.result;
-
-      /**
-       * See if we can do GeoJSON...
-       */
-      try {
-        var tracks = JSON.parse(fileStr);
-      } catch (e) {
-        /**
-         * See if we can do GPX...
-         */
-        try {
-          var tracks = L.Playback.Util.ParseGPX(fileStr);
-        } catch (e) {
-          console.error('Unable to load tracks!');
-          return;
-        }
-      }
-
-      self.playback.addTracks(tracks);
-      self.playback.tracksLayer.layer.addData(tracks);
-      $('#load-tracks-modal').modal('hide');
-    }    
-  }
-
+        return this._container;
+    }
 });
+    
+L.Playback.PlayControl = L.Control.extend({
+    options : {
+        position : 'bottomright'
+    },
 
+    initialize : function (playback) {
+        this.playback = playback;
+    },
+
+    onAdd : function (map) {
+        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
+
+        var self = this;
+        var playback = this.playback;
+        playback.setSpeed(100);
+
+        var playControl = L.DomUtil.create('div', 'playControl', this._container);
+
+
+        this._button = L.DomUtil.create('button', '', playControl);
+        this._button.innerHTML = 'Play';
+
+
+        var stop = L.DomEvent.stopPropagation;
+
+        L.DomEvent
+        .on(this._button, 'click', stop)
+        .on(this._button, 'mousedown', stop)
+        .on(this._button, 'dblclick', stop)
+        .on(this._button, 'click', L.DomEvent.preventDefault)
+        .on(this._button, 'click', play, this);
+        
+        function play(){
+            if (playback.isPlaying()){
+                playback.stop();
+                self._button.innerHTML = 'Play';
+            }
+            else {
+                playback.start();
+                self._button.innerHTML = 'Stop';
+            }                
+        }
+
+        return this._container;
+    }
+});    
+    
+L.Playback.SliderControl = L.Control.extend({
+    options : {
+        position : 'bottomleft'
+    },
+
+    initialize : function (playback) {
+        this.playback = playback;
+    },
+
+    onAdd : function (map) {
+        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
+
+        var self = this;
+        var playback = this.playback;
+
+        // slider
+        this._slider = L.DomUtil.create('input', 'slider', this._container);
+        this._slider.type = 'range';
+        this._slider.min = playback.getStartTime();
+        this._slider.max = playback.getEndTime();
+        this._slider.value = playback.getTime();
+
+        var stop = L.DomEvent.stopPropagation;
+
+        L.DomEvent
+        .on(this._slider, 'click', stop)
+        .on(this._slider, 'mousedown', stop)
+        .on(this._slider, 'dblclick', stop)
+        .on(this._slider, 'click', L.DomEvent.preventDefault)
+        //.on(this._slider, 'mousemove', L.DomEvent.preventDefault)
+        .on(this._slider, 'change', onSliderChange, this)
+        .on(this._slider, 'mousemove', onSliderChange, this);           
+
+
+        function onSliderChange(e) {
+            var val = Number(e.target.value);
+            playback.setCursor(val);
+        }
+
+        playback.addCallback(function (ms) {
+            self._slider.value = ms;
+        });
+        
+        
+        map.on('playback:add_tracks', function(){
+            self._slider.min = playback.getStartTime();
+            self._slider.max = playback.getEndTime();
+            self._slider.value = playback.getTime();
+        });
+
+        return this._container;
+    }
+});      
 
 L.Playback = L.Playback.Clock.extend({
-  statics: {
-    MoveableMarker: L.Playback.MoveableMarker,
-    TickPoint: L.Playback.TickPoint,
-    Tick: L.Playback.Tick,
-    Clock: L.Playback.Clock,
-    Util: L.Playback.Util,
-    TracksLayer: L.Playback.TracksLayer,
-    Control: L.Playback.Control
-  },
+        statics : {
+            MoveableMarker : L.Playback.MoveableMarker,
+            Track : L.Playback.Track,
+            TrackController : L.Playback.TrackController,
+            Clock : L.Playback.Clock,
+            Util : L.Playback.Util,
+            
+            TracksLayer : L.Playback.TracksLayer,
+            PlayControl : L.Playback.PlayControl,
+            DateControl : L.Playback.DateControl,
+            SliderControl : L.Playback.SliderControl
+        },
 
-  options : {
-    tracksLayer: true,
-    control: true
-  }, 
+        options : {
+            tickLen: 250,
+            speed: 1,
+            maxInterpolationTime: 5*60*1000, // 5 minutes
 
-  initialize: function (map, geoJSON, callback, options) {
-    L.setOptions(this, options);
-    this.map = map;
-    this.geoJSON = geoJSON;
-    this.tickPoints = [];
-    if (geoJSON instanceof Array) {
-      for(var i=0,len=geoJSON.length;i<len;i++){
-        this.tickPoints.push( new L.Playback.TickPoint(geoJSON[i], this.options.tickLen) );
-      }
-    } else {
-      this.tickPoints.push( new L.Playback.TickPoint(geoJSON, this.options.tickLen) );
+            tracksLayer : true,
+            
+            playControl: false,
+            dateControl: false,
+            sliderControl: false,
+            
+            // options
+            layer: {
+                // pointToLayer(featureData, latlng)
+            },
+            
+            marker : {
+                // getPopup(feature)
+            }
+        },
+
+        initialize : function (map, geoJSON, callback, options) {
+            L.setOptions(this, options);
+            
+            this._map = map;
+            this._trackController = new L.Playback.TrackController(map, null, this.options);
+            L.Playback.Clock.prototype.initialize.call(this, this._trackController, callback, this.options);
+            
+            if (this.options.tracksLayer) {
+                this._tracksLayer = new L.Playback.TracksLayer(map, options);
+            }
+
+            this.setData(geoJSON);            
+            
+
+            if (this.options.playControl) {
+                this.playControl = new L.Playback.PlayControl(this);
+                this.playControl.addTo(map);
+            }
+
+            if (this.options.sliderControl) {
+                this.sliderControl = new L.Playback.SliderControl(this);
+                this.sliderControl.addTo(map);
+            }
+
+            if (this.options.dateControl) {
+                this.dateControl = new L.Playback.DateControl(this);
+                this.dateControl.addTo(map);
+            }
+
+        },
+        
+        clearData : function(){
+            this._trackController.clearTracks();
+            
+            if (this._tracksLayer){
+                this._tracksLayer.clearLayer();
+            }
+        },
+        
+        setData : function (geoJSON) {
+            this.clearData();
+        
+            this.addData(geoJSON, this.getTime());
+            
+            this.setCursor(this.getStartTime());
+        },
+
+        // bad implementation
+        addData : function (geoJSON, ms) {
+            // return if data not set
+            if (!geoJSON){
+                return;
+            }
+        
+            if (geoJSON instanceof Array) {
+                for (var i = 0, len = geoJSON.length; i < len; i++) {
+                    this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
+                }
+            } else {
+                this._trackController.addTrack(new L.Playback.Track(geoJSON, this.options), ms);
+            }
+
+            this._map.fire('playback:set:data');
+            
+            if (this.options.tracksLayer) {
+                this._tracksLayer.addLayer(geoJSON);
+            }                  
+        }
+    });
+
+L.Map.addInitHook(function () {
+    if (this.options.playback) {
+        this.playback = new L.Playback(this);
     }
-    this.tick = new L.Playback.Tick(map, this.tickPoints);
-    L.Playback.Clock.prototype.initialize.call(this, this.tick, callback, this.options);
-    if (this.options.tracksLayer) {
-      this.tracksLayer = new L.Playback.TracksLayer(map, geoJSON);
-    }
-    if (this.options.control) {
-      this.control = new L.Playback.Control(this);
-      this.control.addTo(map);
-    }
-  },
-
-  addTracks: function(geoJSON) {
-    console.log('addTracks');
-    console.log(geoJSON);
-    var newTickPoint = new L.Playback.TickPoint(geoJSON, this.options.tickLen);
-    this.tick.addTickPoint(newTickPoint, this.getTime());
-    $('#time-slider').slider('option','min',this.getStartTime());
-    $('#time-slider').slider('option','max',this.getEndTime());
-  }
-
 });
 
-L.Map.addInitHook(function() {
-  if (this.options.playback) {
-    this.playback = new L.Playback(this);
-  }
-});
-
-L.playback = function(map, geoJSON, callback, options) {
-  return new L.Playback(map, geoJSON, callback, options);
-}
+L.playback = function (map, geoJSON, callback, options) {
+    return new L.Playback(map, geoJSON, callback, options);
+};

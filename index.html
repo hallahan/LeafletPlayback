@@ -2,25 +2,60 @@
 <html>
 
 <head>
-  <title>Leaflet Playback</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" href="lib/jquery-ui/jquery-ui.css" />
-  <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="lib/bootstrap-timepicker/bootstrap-timepicker.css" />
-  <link rel="stylesheet" href="lib/awesome-markers/leaflet.awesome-markers.css" />
-  <link rel="stylesheet" href="demo/simple/simple.css" />
+    <title>LeafletPlayback</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
+    <link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css" /> 
+
+    <style>
+    #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 120px;
+    }
+    
+    #title_container {
+        z-index: 10000;
+        position: absolute;
+        left: 100px;
+    }    
+    
+    #timeline { 
+        height: 120px; 
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    </style>
 </head>
 
-<body>
+<body>    
+    <div id="title_container">
+        <h1>LeafletPlayback</h1>
+        <p>From sources</p>
+    </div>
 
-  <div id="map"></div>
+    <div id="map"></div>
+    <div id="timeline"></div>
 
-  <script src="dist/LeafletPlaybackWithDeps.js"></script>
-  <script src="data/demo/demo-tracks.js"></script>
-  <script src="demo/simple/simple.js"></script>
-  
+    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="http://visjs.org/dist/vis.js"></script>  
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
+
+    <script src="./src/Util.js"></script>
+    <script src="./src/MoveableMarker.js"></script>
+    <script src="./src/Track.js"></script>
+    <script src="./src/TrackController.js"></script>
+    <script src="./src/Clock.js"></script>
+    <script src="./src/TracksLayer.js"></script>
+    <script src="./src/Control.js"></script>
+    <script src="./src/Playback.js"></script>
+
+    <script src="./data/demo/demo-tracks.js"></script>
+    <script src="./examples/example_1.js"></script>
 </body>
 </html>

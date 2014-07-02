@@ -1,10 +1,31 @@
-# Leaflet Playback
+# Frok info
+
+This is a rewrite of LeafletPlayback, that focuses on component reusability, so it is stripped from all dependencies except jQuery and LeafLet.
+
+There are three leaflet controls defined in `src/Controls.js`: 
+
+1. L.Playback.DateControl - Current tick date/time;
+2. L.Playback.PlayControl -  Play/stop button to control time flow of LeafletPlayback;
+3. L.Playback.SliderControl - Simple time slider;
+
+
+# Leaflet Playback (recallfx)
 
 Leaflet Playback provides the ability to replay GPS Tracks in the form of GeoJSON objects. Rather than simply animating a marker along a polyline, the speed of the animation is synchroized to a clock. The playback functionality is similar to a video player--you can start and stop playback, change the playback speed, load GPS tracks, as well as set the playback time with a slider or calendar/time-picker widget.
 
-## [View Demo](http://leafletplayback.theoutpost.io)
+## Examples
 
-This demo pre-loads some GPS GeoJSON tracks and lets you play them back.
+### [Example 0](http://recallfx.github.io/LeafletPlayback/examples/example_0.html)
+
+Basic example of LeafletPlayback plugin, that pre-loads some GPS GeoJSON tracks and lets you play them back.
+
+### [Example 1](http://recallfx.github.io/LeafletPlayback/examples/example_1.html)
+
+Use vis.js timeline as slider control
+
+### [Example 2](http://recallfx.github.io/LeafletPlayback/examples/example_2.html)
+
+Custom interface example
 
 ## GPS Data Format
 
@@ -25,47 +46,62 @@ Leaflet Playback consumes GPS tracks in the form of GeoJSON. The next feature to
 
 Other attributes may be added to the GeoJSON object, but this is the required minimum schema for the plug-in to work.
 
-GeoJSON tracks can be added dynamically to Leaflet Playback by calling:
+# Usage
+
+## API
+
+### new L.Playback(map, geoJSON, onPlaybackTimeChange, options)
+
+### Options
 
 ```javascript
-playback.addTracks(tracks);
+var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 ```
 
-## Usage
+* `map` - LeafLet map object. **Required**.
 
-```javascript
-var playback = new L.Playback(map, demoTracks, clockCallback);
-```
+* `geoJSON` - GeoJSON object or an array of GeoJSON objects. Pass `null` if you don't have any data yet. **Required**.
 
-Where map is your Leaflet map object, demoTracks is a GeoJSON object or an array of GeoJSON objects, and clockCallback is a function you feed it that will send the timestamp value on each tick.
+* `onPlaybackTimeChange` - A function with signature `(timestamp)` that will send the `timestamp` value on each tick. **Required**.
 
-You need the following css in your HTML:
+* `options` - An options object. **Optional**.
 
-```html
-<link rel="stylesheet" href="../../lib/leaflet/leaflet.css" />
-<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" href="../../lib/jquery-ui/jquery-ui.css" />
-<link rel="stylesheet" href="../../lib/font-awesome/css/font-awesome.css" />
-<link rel="stylesheet" href="../../lib/bootstrap-timepicker/bootstrap-timepicker.css" />
-<link rel="stylesheet" href="../../lib/awesome-markers/leaflet.awesome-markers.css" />
-<link rel="stylesheet" href="simple.css" />
-```
+### options
 
-And you can include JavaScript file including all of the dependencies:
+* `tickLen` - Set tick length in miliseconds. Increasing this value, may improve performance, at the cost of animation smoothness. **Default: `250`**.
 
-```html
-<script src="../../dist/LeafletPlaybackWithDeps.js"></script>
-<script src="simple.js"></script>
-```
+* `speed` - Set `float` multiplier for default animation speed. **Default: `1`**.
 
-Or, you can explicity include the dependencies before including the library:
-```html
-<script src="../../lib/jquery1.9.1.js"></script>
-<script src="../../lib/jquery-ui/jquery-ui.js"></script>
-<script src="../../lib/bootstrap/js/bootstrap.js"></script>
-<script src="../../lib/bootstrap-timepicker/bootstrap-timepicker.js"></script>
-<script src="../../lib/leaflet/leaflet-src.js"></script>
-<script src="../../lib/awesome-markers/leaflet.awesome-markers.js"></script>
-<script src="../../dist/LeafletPlayback.js"></script>
-<script src="simple.js"></script>
-```
+* `maxInterpolationTime` - Set max interpolation time in seconds. **Default: `5*60*1000` (5 minutes)**.
+
+* `tracksLayer` - Set `true` if you want to show layer control on the map. **Default: `true`**.
+
+* `playControl` - Set `true` if play button is needed. **Default: `false`**.
+
+* `dateControl` - Set `true` if date label is needed. **Default: `false`**.
+
+* `sliderControl` - Set `true` if slider control is needed. **Default: `false`**.
+
+* `layer` - Object or function with signature `(featureData)` that returns geoJSON layer options object. Useful for setting path color. **Default: `{}`**.
+
+* `marker` - Object or function with signature `(featureData)` that returns leaflet marker options, to extend `L.Playback.MoveableMarker`. Useful for custom icons. **Default: `{}`**.
+
+
+### playback#setData(geoJSON)
+
+Reset current data and add new.
+
+* `geoJSON` - GeoJSON object or an array of GeoJSON objects. **Required**.
+
+### playback#addData(geoJSON)
+
+Add new data.
+
+* `geoJSON` - GeoJSON object or an array of GeoJSON objects. **Required**.
+
+### playback#clearData()
+
+Clear all data and tracks layer.
+
+## Authors and Contributors
+This is a @recallfx fork of @hallahan LeafletPlayback plugin.
