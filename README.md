@@ -100,8 +100,8 @@ Clear all data and tracks layer.
 
 ## Authors and Contributors
 
-@hallahan - Nicholas Hallahan
-@recallfx - Marius
-@lbuter - Luke Butler
-@dgorissen - Dirk Gorissen
+* @hallahan - Nicholas Hallahan
+* @recallfx - Marius
+* @lbuter - Luke Butler
+* @dgorissen - Dirk Gorissen
 
