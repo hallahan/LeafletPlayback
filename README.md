@@ -1,15 +1,4 @@
-# Frok info
-
-This is a rewrite of LeafletPlayback, that focuses on component reusability, so it is stripped from all dependencies except jQuery and LeafLet.
-
-There are three leaflet controls defined in `src/Controls.js`: 
-
-1. L.Playback.DateControl - Current tick date/time;
-2. L.Playback.PlayControl -  Play/stop button to control time flow of LeafletPlayback;
-3. L.Playback.SliderControl - Simple time slider;
-
-
-# Leaflet Playback (recallfx)
+# Leaflet Playback
 
 Leaflet Playback provides the ability to replay GPS Tracks in the form of GeoJSON objects. Rather than simply animating a marker along a polyline, the speed of the animation is synchroized to a clock. The playback functionality is similar to a video player--you can start and stop playback, change the playback speed, load GPS tracks, as well as set the playback time with a slider or calendar/time-picker widget.
 
@@ -25,7 +14,7 @@ Use vis.js timeline as slider control
 
 ### [Example 2](http://recallfx.github.io/LeafletPlayback/examples/example_2.html)
 
-Custom interface example
+Custom interface example - Includes the usage of Maki Markers and Twitter Bootstrap.
 
 ## GPS Data Format
 
@@ -45,6 +34,12 @@ Leaflet Playback consumes GPS tracks in the form of GeoJSON. The next feature to
 ```
 
 Other attributes may be added to the GeoJSON object, but this is the required minimum schema for the plug-in to work.
+
+There are three leaflet controls defined in `src/Controls.js`: 
+
+1. L.Playback.DateControl - Current tick date/time;
+2. L.Playback.PlayControl -  Play/stop button to control time flow of LeafletPlayback;
+3. L.Playback.SliderControl - Simple time slider;
 
 # Usage
 
@@ -104,4 +99,9 @@ Add new data.
 Clear all data and tracks layer.
 
 ## Authors and Contributors
-This is a @recallfx fork of @hallahan LeafletPlayback plugin.
+
+@hallahan - Nicholas Hallahan
+@recallfx - Marius
+@lbuter - Luke Butler
+@dgorissen - Dirk Gorissen
+
