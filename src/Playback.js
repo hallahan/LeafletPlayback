@@ -59,7 +59,7 @@ L.Playback = L.Playback.Clock.extend({
             }
 
             if (this.options.dateControl) {
-                this.dateControl = new L.Playback.DateControl(this);
+                this.dateControl = new L.Playback.DateControl(this, options);
                 this.dateControl.addTo(map);
             }
 
