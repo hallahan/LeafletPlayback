@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
+          'src/prologue.js',
           'src/Util.js', 
           'src/MoveableMarker.js',
           'src/Track.js',
@@ -12,7 +13,8 @@ module.exports = function(grunt) {
           'src/Clock.js',
           'src/TracksLayer.js',
           'src/Control.js',
-          'src/Playback.js'
+          'src/Playback.js',
+          'src/epilogue.js'
         ],
         dest: 'dist/LeafletPlayback.js'
       }
