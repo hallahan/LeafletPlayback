@@ -101,6 +101,19 @@ L.Playback = L.Playback.Clock.extend({
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
             }                  
+        },
+
+        destroy: function() {
+            this.clearData();
+            if (this.playControl) {
+                this._map.removeControl(this.playControl);
+            }
+            if (this.sliderControl) {
+                this._map.removeControl(this.sliderControl);
+            }
+            if (this.dateControl) {
+                this._map.removeControl(this.dateControl);
+            }
         }
     });
 
