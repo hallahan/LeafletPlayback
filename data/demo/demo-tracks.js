@@ -35452,7 +35452,7 @@ var houseToCoordley = {
       44.54908199
     ]
   ]
-}
+};
 
 
 var demoTracks = [blodgett, drive, houseToCoordley, tillicum];

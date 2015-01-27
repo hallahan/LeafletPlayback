@@ -57,7 +57,7 @@ L.Playback.Track = L.Class.extend({
                 nextSampleTime = sampleTimes[i + 1];
 
                 tmod = t % tickLen;
-                if (tmod != 0 && nextSampleTime) {
+                if (tmod !== 0 && nextSampleTime) {
                     rem = tickLen - tmod;
                     ratio = rem / (nextSampleTime - currSampleTime);
                     t += rem;
@@ -151,14 +151,14 @@ L.Playback.Track = L.Class.extend({
             var lngLat = null;
             
             // if time stamp is not set, then get first tick
-            if (timestamp){
+            if (timestamp) {
                 lngLat = this.tick(timestamp);
             }
             else {
                 lngLat = this.getFirstTick();
             }        
         
-            if (lngLat){
+            if (lngLat) {
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
                 this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);                
             }
@@ -166,13 +166,13 @@ L.Playback.Track = L.Class.extend({
             return this._marker;
         },
         
-        moveMarker : function(latLng, transitionTime){
-            if (this._marker){
+        moveMarker : function(latLng, transitionTime) {
+            if (this._marker) {
                 this._marker.move(latLng, transitionTime);
             }
         },
         
-        getMarker : function(){
+        getMarker : function() {
             return this._marker;
         }
 

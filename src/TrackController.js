@@ -14,7 +14,7 @@ L.Playback.TrackController = L.Class.extend({
     },
     
     clearTracks: function(){
-        while (this._tracks.length > 0){
+        while (this._tracks.length > 0) {
             var track = this._tracks.pop();
             var marker = track.getMarker();
             
@@ -24,7 +24,7 @@ L.Playback.TrackController = L.Class.extend({
         }            
     },
 
-    setTracks : function (tracks){
+    setTracks : function (tracks) {
         // reset current tracks
         this.clearTracks();
         
@@ -33,7 +33,7 @@ L.Playback.TrackController = L.Class.extend({
     
     addTracks : function (tracks) {
         // return if nothing is set
-        if (!tracks){
+        if (!tracks) {
             return;
         }
         
@@ -49,13 +49,13 @@ L.Playback.TrackController = L.Class.extend({
     // add single track
     addTrack : function (track, timestamp) {
         // return if nothing is set
-        if (!track){
+        if (!track) {
             return;
         }
 
         var marker = track.setMarker(timestamp, this.options);
 
-        if (marker){
+        if (marker) {
             marker.addTo(this._map);
             
             this._tracks.push(track);
@@ -73,12 +73,13 @@ L.Playback.TrackController = L.Class.extend({
     getStartTime : function () {
         var earliestTime = 0;
 
-        if (this._tracks.length > 0){
+        if (this._tracks.length > 0) {
             earliestTime = this._tracks[0].getStartTime();
             for (var i = 1, len = this._tracks.length; i < len; i++) {
                 var t = this._tracks[i].getStartTime();
-                if (t < earliestTime)
+                if (t < earliestTime) {
                     earliestTime = t;
+                }
             }
         }
         
@@ -92,8 +93,9 @@ L.Playback.TrackController = L.Class.extend({
             latestTime = this._tracks[0].getEndTime();
             for (var i = 1, len = this._tracks.length; i < len; i++) {
                 var t = this._tracks[i].getEndTime();
-                if (t > latestTime)
+                if (t > latestTime) {
                     latestTime = t;
+                }
             }
         }
     

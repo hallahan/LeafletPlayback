@@ -1008,4 +1008,4 @@ var houseToCoordley = {
       44.54908199
     ]
   ]
-}
+};

@@ -71,7 +71,7 @@ L.Playback.PlayControl = L.Control.extend({
         .on(this._button, 'click', play, this);
         
         function play(){
-            if (playback.isPlaying()){
+            if (playback.isPlaying()) {
                 playback.stop();
                 self._button.innerHTML = 'Play';
             }
@@ -129,7 +129,7 @@ L.Playback.SliderControl = L.Control.extend({
         });
         
         
-        map.on('playback:add_tracks', function(){
+        map.on('playback:add_tracks', function() {
             self._slider.min = playback.getStartTime();
             self._slider.max = playback.getEndTime();
             self._slider.value = playback.getTime();

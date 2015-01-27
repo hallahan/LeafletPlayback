@@ -41,7 +41,7 @@ L.Playback.Util = L.Class.extend({
       };
       var xml = $.parseXML(gpx);
       var pts = $(xml).find('trkpt');
-      for(var i=0, len=pts.length; i<len; i++){
+      for (var i=0, len=pts.length; i<len; i++) {
         var p = pts[i];
         var lat = parseFloat(p.getAttribute('lat'));
         var lng = parseFloat(p.getAttribute('lon'));

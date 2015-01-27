@@ -208,7 +208,7 @@ L.Playback.Control = L.Control.extend({
     var dy = date.getDate();
     // the calendar uses hour and the timepicker uses hours...
     var hr = time.hours || time.hour;
-    if (time.meridian == 'PM' && hr != 12) hr += 12;
+    if (time.meridian === 'PM' && hr !== 12) hr += 12;
     var min = time.minutes || time.minute;
     var sec = time.seconds || time.second;
     return new Date(yr, mo, dy, hr, min, sec).getTime();    
@@ -240,7 +240,7 @@ L.Playback.Control = L.Control.extend({
 
       self.playback.addData(tracks);
       $('#load-tracks-modal').modal('hide');
-    }    
+    };    
   }
 
 });

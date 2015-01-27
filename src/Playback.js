@@ -68,7 +68,7 @@ L.Playback = L.Playback.Clock.extend({
         clearData : function(){
             this._trackController.clearTracks();
             
-            if (this._tracksLayer){
+            if (this._tracksLayer) {
                 this._tracksLayer.clearLayer();
             }
         },
@@ -84,7 +84,7 @@ L.Playback = L.Playback.Clock.extend({
         // bad implementation
         addData : function (geoJSON, ms) {
             // return if data not set
-            if (!geoJSON){
+            if (!geoJSON) {
                 return;
             }
         
