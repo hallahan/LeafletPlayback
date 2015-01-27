@@ -1,0 +1,39 @@
+{
+  "name": "<%= pkg.name %>",
+  "homepage": "<%= pkg.homepage %>",
+  "version": "<%= pkg.version %>",
+  "authors": [
+      "<%= pkg.author %>", 
+      "<%= pkg.contributors %>"
+  ],
+  "description": "<%= pkg.description %>",
+  "main": "dist/LeafletPlayback.js",
+  "dependencies": {
+      "leaflet": "~0.7.0",
+      "jquery": ">=1.10"
+  },
+  "devDependencies": {
+  },
+  "directories": {
+      "example": "demo"
+  },
+  "repository": { 
+      "type": "<%= pkg.repository.type %>", 
+      "url": "<%= pkg.repository.url %>"
+  },
+  "readmeFilename": "README.md",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "config",
+    "data",
+    "demo",
+    "examples",
+    "src",
+    ".*",
+    "Gruntfile.js",
+    "index.html",
+    "package.json",
+    "README.md"
+  ]
+}
