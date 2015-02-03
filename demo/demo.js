@@ -25,11 +25,7 @@ $(function() {
 	map = new L.Map('map', {zoomControl:false});
 
   // var basemapURL = 'http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}';
-	var basemapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-	var basemapLayer = new L.TileLayer(basemapURL, {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-		maxZoom : 19
-	});
+    var basemapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png');
 
 	//centers map and default zoom level
 	map.setView([44.44751, -123.49], 10);
