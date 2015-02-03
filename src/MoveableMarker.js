@@ -19,9 +19,9 @@ L.Playback.MoveableMarker = L.Marker.extend({
         this.bindPopup(this.getPopupContent() + startLatLng.toString());
     },
     
-    getPopupContent: function(){
-        if (this.popupContent != ''){
-            return '<b>' + this.popupContent + '</b><br/>'
+    getPopupContent: function() {
+        if (this.popupContent !== ''){
+            return '<b>' + this.popupContent + '</b><br/>';
         }
         
         return '';
@@ -40,7 +40,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
             }
         }
         this.setLatLng(latLng);
-        if (this._popup){
+        if (this._popup) {
             this._popup.setContent(this.getPopupContent() + this._latlng.toString());
         }    
     }

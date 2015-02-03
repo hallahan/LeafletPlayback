@@ -25,7 +25,7 @@ L.Playback.Clock = L.Class.extend({
 
   _callbacks: function(cursor) {
     var arry = this._callbacksArry;
-    for(var i=0, len=arry.length; i<len; i++){
+    for (var i=0, len=arry.length; i<len; i++) {
       arry[i](cursor);
     }
   },

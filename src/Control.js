@@ -2,10 +2,13 @@ L.Playback = L.Playback || {};
 
 L.Playback.DateControl = L.Control.extend({
     options : {
-        position : 'bottomleft'
+        position : 'bottomleft',
+        dateFormatFn: L.Playback.Util.DateStr,
+        timeFormatFn: L.Playback.Util.TimeStr
     },
 
-    initialize : function (playback) {
+    initialize : function (playback, options) {
+        L.setOptions(this, options);
         this.playback = playback;
     },
 
@@ -22,13 +25,13 @@ L.Playback.DateControl = L.Control.extend({
         this._date = L.DomUtil.create('p', '', datetime);
         this._time = L.DomUtil.create('p', '', datetime);
 
-        this._date.innerHTML = L.Playback.Util.DateStr(time);
-        this._time.innerHTML = L.Playback.Util.TimeStr(time);
+        this._date.innerHTML = this.options.dateFormatFn(time);
+        this._time.innerHTML = this.options.timeFormatFn(time);
 
         // setup callback
         playback.addCallback(function (ms) {
-            self._date.innerHTML = L.Playback.Util.DateStr(ms);
-            self._time.innerHTML = L.Playback.Util.TimeStr(ms);
+            self._date.innerHTML = self.options.dateFormatFn(ms);
+            self._time.innerHTML = self.options.timeFormatFn(ms);
         });
 
         return this._container;
@@ -68,7 +71,7 @@ L.Playback.PlayControl = L.Control.extend({
         .on(this._button, 'click', play, this);
         
         function play(){
-            if (playback.isPlaying()){
+            if (playback.isPlaying()) {
                 playback.stop();
                 self._button.innerHTML = 'Play';
             }
@@ -126,7 +129,7 @@ L.Playback.SliderControl = L.Control.extend({
         });
         
         
-        map.on('playback:add_tracks', function(){
+        map.on('playback:add_tracks', function() {
             self._slider.min = playback.getStartTime();
             self._slider.max = playback.getEndTime();
             self._slider.value = playback.getTime();

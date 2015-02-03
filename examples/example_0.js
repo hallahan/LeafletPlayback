@@ -18,7 +18,7 @@ $(function() {
     var playbackOptions = {
         playControl: true,
         dateControl: true,
-        sliderControl: true,        
+        sliderControl: true     
     };
         
     // Initialize playback

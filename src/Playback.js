@@ -59,7 +59,7 @@ L.Playback = L.Playback.Clock.extend({
             }
 
             if (this.options.dateControl) {
-                this.dateControl = new L.Playback.DateControl(this);
+                this.dateControl = new L.Playback.DateControl(this, options);
                 this.dateControl.addTo(map);
             }
 
@@ -68,7 +68,7 @@ L.Playback = L.Playback.Clock.extend({
         clearData : function(){
             this._trackController.clearTracks();
             
-            if (this._tracksLayer){
+            if (this._tracksLayer) {
                 this._tracksLayer.clearLayer();
             }
         },
@@ -84,7 +84,7 @@ L.Playback = L.Playback.Clock.extend({
         // bad implementation
         addData : function (geoJSON, ms) {
             // return if data not set
-            if (!geoJSON){
+            if (!geoJSON) {
                 return;
             }
         
@@ -101,6 +101,19 @@ L.Playback = L.Playback.Clock.extend({
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
             }                  
+        },
+
+        destroy: function() {
+            this.clearData();
+            if (this.playControl) {
+                this._map.removeControl(this.playControl);
+            }
+            if (this.sliderControl) {
+                this._map.removeControl(this.sliderControl);
+            }
+            if (this.dateControl) {
+                this._map.removeControl(this.dateControl);
+            }
         }
     });
 
