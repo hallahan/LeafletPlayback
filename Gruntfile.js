@@ -29,11 +29,18 @@ module.exports = function(grunt) {
             src: 'dist/LeafletPlayback.js',
             dest: 'dist/LeafletPlayback.min.js'
         }
+    },
+    
+    writeBowerJson: {
+        options: {
+            bowerJsonTemplate: 'config/bower-template.json'
+        }
     }
   });
   
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-write-bower-json');
   
-  grunt.registerTask('default', ['concat', 'uglify']);
+  grunt.registerTask('default', ['concat', 'uglify', 'writeBowerJson']);
 };
