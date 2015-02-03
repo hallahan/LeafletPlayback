@@ -11,10 +11,10 @@ L.Playback.TracksLayer = L.Class.extend({
             layer_options = layer_options(feature);
         }
         
-        if (!layer_options.pointToLayer){
+        if (!layer_options.pointToLayer) {
             layer_options.pointToLayer = function (featureData, latlng) {
                 return new L.CircleMarker(latlng, { radius : 5 });
-            }
+            };
         }
     
         this.layer = new L.GeoJSON(null, layer_options);
@@ -30,13 +30,13 @@ L.Playback.TracksLayer = L.Class.extend({
 
     // clear all geoJSON layers
     clearLayer : function(){
-        for (var i in this.layer._layers){
+        for (var i in this.layer._layers) {
             this.layer.removeLayer(this.layer._layers[i]);            
         }
     },
 
     // add new geoJSON layer
-    addLayer : function(geoJSON){
+    addLayer : function(geoJSON) {
         this.layer.addData(geoJSON);
     }
 });

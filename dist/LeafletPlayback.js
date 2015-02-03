@@ -1,3 +1,21 @@
+// UMD initialization to work with CommonJS, AMD and basic browser script include
+(function (factory) {
+	var L;
+	if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['leaflet'], factory);
+	} else if (typeof module === 'object' && typeof module.exports === "object") {
+		// Node/CommonJS
+		L = require('leaflet');
+		module.exports = factory(L);
+	} else {
+		// Browser globals
+		if (typeof window.L === 'undefined')
+			throw 'Leaflet must be loaded first';
+		factory(window.L);
+	}
+}(function (L) {
+
 L.Playback = L.Playback || {};
 
 L.Playback.Util = L.Class.extend({
@@ -41,7 +59,7 @@ L.Playback.Util = L.Class.extend({
       };
       var xml = $.parseXML(gpx);
       var pts = $(xml).find('trkpt');
-      for(var i=0, len=pts.length; i<len; i++){
+      for (var i=0, len=pts.length; i<len; i++) {
         var p = pts[i];
         var lat = parseFloat(p.getAttribute('lat'));
         var lng = parseFloat(p.getAttribute('lon'));
@@ -86,9 +104,9 @@ L.Playback.MoveableMarker = L.Marker.extend({
         this.bindPopup(this.getPopupContent() + startLatLng.toString());
     },
     
-    getPopupContent: function(){
-        if (this.popupContent != ''){
-            return '<b>' + this.popupContent + '</b><br/>'
+    getPopupContent: function() {
+        if (this.popupContent !== ''){
+            return '<b>' + this.popupContent + '</b><br/>';
         }
         
         return '';
@@ -107,7 +125,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
             }
         }
         this.setLatLng(latLng);
-        if (this._popup){
+        if (this._popup) {
             this._popup.setContent(this.getPopupContent() + this._latlng.toString());
         }    
     }
@@ -172,7 +190,7 @@ L.Playback.Track = L.Class.extend({
                 nextSampleTime = sampleTimes[i + 1];
 
                 tmod = t % tickLen;
-                if (tmod != 0 && nextSampleTime) {
+                if (tmod !== 0 && nextSampleTime) {
                     rem = tickLen - tmod;
                     ratio = rem / (nextSampleTime - currSampleTime);
                     t += rem;
@@ -266,14 +284,14 @@ L.Playback.Track = L.Class.extend({
             var lngLat = null;
             
             // if time stamp is not set, then get first tick
-            if (timestamp){
+            if (timestamp) {
                 lngLat = this.tick(timestamp);
             }
             else {
                 lngLat = this.getFirstTick();
             }        
         
-            if (lngLat){
+            if (lngLat) {
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
                 this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);                
             }
@@ -281,13 +299,13 @@ L.Playback.Track = L.Class.extend({
             return this._marker;
         },
         
-        moveMarker : function(latLng, transitionTime){
-            if (this._marker){
+        moveMarker : function(latLng, transitionTime) {
+            if (this._marker) {
                 this._marker.move(latLng, transitionTime);
             }
         },
         
-        getMarker : function(){
+        getMarker : function() {
             return this._marker;
         }
 
@@ -308,7 +326,7 @@ L.Playback.TrackController = L.Class.extend({
     },
     
     clearTracks: function(){
-        while (this._tracks.length > 0){
+        while (this._tracks.length > 0) {
             var track = this._tracks.pop();
             var marker = track.getMarker();
             
@@ -318,7 +336,7 @@ L.Playback.TrackController = L.Class.extend({
         }            
     },
 
-    setTracks : function (tracks){
+    setTracks : function (tracks) {
         // reset current tracks
         this.clearTracks();
         
@@ -327,7 +345,7 @@ L.Playback.TrackController = L.Class.extend({
     
     addTracks : function (tracks) {
         // return if nothing is set
-        if (!tracks){
+        if (!tracks) {
             return;
         }
         
@@ -343,13 +361,13 @@ L.Playback.TrackController = L.Class.extend({
     // add single track
     addTrack : function (track, timestamp) {
         // return if nothing is set
-        if (!track){
+        if (!track) {
             return;
         }
 
         var marker = track.setMarker(timestamp, this.options);
 
-        if (marker){
+        if (marker) {
             marker.addTo(this._map);
             
             this._tracks.push(track);
@@ -367,12 +385,13 @@ L.Playback.TrackController = L.Class.extend({
     getStartTime : function () {
         var earliestTime = 0;
 
-        if (this._tracks.length > 0){
+        if (this._tracks.length > 0) {
             earliestTime = this._tracks[0].getStartTime();
             for (var i = 1, len = this._tracks.length; i < len; i++) {
                 var t = this._tracks[i].getStartTime();
-                if (t < earliestTime)
+                if (t < earliestTime) {
                     earliestTime = t;
+                }
             }
         }
         
@@ -386,8 +405,9 @@ L.Playback.TrackController = L.Class.extend({
             latestTime = this._tracks[0].getEndTime();
             for (var i = 1, len = this._tracks.length; i < len; i++) {
                 var t = this._tracks[i].getEndTime();
-                if (t > latestTime)
+                if (t > latestTime) {
                     latestTime = t;
+                }
             }
         }
     
@@ -425,7 +445,7 @@ L.Playback.Clock = L.Class.extend({
 
   _callbacks: function(cursor) {
     var arry = this._callbacksArry;
-    for(var i=0, len=arry.length; i<len; i++){
+    for (var i=0, len=arry.length; i<len; i++) {
       arry[i](cursor);
     }
   },
@@ -508,10 +528,10 @@ L.Playback.TracksLayer = L.Class.extend({
             layer_options = layer_options(feature);
         }
         
-        if (!layer_options.pointToLayer){
+        if (!layer_options.pointToLayer) {
             layer_options.pointToLayer = function (featureData, latlng) {
                 return new L.CircleMarker(latlng, { radius : 5 });
-            }
+            };
         }
     
         this.layer = new L.GeoJSON(null, layer_options);
@@ -527,13 +547,13 @@ L.Playback.TracksLayer = L.Class.extend({
 
     // clear all geoJSON layers
     clearLayer : function(){
-        for (var i in this.layer._layers){
+        for (var i in this.layer._layers) {
             this.layer.removeLayer(this.layer._layers[i]);            
         }
     },
 
     // add new geoJSON layer
-    addLayer : function(geoJSON){
+    addLayer : function(geoJSON) {
         this.layer.addData(geoJSON);
     }
 });
@@ -541,10 +561,13 @@ L.Playback = L.Playback || {};
 
 L.Playback.DateControl = L.Control.extend({
     options : {
-        position : 'bottomleft'
+        position : 'bottomleft',
+        dateFormatFn: L.Playback.Util.DateStr,
+        timeFormatFn: L.Playback.Util.TimeStr
     },
 
-    initialize : function (playback) {
+    initialize : function (playback, options) {
+        L.setOptions(this, options);
         this.playback = playback;
     },
 
@@ -561,13 +584,13 @@ L.Playback.DateControl = L.Control.extend({
         this._date = L.DomUtil.create('p', '', datetime);
         this._time = L.DomUtil.create('p', '', datetime);
 
-        this._date.innerHTML = L.Playback.Util.DateStr(time);
-        this._time.innerHTML = L.Playback.Util.TimeStr(time);
+        this._date.innerHTML = this.options.dateFormatFn(time);
+        this._time.innerHTML = this.options.timeFormatFn(time);
 
         // setup callback
         playback.addCallback(function (ms) {
-            self._date.innerHTML = L.Playback.Util.DateStr(ms);
-            self._time.innerHTML = L.Playback.Util.TimeStr(ms);
+            self._date.innerHTML = self.options.dateFormatFn(ms);
+            self._time.innerHTML = self.options.timeFormatFn(ms);
         });
 
         return this._container;
@@ -607,7 +630,7 @@ L.Playback.PlayControl = L.Control.extend({
         .on(this._button, 'click', play, this);
         
         function play(){
-            if (playback.isPlaying()){
+            if (playback.isPlaying()) {
                 playback.stop();
                 self._button.innerHTML = 'Play';
             }
@@ -665,7 +688,7 @@ L.Playback.SliderControl = L.Control.extend({
         });
         
         
-        map.on('playback:add_tracks', function(){
+        map.on('playback:add_tracks', function() {
             self._slider.min = playback.getStartTime();
             self._slider.max = playback.getEndTime();
             self._slider.value = playback.getTime();
@@ -735,7 +758,7 @@ L.Playback = L.Playback.Clock.extend({
             }
 
             if (this.options.dateControl) {
-                this.dateControl = new L.Playback.DateControl(this);
+                this.dateControl = new L.Playback.DateControl(this, options);
                 this.dateControl.addTo(map);
             }
 
@@ -744,7 +767,7 @@ L.Playback = L.Playback.Clock.extend({
         clearData : function(){
             this._trackController.clearTracks();
             
-            if (this._tracksLayer){
+            if (this._tracksLayer) {
                 this._tracksLayer.clearLayer();
             }
         },
@@ -760,7 +783,7 @@ L.Playback = L.Playback.Clock.extend({
         // bad implementation
         addData : function (geoJSON, ms) {
             // return if data not set
-            if (!geoJSON){
+            if (!geoJSON) {
                 return;
             }
         
@@ -777,6 +800,19 @@ L.Playback = L.Playback.Clock.extend({
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
             }                  
+        },
+
+        destroy: function() {
+            this.clearData();
+            if (this.playControl) {
+                this._map.removeControl(this.playControl);
+            }
+            if (this.sliderControl) {
+                this._map.removeControl(this.sliderControl);
+            }
+            if (this.dateControl) {
+                this._map.removeControl(this.dateControl);
+            }
         }
     });
 
@@ -789,3 +825,6 @@ L.Map.addInitHook(function () {
 L.playback = function (map, geoJSON, callback, options) {
     return new L.Playback(map, geoJSON, callback, options);
 };
+return L.Playback;
+
+}));

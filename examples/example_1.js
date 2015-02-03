@@ -50,10 +50,10 @@ $(function() {
         
         // layer and marker options
         layer : {
-            pointToLayer : function(featureData, latlng){
+            pointToLayer : function(featureData, latlng) {
                 var result = {};
                 
-                if (featureData && featureData.properties && featureData.properties.path_options){
+                if (featureData && featureData.properties && featureData.properties.path_options) {
                     result = featureData.properties.path_options;
                 }
                 
@@ -66,16 +66,16 @@ $(function() {
         },
         
         marker: { 
-            getPopup: function(featureData){
+            getPopup: function(featureData) {
                 var result = '';
                 
-                if (featureData && featureData.properties && featureData.properties.title){
+                if (featureData && featureData.properties && featureData.properties.title) {
                     result = featureData.properties.title;
                 }
                 
                 return result;
             }
-        },
+        }
         
     };
         
@@ -98,7 +98,7 @@ $(function() {
     
     // 
     function onCustomTimeChange(properties) {
-        if (!playback.isPlaying()){
+        if (!playback.isPlaying()) {
             playback.setCursor(properties.time.getTime());
         }        
     }       
