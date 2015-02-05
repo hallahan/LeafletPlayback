@@ -4,7 +4,7 @@ $(function() {
     var endTime = new Date(demoTracks[0].properties.time[demoTracks[0].properties.time.length - 1]);
 
     // Create a DataSet with data
-    var timelineData = new vis.DataSet([{ start: startTime, end: endTime, content: 'Test interval' }]);
+    var timelineData = new vis.DataSet([{ start: startTime, end: endTime, content: 'Demo GPS Tracks' }]);
 
     // Set timeline options
     var timelineOptions = {

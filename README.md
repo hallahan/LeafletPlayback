@@ -1,20 +1,22 @@
-# Leaflet Playback
+# LeafletPlayback
 
 Leaflet Playback provides the ability to replay GPS Tracks in the form of GeoJSON objects. Rather than simply animating a marker along a polyline, the speed of the animation is synchroized to a clock. The playback functionality is similar to a video player--you can start and stop playback, change the playback speed, load GPS tracks, as well as set the playback time with a slider or calendar/time-picker widget.
 
 ## Examples
 
-### [Example 0](http://recallfx.github.io/LeafletPlayback/examples/example_0.html)
+### [Example 0](http://leafletplayback.theoutpost.io/examples/example_0.html)
 
 Basic example of LeafletPlayback plugin, that pre-loads some GPS GeoJSON tracks and lets you play them back.
 
-### [Example 1](http://recallfx.github.io/LeafletPlayback/examples/example_1.html)
+### [Example 1](http://leafletplayback.theoutpost.io/examples/example_1.html)
 
 Use vis.js timeline as slider control
 
-### [Example 2](http://recallfx.github.io/LeafletPlayback/examples/example_2.html)
+### [Example 2](http://leafletplayback.theoutpost.io/examples/example_2.html)
 
 Custom interface example - Includes the usage of Maki Markers and Twitter Bootstrap.
+
+I began my work on LeafletPlayback in my web mapping class at [Oregon State University](http://cartography.oregonstate.edu/). My final project involved animating GPS tracks that triggered geo-fences. _Note: this may stop working on August 2015 when Geoloqui will discontinue their web services._
 
 ## GPS Data Format
 
