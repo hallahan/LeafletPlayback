@@ -15,7 +15,8 @@ L.Playback.Track = L.Class.extend({
             var samples = geoJSON.geometry.coordinates;
             var currSample = samples[0];
             var nextSample = samples[1];
-            var t = currSampleTime = sampleTimes[0]; // t is used to iterate through tick times
+            var currSampleTime = sampleTimes[0];
+            var t = currSampleTime;  // t is used to iterate through tick times
             var nextSampleTime = sampleTimes[1];
             var tmod = t % tickLen; // ms past a tick time
             var rem,
