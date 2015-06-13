@@ -57,9 +57,10 @@ L.Playback.TrackController = L.Class.extend({
 
         if (marker) {
             marker.addTo(this._map);
+            marker._mmap = this._map
             
             this._tracks.push(track);
-        }            
+        }
     },
 
     tock : function (timestamp, transitionTime) {

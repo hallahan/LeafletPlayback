@@ -5,11 +5,12 @@ L.Playback.Track = L.Class.extend({
         initialize : function (geoJSON, options) {
             options = options || {};
             var tickLen = options.tickLen || 250;
-            
+
             this._geoJSON = geoJSON;
             this._tickLen = tickLen;
             this._ticks = [];
             this._marker = null;
+            this._hideInactive = options.hideInactive
 
             var sampleTimes = geoJSON.properties.time;
             var samples = geoJSON.geometry.coordinates;
@@ -141,10 +142,24 @@ L.Playback.Track = L.Class.extend({
         },
         
         tick : function (timestamp) {
-            if (timestamp > this._endTime)
+            if (this._hideInactive) {
+                if (timestamp > this._endTime || timestamp < this._startTime) {
+                    if (this._marker._map) {
+                        this._marker._mmap.removeLayer(this._marker);
+                    }
+                }
+                else if (!this._marker._map) {
+                    this._marker._mmap.addLayer(this._marker)
+                }
+            }
+
+            if (timestamp > this._endTime) {
                 timestamp = this._endTime;
-            if (timestamp < this._startTime)
+            }
+            else if (timestamp < this._startTime) {
                 timestamp = this._startTime;
+            }
+
             return this._ticks[timestamp];
         },
         

@@ -17,6 +17,7 @@ L.Playback = L.Playback.Clock.extend({
             tickLen: 250,
             speed: 1,
             maxInterpolationTime: 5*60*1000, // 5 minutes
+            hideInactive: false,
 
             tracksLayer : true,
             
