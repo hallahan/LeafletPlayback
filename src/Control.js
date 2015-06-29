@@ -40,10 +40,13 @@ L.Playback.DateControl = L.Control.extend({
     
 L.Playback.PlayControl = L.Control.extend({
     options : {
-        position : 'bottomright'
+        position : 'bottomright',
+        playCommand : 'Play',
+        stopCommand : 'Stop'
     },
 
-    initialize : function (playback) {
+    initialize : function (playback, options) {
+        L.setOptions(this, options);
         this.playback = playback;
     },
 
@@ -58,7 +61,7 @@ L.Playback.PlayControl = L.Control.extend({
 
 
         this._button = L.DomUtil.create('button', '', playControl);
-        this._button.innerHTML = 'Play';
+        this._button.innerHTML = this.options.playCommand;
 
 
         var stop = L.DomEvent.stopPropagation;
@@ -73,12 +76,12 @@ L.Playback.PlayControl = L.Control.extend({
         function play(){
             if (playback.isPlaying()) {
                 playback.stop();
-                self._button.innerHTML = 'Play';
+                self._button.innerHTML = this.options.playCommand;
             }
             else {
                 playback.start();
-                self._button.innerHTML = 'Stop';
-            }                
+                self._button.innerHTML = this.options.stopCommand;
+            }
         }
 
         return this._container;

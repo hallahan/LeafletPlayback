@@ -529,7 +529,9 @@ L.Playback.TracksLayer = L.Class.extend({
         if (jQuery.isFunction(layer_options)){
             layer_options = layer_options(feature);
         }
-        
+
+        options.tracksLayerCaption = options.tracksLayerCaption || 'GPS Tracks';
+
         if (!layer_options.pointToLayer) {
             layer_options.pointToLayer = function (featureData, latlng) {
                 return new L.CircleMarker(latlng, { radius : 5 });
@@ -538,9 +540,8 @@ L.Playback.TracksLayer = L.Class.extend({
     
         this.layer = new L.GeoJSON(null, layer_options);
 
-        var overlayControl = {
-            'GPS Tracks' : this.layer
-        };
+        var overlayControl = {};
+        overlayControl[options.tracksLayerCaption] = this.layer;
 
         L.control.layers(null, overlayControl, {
             collapsed : false
@@ -601,10 +602,13 @@ L.Playback.DateControl = L.Control.extend({
     
 L.Playback.PlayControl = L.Control.extend({
     options : {
-        position : 'bottomright'
+        position : 'bottomright',
+        playCommand : 'Play',
+        stopCommand : 'Stop'
     },
 
-    initialize : function (playback) {
+    initialize : function (playback, options) {
+        L.setOptions(this, options);
         this.playback = playback;
     },
 
@@ -619,7 +623,7 @@ L.Playback.PlayControl = L.Control.extend({
 
 
         this._button = L.DomUtil.create('button', '', playControl);
-        this._button.innerHTML = 'Play';
+        this._button.innerHTML = this.options.playCommand;
 
 
         var stop = L.DomEvent.stopPropagation;
@@ -634,12 +638,12 @@ L.Playback.PlayControl = L.Control.extend({
         function play(){
             if (playback.isPlaying()) {
                 playback.stop();
-                self._button.innerHTML = 'Play';
+                self._button.innerHTML = this.options.playCommand;
             }
             else {
                 playback.start();
-                self._button.innerHTML = 'Stop';
-            }                
+                self._button.innerHTML = this.options.stopCommand;
+            }
         }
 
         return this._container;
@@ -750,7 +754,7 @@ L.Playback = L.Playback.Clock.extend({
             
 
             if (this.options.playControl) {
-                this.playControl = new L.Playback.PlayControl(this);
+                this.playControl = new L.Playback.PlayControl(this, options);
                 this.playControl.addTo(map);
             }
 
