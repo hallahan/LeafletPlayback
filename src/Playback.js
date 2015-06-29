@@ -49,7 +49,7 @@ L.Playback = L.Playback.Clock.extend({
             
 
             if (this.options.playControl) {
-                this.playControl = new L.Playback.PlayControl(this);
+                this.playControl = new L.Playback.PlayControl(this, options);
                 this.playControl.addTo(map);
             }
 

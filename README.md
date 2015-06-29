@@ -74,7 +74,13 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `tracksLayer` - Set `true` if you want to show layer control on the map. **Default: `true`**.
 
+* `tracksLayerCaption` - The Name of the tracks layer in the control. **Default: `GPS Tracks`**.
+
 * `playControl` - Set `true` if play button is needed. **Default: `false`**.
+
+* `playCommand` - The caption of the default *PlayControl* play button. **Default: `Play`**.
+
+* `stopCommand` - The caption of the default *PlayControl* stop button. **Default: `Stop`**.
 
 * `dateControl` - Set `true` if date label is needed. **Default: `false`**.
 
