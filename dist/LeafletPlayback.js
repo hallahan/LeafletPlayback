@@ -143,11 +143,19 @@ L.Playback.Track = L.Class.extend({
             this._tickLen = tickLen;
             this._ticks = [];
             this._marker = null;
-
+			this._courses = [];
+			
             var sampleTimes = geoJSON.properties.time;
+			
+			var sampleCourses = geoJSON.properties.course;
+			var currSampleCourse = sampleCourses[0];
+            //var nextSampleCourse = sampleCourses[1];
+			
+			
             var samples = geoJSON.geometry.coordinates;
             var currSample = samples[0];
             var nextSample = samples[1];
+			
             var currSampleTime = sampleTimes[0];
             var t = currSampleTime;  // t is used to iterate through tick times
             var nextSampleTime = sampleTimes[1];
@@ -160,6 +168,7 @@ L.Playback.Track = L.Class.extend({
                 if (tmod !== 0)
                     t += tickLen - tmod;
                 this._ticks[t] = samples[0];
+				this._courses[t] = sampleCourses[0];
                 this._startTime = t;
                 this._endTime = t;
                 return;
@@ -171,8 +180,10 @@ L.Playback.Track = L.Class.extend({
                 ratio = rem / (nextSampleTime - currSampleTime);
                 t += rem;
                 this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+				this._courses[t] = currSampleCourse;
             } else {
                 this._ticks[t] = currSample;
+				this._courses[t] = currSampleCourse;
             }
 
             this._startTime = t;
@@ -180,6 +191,7 @@ L.Playback.Track = L.Class.extend({
             while (t < nextSampleTime) {
                 ratio = (t - currSampleTime) / (nextSampleTime - currSampleTime);
                 this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+				this._courses[t] = currSampleCourse;
                 t += tickLen;
             }
 
@@ -189,6 +201,7 @@ L.Playback.Track = L.Class.extend({
                 nextSample = samples[i + 1];
                 t = currSampleTime = sampleTimes[i];
                 nextSampleTime = sampleTimes[i + 1];
+				currSampleCourse = sampleCourses[i];
 
                 tmod = t % tickLen;
                 if (tmod !== 0 && nextSampleTime) {
@@ -196,8 +209,10 @@ L.Playback.Track = L.Class.extend({
                     ratio = rem / (nextSampleTime - currSampleTime);
                     t += rem;
                     this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+					this._courses[t] = currSampleCourse;
                 } else {
                     this._ticks[t] = currSample;
+					this._courses[t] = currSampleCourse;
                 }
 
                 t += tickLen;
@@ -206,9 +221,11 @@ L.Playback.Track = L.Class.extend({
                     
                     if (nextSampleTime - currSampleTime > options.maxInterpolationTime){
                         this._ticks[t] = currSample;
+						this._courses[t] = currSampleCourse;
                     }
                     else {
                         this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
+						this._courses[t] = currSampleCourse;
                     }
                     
                     t += tickLen;
@@ -272,7 +289,17 @@ L.Playback.Track = L.Class.extend({
                 }
             };
         },
+		
+		trackPresentAtTick : function(timestamp)
+		{
+			return (timestamp >= this._startTime);
+		},
         
+		trackStaleAtTick : function(timestamp)
+		{
+			return ((this._endTime + 60*60*1000) <= timestamp);
+		},
+		
         tick : function (timestamp) {
             if (timestamp > this._endTime)
                 timestamp = this._endTime;
@@ -280,6 +307,16 @@ L.Playback.Track = L.Class.extend({
                 timestamp = this._startTime;
             return this._ticks[timestamp];
         },
+		
+		courseAtTime: function(timestamp)
+		{
+			//return 90;
+			if (timestamp > this._endTime)
+               timestamp = this._endTime;
+            if (timestamp < this._startTime)
+                timestamp = this._startTime;
+			return this._courses[timestamp];
+		},
         
         setMarker : function(timestamp, options){
             var lngLat = null;
@@ -294,14 +331,37 @@ L.Playback.Track = L.Class.extend({
         
             if (lngLat) {
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-                this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);                
+                this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);     
+
+				//hide the marker if its not present yet
+				if(!this.trackPresentAtTick(timestamp))
+				{
+					this._marker.setOpacity(0);
+				}
             }
             
             return this._marker;
         },
         
-        moveMarker : function(latLng, transitionTime) {
+        moveMarker : function(latLng, transitionTime,timestamp) {
             if (this._marker) {
+				//show the marker if its now present
+				if(this.trackPresentAtTick(timestamp))
+				{
+					this._marker.setOpacity(1);
+				}
+				else
+				{
+					this._marker.setOpacity(0);
+				}
+				
+				if(this.trackStaleAtTick(timestamp))
+				{
+					this._marker.setOpacity(0.25);
+				}
+				
+				this._marker.setIconAngle(this.courseAtTime(timestamp));
+				
                 this._marker.move(latLng, transitionTime);
             }
         },
@@ -380,7 +440,7 @@ L.Playback.TrackController = L.Class.extend({
         for (var i = 0, len = this._tracks.length; i < len; i++) {
             var lngLat = this._tracks[i].tick(timestamp);
             var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-            this._tracks[i].moveMarker(latLng, transitionTime);
+            this._tracks[i].moveMarker(latLng, transitionTime,timestamp);
         }
     },
 
@@ -666,7 +726,7 @@ L.Playback.SliderControl = L.Control.extend({
         this._slider.type = 'range';
         this._slider.min = playback.getStartTime();
         this._slider.max = playback.getEndTime();
-        this._slider.value = playback.getTime();
+        this._slider.value = playback.getEndTime();
 
         var stop = L.DomEvent.stopPropagation;
 

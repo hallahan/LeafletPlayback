@@ -105,7 +105,7 @@ L.Playback.SliderControl = L.Control.extend({
         this._slider.type = 'range';
         this._slider.min = playback.getStartTime();
         this._slider.max = playback.getEndTime();
-        this._slider.value = playback.getTime();
+        this._slider.value = playback.getEndTime();
 
         var stop = L.DomEvent.stopPropagation;
 
