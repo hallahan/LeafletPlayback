@@ -94,6 +94,10 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `labels` - Set `true` if labels on markers are required. Uses leaflet-markers (https://github.com/Leaflet/Leaflet.label) **Default: `false`**.
 
+* `staleTime` - Set time before a track is considered stale and faded out. **Default: `60*60*1000` (1 hour)**.
+
+* `fadeMarkersWhenStale` - Set `true` markers should hide when not yet present in time and fade out after staleTime has passed **Default: `false`**.
+
 ### playback#setData(geoJSON)
 
 Reset current data and add new.

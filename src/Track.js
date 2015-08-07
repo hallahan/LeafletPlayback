@@ -7,6 +7,8 @@ L.Playback.Track = L.Class.extend({
         initialize : function (geoJSON, options) {
             options = options || {};
             var tickLen = options.tickLen || 250;
+            this._staleTime = options.staleTime || 60*60*1000;
+            this._fadeMarkersWhenStale = options.fadeMarkersWhenStale || false;
             
             this._geoJSON = geoJSON;
             this._tickLen = tickLen;
@@ -217,7 +219,7 @@ L.Playback.Track = L.Class.extend({
         
         trackStaleAtTick : function(timestamp)
         {
-            return ((this._endTime + 60*60*1000) <= timestamp);
+            return ((this._endTime + this._staleTime) <= timestamp);
         },
 
         tick : function (timestamp) {
@@ -259,8 +261,8 @@ L.Playback.Track = L.Class.extend({
                     this._marker.on('click',options.clickCallback);
                 }
 				
-				//hide the marker if its not present yet
-				if(!this.trackPresentAtTick(timestamp))
+				//hide the marker if its not present yet and fadeMarkersWhenStale is true
+				if(this._fadeMarkersWhenStale && !this.trackPresentAtTick(timestamp))
 				{
 					this._marker.setOpacity(0);
 				}
@@ -271,20 +273,18 @@ L.Playback.Track = L.Class.extend({
         
         moveMarker : function(latLng, transitionTime,timestamp) {
             if (this._marker) {
-				//show the marker if its now present
-				if(this.trackPresentAtTick(timestamp))
-				{
-					this._marker.setOpacity(1);
-				}
-				else
-				{
-					this._marker.setOpacity(0);
-				}
-				
-				if(this.trackStaleAtTick(timestamp))
-				{
-					this._marker.setOpacity(0.25);
-				}
+                if(this._fadeMarkersWhenStale) {
+                    //show the marker if its now present
+                    if(this.trackPresentAtTick(timestamp)) {
+                        this._marker.setOpacity(1);
+                    } else {
+                        this._marker.setOpacity(0);
+                    }
+                    
+                    if(this.trackStaleAtTick(timestamp)) {
+                        this._marker.setOpacity(0.25);
+                    }
+                }
 				
                 if(this._orientIcon){
                     this._marker.setIconAngle(this.courseAtTime(timestamp));
