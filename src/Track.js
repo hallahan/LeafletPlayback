@@ -71,7 +71,6 @@ L.Playback.Track = L.Class.extend({
                 nextSample = samples[i + 1];
                 t = currSampleTime = sampleTimes[i];
                 nextSampleTime = sampleTimes[i + 1];
-				//currSampleOrientation = sampleOrientations[i] || 0;
 
                 tmod = t % tickLen;
                 if (tmod !== 0 && nextSampleTime) {
