@@ -11,19 +11,19 @@ L.Playback.MoveableMarker = L.Marker.extend({
         L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
         
         this.popupContent = '';
-		this.feature = feature;
+        this.feature = feature;
 		
         if (marker_options.getPopup){
             this.popupContent = marker_options.getPopup(feature);            
         }
         
-		if(options.popups)
-		{
-			this.bindPopup(this.getPopupContent() + startLatLng.toString());
-		}
-		
-		if(options.labels)
-		{
+	if(options.popups)
+	{
+	        this.bindPopup(this.getPopupContent() + startLatLng.toString());
+        }
+        	
+        if(options.labels)
+        {
             if(this.bindLabel)
             {
                 this.bindLabel(this.getPopupContent());
@@ -32,7 +32,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
             {
                 console.log("Label binding requires leaflet-label (https://github.com/Leaflet/Leaflet.label)");
             }
-		}
+        }
     },
     
     getPopupContent: function() {
