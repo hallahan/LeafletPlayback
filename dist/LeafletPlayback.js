@@ -96,19 +96,19 @@ L.Playback.MoveableMarker = L.Marker.extend({
         L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
         
         this.popupContent = '';
-		this.feature = feature;
+        this.feature = feature;
 		
         if (marker_options.getPopup){
             this.popupContent = marker_options.getPopup(feature);            
         }
         
-		if(options.popups)
-		{
-			this.bindPopup(this.getPopupContent() + startLatLng.toString());
-		}
-		
-		if(options.labels)
-		{
+        if(options.popups)
+        {
+            this.bindPopup(this.getPopupContent() + startLatLng.toString());
+        }
+        	
+        if(options.labels)
+        {
             if(this.bindLabel)
             {
                 this.bindLabel(this.getPopupContent());
@@ -117,7 +117,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
             {
                 console.log("Label binding requires leaflet-label (https://github.com/Leaflet/Leaflet.label)");
             }
-		}
+        }
     },
     
     getPopupContent: function() {
@@ -270,7 +270,6 @@ L.Playback.Track = L.Class.extend({
                 nextSample = samples[i + 1];
                 t = currSampleTime = sampleTimes[i];
                 nextSampleTime = sampleTimes[i + 1];
-				//currSampleOrientation = sampleOrientations[i] || 0;
 
                 tmod = t % tickLen;
                 if (tmod !== 0 && nextSampleTime) {
@@ -452,8 +451,12 @@ L.Playback.Track = L.Class.extend({
             if (lngLat) {
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
                 this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);     
-				this._marker.on('mouseover',options.mouseOverCallback);
-				this._marker.on('click',options.clickCallback);
+				if(options.mouseOverCallback) {
+                    this._marker.on('mouseover',options.mouseOverCallback);
+                }
+				if(options.clickCallback) {
+                    this._marker.on('click',options.clickCallback);
+                }
 				
 				//hide the marker if its not present yet
 				if(!this.trackPresentAtTick(timestamp))
@@ -618,7 +621,7 @@ L.Playback.Clock = L.Class.extend({
     this._cursor = trackController.getStartTime();
     this._transitionTime = this._tickLen / this._speed;
   },
-    
+
   _tick: function (self) {
     if (self._cursor > self._trackController.getEndTime()) {
       clearInterval(self._intervalID);

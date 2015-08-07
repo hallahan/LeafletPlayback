@@ -252,8 +252,12 @@ L.Playback.Track = L.Class.extend({
             if (lngLat) {
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
                 this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);     
-				this._marker.on('mouseover',options.mouseOverCallback);
-				this._marker.on('click',options.clickCallback);
+				if(options.mouseOverCallback) {
+                    this._marker.on('mouseover',options.mouseOverCallback);
+                }
+				if(options.clickCallback) {
+                    this._marker.on('click',options.clickCallback);
+                }
 				
 				//hide the marker if its not present yet
 				if(!this.trackPresentAtTick(timestamp))
