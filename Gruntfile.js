@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         dist: {
             options: {
                 mangle: true,
-                compress: {}
+                compress: true
             },
             src: 'dist/LeafletPlayback.js',
             dest: 'dist/LeafletPlayback.min.js'
