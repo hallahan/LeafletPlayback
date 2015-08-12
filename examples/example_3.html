@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LeafletPlayback</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
+    <style>
+    #map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    
+    #title_container {
+        z-index: 10000;
+        position: fixed;
+        left: 100px;
+    }
+
+    body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+    h1 {
+        font-size: 36px;
+        font-weight: 300;
+        line-height: 1.1;
+    }
+
+    .datetimeControl p {
+        margin: 0;
+        font-size: 16px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="title_container">
+        <h1>Example 3</h1>
+        <p>Basic example of LeafletPlayback with orientation</p>
+    </div>
+    
+    <div id="map"></div>
+
+    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
+
+    <script src="../dist/LeafletPlayback.js"></script>
+    <script src="../data/demo/demo-tracks.js"></script>
+    <script src="example_3.js"></script>  
+</body>
+</html>
