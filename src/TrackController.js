@@ -66,7 +66,7 @@ L.Playback.TrackController = L.Class.extend({
         for (var i = 0, len = this._tracks.length; i < len; i++) {
             var lngLat = this._tracks[i].tick(timestamp);
             var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-            this._tracks[i].moveMarker(latLng, transitionTime);
+            this._tracks[i].moveMarker(latLng, transitionTime,timestamp);
         }
     },
 

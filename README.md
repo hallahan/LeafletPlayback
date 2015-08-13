@@ -84,6 +84,19 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `marker` - Object or function with signature `(featureData)` that returns leaflet marker options, to extend `L.Playback.MoveableMarker`. Useful for custom icons. **Default: `{}`**.
 
+* `orientIcons` - Set `true` if you want icons to orient themselves on each tick based on the bearing towards their next location. **Default: `false`**.
+
+* `mouseOverCallback` - A function with signature `(event)` that will be sent events on 'mouseover' on each marker **Optional**.
+
+* `clickCallback` - A function with signature `(event)` that will be sent events on 'click' on each marker **Optional**.
+
+* `popups` - Set `true` if popups on markers are required. **Default: `false`**.
+
+* `labels` - Set `true` if labels on markers are required. Uses leaflet-markers (https://github.com/Leaflet/Leaflet.label) **Default: `false`**.
+
+* `staleTime` - Set time before a track is considered stale and faded out. **Default: `60*60*1000` (1 hour)**.
+
+* `fadeMarkersWhenStale` - Set `true` markers should hide when not yet present in time and fade out after staleTime has passed **Default: `false`**.
 
 ### playback#setData(geoJSON)
 
