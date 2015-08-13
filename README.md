@@ -16,6 +16,10 @@ Use vis.js timeline as slider control
 
 Custom interface example - Includes the usage of Maki Markers and Twitter Bootstrap.
 
+### [Example 3](http://leafletplayback.theoutpost.io/examples/example_3.html)
+
+Shows the ability to have markers orient themselves to the bearing of the track.
+
 ### [Virtual Fence Demo](http://virtualfence.theoutpost.io/)
 I began my work on LeafletPlayback in my web mapping class at [Oregon State University](http://cartography.oregonstate.edu/). My final project involved animating GPS tracks that triggered geo-fences. _Note: this may stop working on August 2015 when Geoloqui will discontinue their web services._
 
