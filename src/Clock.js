@@ -68,10 +68,6 @@ L.Playback.Clock = L.Class.extend({
   setCursor: function (ms) {
     var time = parseInt(ms);
     if (!time) return;
-    var mod = time % this._tickLen;
-    if (mod !== 0) {
-      time += this._tickLen - mod;
-    }
     this._cursor = time;
     this._trackController.tock(this._cursor, 0);
     this._callbacks(this._cursor);
