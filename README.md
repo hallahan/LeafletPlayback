@@ -25,7 +25,7 @@ I began my work on LeafletPlayback in my web mapping class at [Oregon State Univ
 
 ## GPS Data Format
 
-Leaflet Playback consumes GPS tracks in the form of GeoJSON. The next feature to be implemented for the plugin is the added ability to parse GPX tracks as well. The schema of the GeoJSON data is as follows: 
+Leaflet Playback consumes GPS tracks in the form of GeoJSON. Limited GPX import is provided with the `L.Playback.Util.ParseGPX()` convertion function. The schema of the GeoJSON data is as follows:
 
 ```javascript
 {
@@ -42,7 +42,7 @@ Leaflet Playback consumes GPS tracks in the form of GeoJSON. The next feature to
 
 Other attributes may be added to the GeoJSON object, but this is the required minimum schema for the plug-in to work.
 
-There are three leaflet controls defined in `src/Controls.js`: 
+There are three leaflet controls defined in `src/Controls.js`:
 
 1. L.Playback.DateControl - Current tick date/time;
 2. L.Playback.PlayControl -  Play/stop button to control time flow of LeafletPlayback;
@@ -54,7 +54,7 @@ There are three leaflet controls defined in `src/Controls.js`:
 
 ### new L.Playback(map, geoJSON, onPlaybackTimeChange, options)
 
-### Options
+#### parameters
 
 ```javascript
 var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
@@ -68,7 +68,7 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `options` - An options object. **Optional**.
 
-### options
+#### options
 
 * `tickLen` - Set tick length in miliseconds. Increasing this value, may improve performance, at the cost of animation smoothness. **Default: `250`**.
 
@@ -118,10 +118,16 @@ Add new data.
 
 Clear all data and tracks layer.
 
+### L.Playback.Util.ParseGPX(gpxString)
+Convert `gpxString` content into geoJSON that can be  used as input data for `Playback()`.
+* `gpxString` - a string containg the content of a GPX file. **Required**.
+
+
 ## Authors and Contributors
 
 * @hallahan - Nicholas Hallahan
 * @recallfx - Marius
 * @lbuter - Luke Butler
 * @dgorissen - Dirk Gorissen
+* @apre
 

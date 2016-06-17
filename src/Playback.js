@@ -6,7 +6,7 @@ L.Playback = L.Playback.Clock.extend({
             TrackController : L.Playback.TrackController,
             Clock : L.Playback.Clock,
             Util : L.Playback.Util,
-            
+
             TracksLayer : L.Playback.TracksLayer,
             PlayControl : L.Playback.PlayControl,
             DateControl : L.Playback.DateControl,
@@ -19,16 +19,16 @@ L.Playback = L.Playback.Clock.extend({
             maxInterpolationTime: 5*60*1000, // 5 minutes
 
             tracksLayer : true,
-            
+
             playControl: false,
             dateControl: false,
             sliderControl: false,
-            
+
             // options
             layer: {
                 // pointToLayer(featureData, latlng)
             },
-            
+
             marker : {
                 // getPopup(feature)
             }
@@ -36,17 +36,17 @@ L.Playback = L.Playback.Clock.extend({
 
         initialize : function (map, geoJSON, callback, options) {
             L.setOptions(this, options);
-            
+
             this._map = map;
             this._trackController = new L.Playback.TrackController(map, null, this.options);
             L.Playback.Clock.prototype.initialize.call(this, this._trackController, callback, this.options);
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer = new L.Playback.TracksLayer(map, options);
             }
 
-            this.setData(geoJSON);            
-            
+            this.setData(geoJSON);
+
 
             if (this.options.playControl) {
                 this.playControl = new L.Playback.PlayControl(this);
@@ -64,20 +64,20 @@ L.Playback = L.Playback.Clock.extend({
             }
 
         },
-        
+
         clearData : function(){
             this._trackController.clearTracks();
-            
+
             if (this._tracksLayer) {
                 this._tracksLayer.clearLayer();
             }
         },
-        
+
         setData : function (geoJSON) {
             this.clearData();
-        
+
             this.addData(geoJSON, this.getTime());
-            
+
             this.setCursor(this.getStartTime());
         },
 
@@ -87,20 +87,26 @@ L.Playback = L.Playback.Clock.extend({
             if (!geoJSON) {
                 return;
             }
-        
+
             if (geoJSON instanceof Array) {
-                for (var i = 0, len = geoJSON.length; i < len; i++) {
-                    this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
-                }
+              for (var i = 0, len = geoJSON.length; i < len; i++) {
+                this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
+              }
             } else {
+              if (geoJSON.type == "FeatureCollection") {
+                for (var i = 0, len = geoJSON.features.length; i < len; i++) {
+                  this._trackController.addTrack(new L.Playback.Track(geoJSON.features[i], this.options), ms);
+                }
+              } else {
                 this._trackController.addTrack(new L.Playback.Track(geoJSON, this.options), ms);
+              }
             }
 
             this._map.fire('playback:set:data');
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
-            }                  
+            }
         },
 
         destroy: function() {

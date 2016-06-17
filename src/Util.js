@@ -18,7 +18,7 @@ L.Playback.Util = L.Class.extend({
       if (h > 11) {
         h %= 12;
         mer = 'PM';
-      } 
+      }
       if (h === 0) h = 12;
       if (m < 10) m = '0' + m;
       if (s < 10) s = '0' + s;
@@ -26,40 +26,65 @@ L.Playback.Util = L.Class.extend({
     },
 
     ParseGPX: function(gpx) {
-      var geojson = {
-        type: 'Feature',
-        geometry: {
-          type: 'MultiPoint',
-          coordinates: []
-        },
-        properties: {
-          time: [],
-          speed: [],
-          altitude: []
-        },
-        bbox: []
+
+	  var geojsonRoot = {
+        type: 'FeatureCollection',
+		features : []
       };
+
+
+
       var xml = $.parseXML(gpx);
-      var pts = $(xml).find('trkpt');
-      for (var i=0, len=pts.length; i<len; i++) {
-        var p = pts[i];
-        var lat = parseFloat(p.getAttribute('lat'));
-        var lng = parseFloat(p.getAttribute('lon'));
-        var timeStr = $(p).find('time').text();
-        var eleStr = $(p).find('ele').text();
-        var t = new Date(timeStr).getTime();
-        var ele = parseFloat(eleStr);
 
-        var coords = geojson.geometry.coordinates;
-        var props = geojson.properties;
-        var time = props.time;
-        var altitude = geojson.properties.altitude;
+      var trks = $(xml).find('trk');
+      for (var trackIdx=0, numberOfTracks=trks.length; trackIdx<numberOfTracks; trackIdx++) {
 
-        coords.push([lng,lat]);
-        time.push(t);
-        altitude.push(ele);
+        var track = trks[trackIdx];
+        var geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'MultiPoint',
+            coordinates: []
+          },
+          properties: {
+            trk : {},
+            time: [],
+            speed: [],
+            altitude: [],
+            bbox: []
+          }
+        };
+
+        geojson.properties.trk.name = $(track).find('name').text();
+        geojson.properties.trk.desc = $(track).find('desc').text();
+        geojson.properties.trk.type = $(track).find('type').text();
+        geojson.properties.trk.src = $(track).find('src').text();
+
+        var pts = $(track).find('trkpt');
+        for (var i=0, len=pts.length; i<len; i++) {
+          var p = pts[i];
+          var lat = parseFloat(p.getAttribute('lat'));
+          var lng = parseFloat(p.getAttribute('lon'));
+          var timeStr = $(p).find('time').text();
+          var eleStr = $(p).find('ele').text();
+          var t = new Date(timeStr).getTime();
+          var ele = parseFloat(eleStr);
+
+          var coords = geojson.geometry.coordinates;
+          var props = geojson.properties;
+
+          var time = props.time;
+          var altitude = geojson.properties.altitude;
+
+          coords.push([lng,lat]);
+          time.push(t);
+          altitude.push(ele);
+        }
+        geojsonRoot.features.push(geojson);
       }
-      return geojson;
+
+      return geojsonRoot;
+
     }
   }
 
