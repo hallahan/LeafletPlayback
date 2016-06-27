@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<gpx version="1.0" creator="Viking -- http://viking.sf.net/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.topografix.com/GPX/1/0"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+  <name>Point de cheminement de la trace</name>
+  <author></author>
+  <desc></desc>
+  <time>2016-06-24T07:27:11.445303Z</time>
+  <keywords></keywords>
+<trk>
+  <name>car1</name>
+  <cmt>car1 track</cmt>
+  <trkseg>
+  <trkpt lat="44.563541335986407" lon="-123.27078737325095">
+    <name>start</name>
+    <time>2013-05-29T00:12:18Z</time>
+  </trkpt>
+  <trkpt lat="44.562282178350422" lon="-123.26587480593018">
+    <time>2013-05-29T00:15:21Z</time>
+  </trkpt>
+  <trkpt lat="44.562211469751361" lon="-123.26575008321099">
+    <time>2013-05-29T00:15:26Z</time>
+  </trkpt>
+  <trkpt lat="44.562108273263384" lon="-123.2658064096003">
+    <time>2013-05-29T00:15:32Z</time>
+  </trkpt>
+  <trkpt lat="44.560395949264517" lon="-123.26669422078423">
+    <time>2013-05-29T00:17:01Z</time>
+  </trkpt>
+  <trkpt lat="44.560247838514897" lon="-123.26679480362229">
+    <time>2013-05-29T00:17:10Z</time>
+  </trkpt>
+  <trkpt lat="44.559945882528396" lon="-123.26556098747544">
+    <time>2013-05-29T00:17:55Z</time>
+  </trkpt>
+  <trkpt lat="44.561463291066232" lon="-123.26477778244309">
+    <time>2013-05-29T00:19:15Z</time>
+  </trkpt>
+  <trkpt lat="44.562887770077587" lon="-123.26405502862357">
+    <time>2013-05-29T00:20:30Z</time>
+  </trkpt>
+  </trkseg>
+</trk>
+<trk>
+  <name>car2</name>
+  <trkseg>
+  <trkpt lat="44.570059599592739" lon="-123.26154069143824">
+    <time>2013-05-29T00:12:30Z</time>
+  </trkpt>
+  <trkpt lat="44.567141755322709" lon="-123.26316611010127">
+    <time>2013-05-29T00:13:22Z</time>
+  </trkpt>
+  <trkpt lat="44.564237141526093" lon="-123.26473788458399">
+    <time>2013-05-29T00:14:13Z</time>
+  </trkpt>
+  <trkpt lat="44.564304025711955" lon="-123.26573432523303">
+    <time>2013-05-29T00:14:25Z</time>
+  </trkpt>
+  <trkpt lat="44.562475193277749" lon="-123.26668785053782">
+    <time>2013-05-29T00:14:58Z</time>
+  </trkpt>
+  <trkpt lat="44.561513934371369" lon="-123.2671706481605">
+    <time>2013-05-29T00:15:15Z</time>
+  </trkpt>
+  <trkpt lat="44.561223451417902" lon="-123.26610312897257">
+    <time>2013-05-29T00:15:28Z</time>
+  </trkpt>
+  <trkpt lat="44.560573681666241" lon="-123.26362745005183">
+    <time>2013-05-29T00:16:00Z</time>
+  </trkpt>
+  </trkseg>
+</trk>
+</gpx>
