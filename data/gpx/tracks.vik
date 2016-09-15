@@ -1,0 +1,97 @@
+#VIKING GPS Data file http://viking.sf.net/
+FILE_VERSION=1
+
+xmpp=4,000000
+ympp=4,000000
+lat=44,565074
+lon=-123,260815
+mode=mercator
+color=#cccccc
+highlightcolor=#eea500
+drawscale=t
+drawcentermark=t
+drawhighlight=t
+
+~Layer Map
+name=Carte par défaut
+mode=19
+directory=
+cache_type=1
+mapfile=
+alpha=105
+autodownload=t
+adlonlymissing=f
+mapzoom=0
+~EndLayer
+
+
+~Layer TrackWaypoint
+name=Point de cheminement de la trace
+tracks_visible=t
+waypoints_visible=t
+routes_visible=t
+trackdrawlabels=t
+trackfontsize=3
+drawmode=0
+trackcolor=#000000
+drawlines=t
+line_thickness=1
+drawdirections=f
+trkdirectionsize=5
+drawpoints=t
+trkpointsize=2
+drawelevation=f
+elevation_factor=30
+drawstops=f
+stop_length=60
+bg_line_thickness=0
+trackbgcolor=#ffffff
+speed_factor=30,000000
+tracksortorder=0
+drawlabels=t
+wpfontsize=3
+wpcolor=#000000
+wptextcolor=#ffffff
+wpbgcolor=#8383c4
+wpbgand=f
+wpsymbol=0
+wpsize=4
+wpsyms=t
+wpsortorder=0
+drawimages=t
+image_size=64
+image_alpha=255
+image_cache_size=300
+metadatadesc=
+metadataauthor=
+metadatatime=2016-06-24T07:27:11.445303Z
+metadatakeywords=
+
+
+~LayerData
+type="waypointlist"
+type="waypointlistend"
+type="track" name="car1" comment="car1 track" color=#ff0000
+type="trackpoint" latitude="44.563541335986407" longitude="-123.27078737325095" name="start" unixtime="1369786338"
+type="trackpoint" latitude="44.562282178350422" longitude="-123.26587480593018" unixtime="1369786521"
+type="trackpoint" latitude="44.562211469751361" longitude="-123.26575008321099" unixtime="1369786526"
+type="trackpoint" latitude="44.562108273263384" longitude="-123.2658064096003" unixtime="1369786532"
+type="trackpoint" latitude="44.560395949264517" longitude="-123.26669422078423" unixtime="1369786621"
+type="trackpoint" latitude="44.560247838514897" longitude="-123.26679480362229" unixtime="1369786630"
+type="trackpoint" latitude="44.559945882528396" longitude="-123.26556098747544" unixtime="1369786675"
+type="trackpoint" latitude="44.561463291066232" longitude="-123.26477778244309" unixtime="1369786755"
+type="trackpoint" latitude="44.562887770077587" longitude="-123.26405502862357" unixtime="1369786830"
+type="trackend"
+type="track" name="car2" color=#000000
+type="trackpoint" latitude="44.570059599592739" longitude="-123.26154069143824" unixtime="1369786350" newsegment="yes"
+type="trackpoint" latitude="44.567141755322709" longitude="-123.26316611010127" unixtime="1369786402"
+type="trackpoint" latitude="44.564237141526093" longitude="-123.26473788458399" unixtime="1369786453"
+type="trackpoint" latitude="44.564304025711955" longitude="-123.26573432523303" unixtime="1369786465"
+type="trackpoint" latitude="44.562475193277749" longitude="-123.26668785053782" unixtime="1369786498"
+type="trackpoint" latitude="44.561513934371369" longitude="-123.2671706481605" unixtime="1369786515"
+type="trackpoint" latitude="44.561223451417902" longitude="-123.26610312897257" unixtime="1369786528"
+type="trackpoint" latitude="44.560573681666241" longitude="-123.26362745005183" unixtime="1369786560"
+type="trackend"
+~EndLayerData
+~EndLayer
+
