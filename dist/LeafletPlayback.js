@@ -1015,7 +1015,7 @@ L.Playback = L.Playback.Clock.extend({
               }
             }
 
-            this._map.fire('playback:set:data');
+            this._map.fire('playback:add_tracks');
 
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
