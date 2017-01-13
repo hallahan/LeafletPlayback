@@ -4,7 +4,7 @@ L.Playback.TrackController = L.Class.extend({
 
     initialize : function (map, tracks, options) {
         this.options = options || {};
-    
+
         this._map = map;
 
         this._tracks = [];
@@ -12,40 +12,40 @@ L.Playback.TrackController = L.Class.extend({
         // initialize tick points
         this.setTracks(tracks);
     },
-    
+
     clearTracks: function(){
         while (this._tracks.length > 0) {
             var track = this._tracks.pop();
             var marker = track.getMarker();
-            
+
             if (marker){
                 this._map.removeLayer(marker);
             }
-        }            
+        }
     },
 
     setTracks : function (tracks) {
         // reset current tracks
         this.clearTracks();
-        
+
         this.addTracks(tracks);
     },
-    
+
     addTracks : function (tracks) {
         // return if nothing is set
         if (!tracks) {
             return;
         }
-        
-        if (tracks instanceof Array) {            
+
+        if (tracks instanceof Array) {
             for (var i = 0, len = tracks.length; i < len; i++) {
                 this.addTrack(tracks[i]);
             }
         } else {
             this.addTrack(tracks);
-        }            
+        }
     },
-    
+
     // add single track
     addTrack : function (track, timestamp) {
         // return if nothing is set
@@ -57,9 +57,9 @@ L.Playback.TrackController = L.Class.extend({
 
         if (marker) {
             marker.addTo(this._map);
-            
+
             this._tracks.push(track);
-        }            
+        }
     },
 
     tock : function (timestamp, transitionTime) {
@@ -82,13 +82,13 @@ L.Playback.TrackController = L.Class.extend({
                 }
             }
         }
-        
+
         return earliestTime;
     },
 
     getEndTime : function () {
         var latestTime = 0;
-    
+
         if (this._tracks.length > 0){
             latestTime = this._tracks[0].getEndTime();
             for (var i = 1, len = this._tracks.length; i < len; i++) {
@@ -98,7 +98,7 @@ L.Playback.TrackController = L.Class.extend({
                 }
             }
         }
-    
+
         return latestTime;
     },
 

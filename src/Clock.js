@@ -37,8 +37,8 @@ L.Playback.Clock = L.Class.extend({
   start: function () {
     if (this._intervalID) return;
     this._intervalID = window.setInterval(
-      this._tick, 
-      this._transitionTime, 
+      this._tick,
+      this._transitionTime,
       this);
   },
 
