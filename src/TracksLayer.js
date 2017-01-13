@@ -19,9 +19,13 @@ L.Playback.TracksLayer = L.Class.extend({
 
         this.layer = new L.GeoJSON(null, layer_options);
 
-        var overlayControl = {
-            'GPS Tracks' : this.layer
-        };
+        var tracksLayerName = 'GPS Tracks';
+        if (options.tracksLayerName) {
+            tracksLayerName = options.tracksLayerName;
+        }
+
+        var overlayControl = {};
+        overlayControl[tracksLayerName] = this.layer;
 
         L.control.layers(null, overlayControl, {
             collapsed : false
