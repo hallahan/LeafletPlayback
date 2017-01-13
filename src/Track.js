@@ -1,7 +1,7 @@
 L.Playback = L.Playback || {};
 
 
-        
+
 L.Playback.Track = L.Class.extend({
 
         initialize : function (geoJSON, options) {
@@ -9,22 +9,22 @@ L.Playback.Track = L.Class.extend({
             var tickLen = options.tickLen || 250;
             this._staleTime = options.staleTime || 60*60*1000;
             this._fadeMarkersWhenStale = options.fadeMarkersWhenStale || false;
-            
+
             this._geoJSON = geoJSON;
             this._tickLen = tickLen;
             this._ticks = [];
             this._marker = null;
-			this._orientations = [];
-			
+            this._orientations = [];
+
             var sampleTimes = geoJSON.properties.time;
-			
+
             this._orientIcon = options.orientIcons;
             var previousOrientation;
-			
+
             var samples = geoJSON.geometry.coordinates;
             var currSample = samples[0];
             var nextSample = samples[1];
-			
+
             var currSampleTime = sampleTimes[0];
             var t = currSampleTime;  // t is used to iterate through tick times
             var nextSampleTime = sampleTimes[1];
@@ -37,7 +37,7 @@ L.Playback.Track = L.Class.extend({
                 if (tmod !== 0)
                     t += tickLen - tmod;
                 this._ticks[t] = samples[0];
-				this._orientations[t] = 0;
+                this._orientations[t] = 0;
                 this._startTime = t;
                 this._endTime = t;
                 return;
@@ -49,11 +49,11 @@ L.Playback.Track = L.Class.extend({
                 ratio = rem / (nextSampleTime - currSampleTime);
                 t += rem;
                 this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-				this._orientations[t] = this._directionOfPoint(currSample,nextSample);
+                this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                 previousOrientation = this._orientations[t];
             } else {
                 this._ticks[t] = currSample;
-				this._orientations[t] = this._directionOfPoint(currSample,nextSample);
+                this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                 previousOrientation = this._orientations[t];
             }
 
@@ -62,7 +62,7 @@ L.Playback.Track = L.Class.extend({
             while (t < nextSampleTime) {
                 ratio = (t - currSampleTime) / (nextSampleTime - currSampleTime);
                 this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-				this._orientations[t] = this._directionOfPoint(currSample,nextSample);
+                this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                 previousOrientation = this._orientations[t];
                 t += tickLen;
             }
@@ -80,11 +80,11 @@ L.Playback.Track = L.Class.extend({
                     ratio = rem / (nextSampleTime - currSampleTime);
                     t += rem;
                     this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-					if(nextSample){
+                    if(nextSample){
                         this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                         previousOrientation = this._orientations[t];
                     } else {
-                        this._orientations[t] = previousOrientation;    
+                        this._orientations[t] = previousOrientation;
                     }
                 } else {
                     this._ticks[t] = currSample;
@@ -92,34 +92,34 @@ L.Playback.Track = L.Class.extend({
                         this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                         previousOrientation = this._orientations[t];
                     } else {
-                        this._orientations[t] = previousOrientation;    
+                        this._orientations[t] = previousOrientation;
                     }
                 }
 
                 t += tickLen;
                 while (t < nextSampleTime) {
                     ratio = (t - currSampleTime) / (nextSampleTime - currSampleTime);
-                    
+
                     if (nextSampleTime - currSampleTime > options.maxInterpolationTime){
                         this._ticks[t] = currSample;
-                        
-						if(nextSample){
+
+                        if(nextSample){
                             this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                             previousOrientation = this._orientations[t];
                         } else {
-                            this._orientations[t] = previousOrientation;    
+                            this._orientations[t] = previousOrientation;
                         }
                     }
                     else {
                         this._ticks[t] = this._interpolatePoint(currSample, nextSample, ratio);
-						if(nextSample) {
+                        if(nextSample) {
                             this._orientations[t] = this._directionOfPoint(currSample,nextSample);
                             previousOrientation = this._orientations[t];
                         } else {
-                            this._orientations[t] = previousOrientation;    
+                            this._orientations[t] = previousOrientation;
                         }
                     }
-                    
+
                     t += tickLen;
                 }
             }
@@ -142,11 +142,11 @@ L.Playback.Track = L.Class.extend({
                 console.log(['ratio', ratio]);
             }
         },
-        
+
         _directionOfPoint:function(start,end){
             return this._getBearing(start[1],start[0],end[1],end[0]);
         },
-        
+
         _getBearing:function(startLat,startLong,endLat,endLong){
               startLat = this._radians(startLat);
               startLong = this._radians(startLong);
@@ -165,7 +165,7 @@ L.Playback.Track = L.Class.extend({
 
               return (this._degrees(Math.atan2(dLong, dPhi)) + 360.0) % 360.0;
         },
-        
+
         _radians:function(n) {
           return n * (Math.PI / 180);
         },
@@ -211,12 +211,12 @@ L.Playback.Track = L.Class.extend({
                 }
             };
         },
-		
+
         trackPresentAtTick : function(timestamp)
         {
             return (timestamp >= this._startTime);
         },
-        
+
         trackStaleAtTick : function(timestamp)
         {
             return ((this._endTime + this._staleTime) <= timestamp);
@@ -229,7 +229,7 @@ L.Playback.Track = L.Class.extend({
                 timestamp = this._startTime;
             return this._ticks[timestamp];
         },
-		
+
         courseAtTime: function(timestamp)
         {
             //return 90;
@@ -239,38 +239,38 @@ L.Playback.Track = L.Class.extend({
                 timestamp = this._startTime;
             return this._orientations[timestamp];
         },
-        
+
         setMarker : function(timestamp, options){
             var lngLat = null;
-            
+
             // if time stamp is not set, then get first tick
             if (timestamp) {
                 lngLat = this.tick(timestamp);
             }
             else {
                 lngLat = this.getFirstTick();
-            }        
-        
+            }
+
             if (lngLat) {
                 var latLng = new L.LatLng(lngLat[1], lngLat[0]);
-                this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);     
-				if(options.mouseOverCallback) {
+                this._marker = new L.Playback.MoveableMarker(latLng, options, this._geoJSON);
+                if(options.mouseOverCallback) {
                     this._marker.on('mouseover',options.mouseOverCallback);
                 }
-				if(options.clickCallback) {
+                if(options.clickCallback) {
                     this._marker.on('click',options.clickCallback);
                 }
-				
-				//hide the marker if its not present yet and fadeMarkersWhenStale is true
-				if(this._fadeMarkersWhenStale && !this.trackPresentAtTick(timestamp))
-				{
-					this._marker.setOpacity(0);
-				}
+
+                //hide the marker if its not present yet and fadeMarkersWhenStale is true
+                if(this._fadeMarkersWhenStale && !this.trackPresentAtTick(timestamp))
+                {
+                    this._marker.setOpacity(0);
+                }
             }
-            
+
             return this._marker;
         },
-        
+
         moveMarker : function(latLng, transitionTime,timestamp) {
             if (this._marker) {
                 if(this._fadeMarkersWhenStale) {
@@ -280,20 +280,20 @@ L.Playback.Track = L.Class.extend({
                     } else {
                         this._marker.setOpacity(0);
                     }
-                    
+
                     if(this.trackStaleAtTick(timestamp)) {
                         this._marker.setOpacity(0.25);
                     }
                 }
-				
+
                 if(this._orientIcon){
                     this._marker.setIconAngle(this.courseAtTime(timestamp));
                 }
-				
+
                 this._marker.move(latLng, transitionTime);
             }
         },
-        
+
         getMarker : function() {
             return this._marker;
         }

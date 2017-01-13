@@ -1,27 +1,27 @@
 L.Playback = L.Playback || {};
 
-L.Playback.MoveableMarker = L.Marker.extend({    
-    initialize: function (startLatLng, options, feature) {    
+L.Playback.MoveableMarker = L.Marker.extend({
+    initialize: function (startLatLng, options, feature) {
         var marker_options = options.marker || {};
 
-        if (jQuery.isFunction(marker_options)){        
+        if (jQuery.isFunction(marker_options)){
             marker_options = marker_options(feature);
         }
-        
+
         L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
-        
+
         this.popupContent = '';
         this.feature = feature;
-		
+
         if (marker_options.getPopup){
-            this.popupContent = marker_options.getPopup(feature);            
+            this.popupContent = marker_options.getPopup(feature);
         }
-        
+
         if(options.popups)
         {
             this.bindPopup(this.getPopupContent() + startLatLng.toString());
         }
-        	
+
         if(options.labels)
         {
             if(this.bindLabel)
@@ -34,42 +34,42 @@ L.Playback.MoveableMarker = L.Marker.extend({
             }
         }
     },
-    
+
     getPopupContent: function() {
         if (this.popupContent !== ''){
             return '<b>' + this.popupContent + '</b><br/>';
         }
-        
+
         return '';
     },
 
     move: function (latLng, transitionTime) {
         // Only if CSS3 transitions are supported
         if (L.DomUtil.TRANSITION) {
-            if (this._icon) { 
-                this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+            if (this._icon) {
+                this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
                 if (this._popup && this._popup._wrapper)
-                    this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+                    this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
             }
-            if (this._shadow) { 
-                this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+            if (this._shadow) {
+                this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
             }
         }
         this.setLatLng(latLng);
         if (this._popup) {
             this._popup.setContent(this.getPopupContent() + this._latlng.toString());
-        }    
+        }
     },
-    
+
     // modify leaflet markers to add our roration code
     /*
-     * Based on comments by @runanet and @coomsie 
+     * Based on comments by @runanet and @coomsie
      * https://github.com/CloudMade/Leaflet/issues/386
      *
      * Wrapping function is needed to preserve L.Marker.update function
      */
     _old__setPos:L.Marker.prototype._setPos,
-    
+
     _updateImg: function (i, a, s) {
         a = L.point(s).divideBy(2)._subtract(L.point(a));
         var transform = '';

@@ -27,9 +27,9 @@ L.Playback.Util = L.Class.extend({
 
     ParseGPX: function(gpx) {
 
-	  var geojsonRoot = {
+      var geojsonRoot = {
         type: 'FeatureCollection',
-		features : []
+        features : []
       };
 
 
