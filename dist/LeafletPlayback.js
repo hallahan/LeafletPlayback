@@ -36,7 +36,7 @@ L.Playback.Util = L.Class.extend({
       if (h > 11) {
         h %= 12;
         mer = 'PM';
-      } 
+      }
       if (h === 0) h = 12;
       if (m < 10) m = '0' + m;
       if (s < 10) s = '0' + s;
@@ -44,40 +44,71 @@ L.Playback.Util = L.Class.extend({
     },
 
     ParseGPX: function(gpx) {
-      var geojson = {
-        type: 'Feature',
-        geometry: {
-          type: 'MultiPoint',
-          coordinates: []
-        },
-        properties: {
-          time: [],
-          speed: [],
-          altitude: []
-        },
-        bbox: []
+
+	  var geojsonRoot = {
+        type: 'FeatureCollection',
+		features : []
       };
-      var xml = $.parseXML(gpx);
-      var pts = $(xml).find('trkpt');
-      for (var i=0, len=pts.length; i<len; i++) {
-        var p = pts[i];
-        var lat = parseFloat(p.getAttribute('lat'));
-        var lng = parseFloat(p.getAttribute('lon'));
-        var timeStr = $(p).find('time').text();
-        var eleStr = $(p).find('ele').text();
-        var t = new Date(timeStr).getTime();
-        var ele = parseFloat(eleStr);
 
-        var coords = geojson.geometry.coordinates;
-        var props = geojson.properties;
-        var time = props.time;
-        var altitude = geojson.properties.altitude;
 
-        coords.push([lng,lat]);
-        time.push(t);
-        altitude.push(ele);
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(gpx, "text/xml");
+      
+      var trks = xml.getElementsByTagName('trk');
+      for (var trackIdx=0, numberOfTracks=trks.length; trackIdx<numberOfTracks; trackIdx++) {
+
+        var track = trks[trackIdx];
+        var geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'MultiPoint',
+            coordinates: []
+          },
+          properties: {
+            trk : {},
+            time: [],
+            speed: [],
+            altitude: [],
+            bbox: []
+          }
+        };
+
+        geojson.properties.trk.name = track.getElementsByTagName('name')[0].textContent;
+        if (track.getElementsByTagName('desc')[0] !== undefined) {
+          geojson.properties.trk.desc = track.getElementsByTagName('desc')[0].textContent;
+        }
+        if (track.getElementsByTagName('type')[0] !== undefined) {
+          geojson.properties.trk.type = track.getElementsByTagName('type')[0].textContent;
+        }
+        if (track.getElementsByTagName('src')[0] !== undefined) {
+          geojson.properties.trk.src = track.getElementsByTagName('src')[0].textContent;
+        }
+
+        var pts = track.getElementsByTagName('trkpt');
+        for (var i=0, len=pts.length; i<len; i++) {
+          var p = pts[i];
+          var lat = parseFloat(p.getAttribute('lat'));
+          var lng = parseFloat(p.getAttribute('lon'));
+          var timeStr = p.getElementsByTagName('time')[0].textContent;
+          var eleStr =  p.getElementsByTagName('ele')[0] !== undefined ? p.getElementsByTagName('ele')[0].textContent : null;
+          var t = new Date(timeStr).getTime();
+          var ele = parseFloat(eleStr);
+
+          var coords = geojson.geometry.coordinates;
+          var props = geojson.properties;
+
+          var time = props.time;
+          var altitude = geojson.properties.altitude;
+
+          coords.push([lng,lat]);
+          time.push(t);
+          altitude.push(ele);
+        }
+        geojsonRoot.features.push(geojson);
       }
-      return geojson;
+
+      return geojsonRoot;
+
     }
   }
 
@@ -89,7 +120,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
     initialize: function (startLatLng, options, feature) {    
         var marker_options = options.marker || {};
 
-        if (jQuery.isFunction(marker_options)){        
+        if (marker_options instanceof Function) {        
             marker_options = marker_options(feature);
         }
         
@@ -713,7 +744,7 @@ L.Playback.TracksLayer = L.Class.extend({
     initialize : function (map, options) {
         var layer_options = options.layer || {};
         
-        if (jQuery.isFunction(layer_options)){
+        if (layer_options instanceof Function) {
             layer_options = layer_options(feature);
         }
         
@@ -894,7 +925,7 @@ L.Playback = L.Playback.Clock.extend({
             TrackController : L.Playback.TrackController,
             Clock : L.Playback.Clock,
             Util : L.Playback.Util,
-            
+
             TracksLayer : L.Playback.TracksLayer,
             PlayControl : L.Playback.PlayControl,
             DateControl : L.Playback.DateControl,
@@ -907,16 +938,16 @@ L.Playback = L.Playback.Clock.extend({
             maxInterpolationTime: 5*60*1000, // 5 minutes
 
             tracksLayer : true,
-            
+
             playControl: false,
             dateControl: false,
             sliderControl: false,
-            
+
             // options
             layer: {
                 // pointToLayer(featureData, latlng)
             },
-            
+
             marker : {
                 // getPopup(feature)
             }
@@ -924,17 +955,17 @@ L.Playback = L.Playback.Clock.extend({
 
         initialize : function (map, geoJSON, callback, options) {
             L.setOptions(this, options);
-            
+
             this._map = map;
             this._trackController = new L.Playback.TrackController(map, null, this.options);
             L.Playback.Clock.prototype.initialize.call(this, this._trackController, callback, this.options);
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer = new L.Playback.TracksLayer(map, options);
             }
 
-            this.setData(geoJSON);            
-            
+            this.setData(geoJSON);
+
 
             if (this.options.playControl) {
                 this.playControl = new L.Playback.PlayControl(this);
@@ -952,20 +983,20 @@ L.Playback = L.Playback.Clock.extend({
             }
 
         },
-        
+
         clearData : function(){
             this._trackController.clearTracks();
-            
+
             if (this._tracksLayer) {
                 this._tracksLayer.clearLayer();
             }
         },
-        
+
         setData : function (geoJSON) {
             this.clearData();
-        
+
             this.addData(geoJSON, this.getTime());
-            
+
             this.setCursor(this.getStartTime());
         },
 
@@ -975,20 +1006,26 @@ L.Playback = L.Playback.Clock.extend({
             if (!geoJSON) {
                 return;
             }
-        
+
             if (geoJSON instanceof Array) {
-                for (var i = 0, len = geoJSON.length; i < len; i++) {
-                    this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
-                }
+              for (var i = 0, len = geoJSON.length; i < len; i++) {
+                this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
+              }
             } else {
+              if (geoJSON.type == "FeatureCollection") {
+                for (var i = 0, len = geoJSON.features.length; i < len; i++) {
+                  this._trackController.addTrack(new L.Playback.Track(geoJSON.features[i], this.options), ms);
+                }
+              } else {
                 this._trackController.addTrack(new L.Playback.Track(geoJSON, this.options), ms);
+              }
             }
 
             this._map.fire('playback:set:data');
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
-            }                  
+            }
         },
 
         destroy: function() {
@@ -1014,6 +1051,7 @@ L.Map.addInitHook(function () {
 L.playback = function (map, geoJSON, callback, options) {
     return new L.Playback(map, geoJSON, callback, options);
 };
+
 return L.Playback;
 
 }));

@@ -33,10 +33,10 @@ L.Playback.Util = L.Class.extend({
       };
 
 
-
-      var xml = $.parseXML(gpx);
-
-      var trks = $(xml).find('trk');
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(gpx, "text/xml");
+      
+      var trks = xml.getElementsByTagName('trk');
       for (var trackIdx=0, numberOfTracks=trks.length; trackIdx<numberOfTracks; trackIdx++) {
 
         var track = trks[trackIdx];
@@ -55,18 +55,24 @@ L.Playback.Util = L.Class.extend({
           }
         };
 
-        geojson.properties.trk.name = $(track).find('name').text();
-        geojson.properties.trk.desc = $(track).find('desc').text();
-        geojson.properties.trk.type = $(track).find('type').text();
-        geojson.properties.trk.src = $(track).find('src').text();
+        geojson.properties.trk.name = track.getElementsByTagName('name')[0].textContent;
+        if (track.getElementsByTagName('desc')[0] !== undefined) {
+          geojson.properties.trk.desc = track.getElementsByTagName('desc')[0].textContent;
+        }
+        if (track.getElementsByTagName('type')[0] !== undefined) {
+          geojson.properties.trk.type = track.getElementsByTagName('type')[0].textContent;
+        }
+        if (track.getElementsByTagName('src')[0] !== undefined) {
+          geojson.properties.trk.src = track.getElementsByTagName('src')[0].textContent;
+        }
 
-        var pts = $(track).find('trkpt');
+        var pts = track.getElementsByTagName('trkpt');
         for (var i=0, len=pts.length; i<len; i++) {
           var p = pts[i];
           var lat = parseFloat(p.getAttribute('lat'));
           var lng = parseFloat(p.getAttribute('lon'));
-          var timeStr = $(p).find('time').text();
-          var eleStr = $(p).find('ele').text();
+          var timeStr = p.getElementsByTagName('time')[0].textContent;
+          var eleStr =  p.getElementsByTagName('ele')[0] !== undefined ? p.getElementsByTagName('ele')[0].textContent : null;
           var t = new Date(timeStr).getTime();
           var ele = parseFloat(eleStr);
 

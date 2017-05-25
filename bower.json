@@ -1,7 +1,7 @@
 {
   "name": "LeafletPlayback",
   "homepage": "http://leafletplayback.theoutpost.io/",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "authors": [
     "Nicholas Hallahan <nick@theoutpost.io>",
     "Marius Bieliauskas <@recallfx>"
@@ -9,8 +9,7 @@
   "description": "This is a Leaflet plug-in that plays back points that have a time stamp synchronized to a clock.",
   "main": "dist/LeafletPlayback.js",
   "dependencies": {
-    "leaflet": "~0.7.0",
-    "jquery": ">=1.10"
+    "leaflet": "~1.0.3"
   },
   "devDependencies": {},
   "directories": {

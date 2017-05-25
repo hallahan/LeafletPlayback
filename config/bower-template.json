@@ -9,8 +9,7 @@
   "description": "<%= pkg.description %>",
   "main": "dist/LeafletPlayback.js",
   "dependencies": {
-      "leaflet": "~0.7.0",
-      "jquery": ">=1.10"
+      "leaflet": "~1.0.3"
   },
   "devDependencies": {
   },
