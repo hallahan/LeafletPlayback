@@ -1,4 +1,4 @@
-$(function() {
+document.addEventListener('DOMContentLoaded', function(){
     // Get start/end times
     var startTime = new Date(demoTracks[0].properties.time[0]);
     var endTime = new Date(demoTracks[0].properties.time[demoTracks[0].properties.time.length - 1]);
@@ -10,16 +10,14 @@ $(function() {
     var timelineOptions = {
       "width":  "100%",
       "height": "120px",
-      "style": "box",
-      "axisOnTop": true,
-      "showCustomTime":true
+      "type": "box",
     };
     
     // Setup timeline
     var timeline = new vis.Timeline(document.getElementById('timeline'), timelineData, timelineOptions);
         
     // Set custom time marker (blue)
-    timeline.setCustomTime(startTime);
+    timeline.addCustomTime(startTime);
 
     // Setup leaflet map
     var map = new L.Map('map');

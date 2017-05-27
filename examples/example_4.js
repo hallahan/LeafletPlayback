@@ -1,4 +1,4 @@
-$(function() {
+document.addEventListener('DOMContentLoaded', function(){
     // Setup leaflet map
     var map = new L.Map('map');
 
