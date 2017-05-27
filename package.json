@@ -1,6 +1,6 @@
 {
   "name": "LeafletPlayback",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Nicholas Hallahan <nick@theoutpost.io>",
   "contributors": [
     "Marius Bieliauskas <@recallfx>"
@@ -11,10 +11,36 @@
     "type": "git",
     "url": "git@github.com:hallahan/LeafletPlayback.git"
   },
+  "main": "dist/LeafletPlayback.js",
+  "dependencies": {
+    "leaflet": "^1.0.3"
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-uglify": "~0.9.1",
     "grunt-write-bower-json": "0.0.1"
-  }
+  },
+  "directories": {
+    "data": "data/",
+    "examples": "examples/",
+    "lib": "src/"
+  },
+  "files": [
+    "dist/*",
+    "data/*",
+    "examples/*"
+  ],
+  "eslintConfig": {
+    "root": true,
+    "globals": {
+      "L": true
+    },
+    "env": {
+      "commonjs": true,
+      "amd": true,
+      "node": false
+    }
+  },
+  "readmeFilename": "README.md"
 }
