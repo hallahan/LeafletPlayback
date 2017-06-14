@@ -78,6 +78,8 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `tracksLayer` - Set `true` if you want to show layer control on the map. **Default: `true`**.
 
+* `showTracksByDefault` - Set `true` if you want to show gps tracks by default. **Default: `false`**.
+
 * `playControl` - Set `true` if play button is needed. **Default: `false`**.
 
 * `dateControl` - Set `true` if date label is needed. **Default: `false`**.
