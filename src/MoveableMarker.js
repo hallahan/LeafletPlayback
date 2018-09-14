@@ -17,7 +17,7 @@ L.Playback.MoveableMarker = L.Marker.extend({
             this.popupContent = marker_options.getPopup(feature);            
         }
         
-        if(options.popups)
+        if(this.options.popups)
         {
             this.bindPopup(this.getPopupContent() + startLatLng.toString());
         }
