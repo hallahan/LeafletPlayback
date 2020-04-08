@@ -10,15 +10,23 @@ Basic example of LeafletPlayback plugin, that pre-loads some GPS GeoJSON tracks 
 
 ### [Example 1](http://leafletplayback.theoutpost.io/examples/example_1.html)
 
-Use vis.js timeline as slider control
+Use vis.js timeline as slider control.
 
 ### [Example 2](http://leafletplayback.theoutpost.io/examples/example_2.html)
 
 Custom interface example - Includes the usage of Maki Markers and Twitter Bootstrap.
 
-### [Example 3](http://leafletplayback.theoutpost.io/examples/example_3.html)
+### Example 3
+
+Using GPX loading.
+
+### Example 4
 
 Shows the ability to have markers orient themselves to the bearing of the track.
+
+### Example 5
+
+Shows the ability to have tooltips on markers.
 
 ### [Virtual Fence Demo](http://virtualfence.theoutpost.io/)
 I began my work on LeafletPlayback in my web mapping class at [Oregon State University](http://cartography.oregonstate.edu/). My final project involved animating GPS tracks that triggered geo-fences. _Note: this may stop working on August 2015 when Geoloqui will discontinue their web services._
@@ -88,6 +96,16 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `marker` - Object or function with signature `(featureData)` that returns leaflet marker options, to extend `L.Playback.MoveableMarker`. Useful for custom icons. **Default: `{}`**.
 
+  * `getPopup` - The label you want on your popup.
+
+  * `getPopupOptions` - Useful for custom popups. Uses [popup options](https://leafletjs.com/reference-1.6.0.html#popup). **Default: `{}`**.
+
+  * `getTooltip` - The label you want on your tooltip.
+
+  * `getLocationWrapper` - The content that you want to surround the LatLng readout and the label you want to give it. Useful if you are using a map with y x points rather than latitude longitude. This affects the current location shown on popups and tooltips. **Default: `{}`**.
+
+  * `getTooltipOptions` - Useful for custom tooltips. Uses [tooltip options](https://leafletjs.com/reference-1.6.0.html#tooltip). **Default: `{}`**.
+
 * `orientIcons` - Set `true` if you want icons to orient themselves on each tick based on the bearing towards their next location. **Default: `false`**.
 
 * `mouseOverCallback` - A function with signature `(event)` that will be sent events on 'mouseover' on each marker **Optional**.
@@ -96,7 +114,7 @@ var playback = new L.Playback(map, geoJSON, onPlaybackTimeChange, options);
 
 * `popups` - Set `true` if popups on markers are required. **Default: `false`**.
 
-* `labels` - Set `true` if labels on markers are required. Uses leaflet-markers (https://github.com/Leaflet/Leaflet.label) **Default: `false`**.
+* `tooltips` - Set `true` if tooltips on markers are required. **Default: `false`**.
 
 * `staleTime` - Set time before a track is considered stale and faded out. **Default: `60*60*1000` (1 hour)**.
 
@@ -130,4 +148,4 @@ Convert `gpxString` content into geoJSON that can be  used as input data for `Pl
 * @lbuter - Luke Butler
 * @dgorissen - Dirk Gorissen
 * @apre
-
+* @jambonium - Michelle-Louise Janion

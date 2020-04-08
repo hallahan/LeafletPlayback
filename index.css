@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 120px;
+    bottom: 0;
 }
 
 #title_container {
@@ -11,14 +11,6 @@
     position: absolute;
     left: 75px;
     margin-top: 10px;
-}
-
-#timeline {
-    height: 120px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
 }
 
 body {

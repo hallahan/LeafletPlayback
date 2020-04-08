@@ -4042,8 +4042,10 @@ var tillicum = {
     ]
   },
   "properties": {
-    "title" : "tillicum",
-    "path_options" : { "color" : "red" },
+    "title": "tillicum",
+    "path_options": {
+      "color": "#cb4fb2"
+    },
     "time": [
       1369786338000,
       1369786340000,
@@ -11705,6 +11707,10 @@ var blodgett = {
     ]
   },
   "properties": {
+    "title": "blodgett",
+    "path_options": {
+      "color": "#f69730"
+    },
     "time": [
       1369786338000,
       1369786340000,
@@ -17218,6 +17224,10 @@ var blueMountain = {
     ]
   },
   "properties": {
+    "title": "blue mountain",
+    "path_options": {
+      "color": "#9c3134"
+    },
     "time": [
       1369786338000,
       1369786343000,
@@ -26931,6 +26941,10 @@ var drive = {
     ]
   },
   "properties": {
+    "title": "drive",
+    "path_options": {
+      "color": "#70ad25"
+    },
     "time": [
       1369786338000,
       1369786340000,
@@ -34838,6 +34852,10 @@ var houseToCoordley = {
     ]
   },
   "properties": {
+    "title": "house to coordley",
+    "path_options": {
+      "color": "#37a8da"
+    },
     "time": [
       1369786338000,
       1369786345000,

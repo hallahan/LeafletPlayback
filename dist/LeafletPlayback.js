@@ -1,25 +1,25 @@
 // UMD initialization to work with CommonJS, AMD and basic browser script include
 (function (factory) {
-	var L;
-	if (typeof define === 'function' && define.amd) {
-		// AMD
-		define(['leaflet'], factory);
-	} else if (typeof module === 'object' && typeof module.exports === "object") {
-		// Node/CommonJS
-		L = require('leaflet');
-		module.exports = factory(L);
-	} else {
-		// Browser globals
-		if (typeof window.L === 'undefined')
-			throw 'Leaflet must be loaded first';
-		factory(window.L);
-	}
+    var L;
+    if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(['leaflet'], factory);
+    } else if (typeof module === 'object' && typeof module.exports === "object") {
+        // Node/CommonJS
+        L = require('leaflet');
+        module.exports = factory(L);
+    } else {
+        // Browser globals
+        if (typeof window.L === 'undefined')
+            throw 'Leaflet must be loaded first';
+        factory(window.L);
+    }
 }(function (L) {
 
-L.Playback = L.Playback || {};
+    L.Playback = L.Playback || {};
 
-L.Playback.Util = L.Class.extend({
-  statics: {
+    L.Playback.Util = L.Class.extend({
+        statics: {
 
     DateStr: function(time) {
       return new Date(time).toDateString();
@@ -74,169 +74,233 @@ L.Playback.Util = L.Class.extend({
         var altitude = geojson.properties.altitude;
 
         coords.push([lng,lat]);
-        time.push(t);
-        altitude.push(ele);
-      }
-      return geojson;
-    }
-  }
-
-});
-
-L.Playback = L.Playback || {};
-
-L.Playback.MoveableMarker = L.Marker.extend({    
-    initialize: function (startLatLng, options, feature) {    
-        var marker_options = options.marker || {};
-
-        if (jQuery.isFunction(marker_options)){        
-            marker_options = marker_options(feature);
-        }
-        
-        L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
-        
-        this.popupContent = '';
-        this.feature = feature;
-		
-        if (marker_options.getPopup){
-            this.popupContent = marker_options.getPopup(feature);            
-        }
-        
-        if(options.popups)
-        {
-            this.bindPopup(this.getPopupContent() + startLatLng.toString());
-        }
-        	
-        if(options.labels)
-        {
-            if(this.bindLabel)
-            {
-                this.bindLabel(this.getPopupContent());
-            }
-            else
-            {
-                console.log("Label binding requires leaflet-label (https://github.com/Leaflet/Leaflet.label)");
+                    time.push(t);
+                    altitude.push(ele);
+                }
+                return geojson;
             }
         }
-    },
-    
-    getPopupContent: function() {
-        if (this.popupContent !== ''){
-            return '<b>' + this.popupContent + '</b><br/>';
-        }
-        
-        return '';
-    },
 
-    move: function (latLng, transitionTime) {
-        // Only if CSS3 transitions are supported
-        if (L.DomUtil.TRANSITION) {
-            if (this._icon) { 
-                this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
-                if (this._popup && this._popup._wrapper)
-                    this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+    });
+
+    L.Playback = L.Playback || {};
+
+    L.Playback.MoveableMarker = L.Marker.extend({
+        initialize: function (startLatLng, options, feature) {
+            var marker_options = options.marker || {};
+
+            if (jQuery.isFunction(marker_options)) {
+                marker_options = marker_options(feature);
             }
-            if (this._shadow) { 
-                this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear'; 
+
+            L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
+
+            this.popupContent = '';
+            this.popupOptions = {};
+            this.tooltipContent = '';
+            this.locationWrapper = {};
+            this.tooltipOptions = {};
+            this.feature = feature;
+
+            if (marker_options.getPopup) {
+                this.popupContent = marker_options.getPopup(feature);
             }
-        }
-        this.setLatLng(latLng);
-        if (this._popup) {
-            this._popup.setContent(this.getPopupContent() + this._latlng.toString());
-        }    
-    },
-    
-    // modify leaflet markers to add our roration code
-    /*
-     * Based on comments by @runanet and @coomsie 
-     * https://github.com/CloudMade/Leaflet/issues/386
-     *
-     * Wrapping function is needed to preserve L.Marker.update function
-     */
+
+            if (marker_options.getTooltip) {
+                this.tooltipContent = marker_options.getTooltip(feature);
+            }
+
+            if (marker_options.getLocationWrapper) {
+                this.locationWrapper = marker_options.getLocationWrapper(feature);
+            }
+
+            if (marker_options.getTooltipOptions) {
+                this.tooltipOptions = marker_options.getTooltipOptions(feature);
+            }
+
+            newLatLng = this.latlngCoords(startLatLng, null);
+            if (options.getLocationWrapper) {
+                this.locationWrapper = marker_options.getLocationWrapper;
+                newLatLng = this.latlngCoords(startLatLng, this.locationWrapper);
+            }
+
+            if (options.popups) {
+                popupLabel = this.getPopupContent() + this.newLatLng;
+                this.bindPopup(popupLabel, this.getPopupOptions());
+            }
+
+            if (options.tooltips) {
+                tooltipLabel = this.getTooltipContent() + this.newLatLng;
+                this.bindTooltip(tooltipLabel, this.getTooltipOptions());
+            }
+        },
+
+        getPopupContent: function () {
+            if (this.popupContent !== '') {
+                return this.popupContent;
+            } else {
+                return "";
+            }
+
+        },
+
+        getPopupOptions: function () {
+            if (this.popupOptions !== "") {
+                return this.popupOptions;
+            } else {
+                return null;
+            }
+        },
+
+        getTooltipContent: function () {
+            if (this.tooltipContent !== "") {
+                return this.tooltipContent;
+            } else {
+                return "";
+            }
+        },
+
+        getLocationWrapper: function () {
+            if (this.locationWrapper !== "") {
+                return this.locationWrapper;
+            } else {
+                return null;
+            }
+        },
+
+        getTooltipOptions: function () {
+            if (this.tooltipOptions !== "") {
+                return this.tooltipOptions;
+            } else {
+                return null;
+            }
+        },
+
+        latlngCoords: function (latLng, options) {
+            removeExtras = latLng.toString()
+            if (options !== null) {
+                if (options.start !== undefined && options.end !== undefined) {
+                    removeExtras = options.start + latLng.toString().replace("LatLng(", "").replace(")", "") + options.end
+                }
+            }
+            return removeExtras;
+        },
+
+        move: function (latLng, transitionTime) {
+            // Only if CSS3 transitions are supported
+            if (L.DomUtil.TRANSITION) {
+                if (this._icon) {
+                    this._icon.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
+                    if (this._popup && this._popup._wrapper)
+                        this._popup._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
+                    if (this._tooltip && this._tooltip._wrapper)
+                        this._tooltip._wrapper.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
+                }
+                if (this._shadow) {
+                    this._shadow.style[L.DomUtil.TRANSITION] = 'all ' + transitionTime + 'ms linear';
+                }
+            }
+            this.setLatLng(latLng);
+            this._newLatLng = this.latlngCoords(this._latlng, this.locationWrapper)
+            if (this._popup) {
+                this._popup.setContent(this.getPopupContent() + this._newLatLng);
+            }
+            if (this._tooltip) {
+                this._tooltip.setContent(this.getTooltipContent() + this._newLatLng);
+            }
+        },
+
+        // modify leaflet markers to add our rotation code
+        /*
+         * Based on comments by @runanet and @coomsie 
+         * https://github.com/CloudMade/Leaflet/issues/386
+         *
+         * Wrapping function is needed to preserve L.Marker.update function
+         */
     _old__setPos:L.Marker.prototype._setPos,
-    
-    _updateImg: function (i, a, s) {
-        a = L.point(s).divideBy(2)._subtract(L.point(a));
-        var transform = '';
-        transform += ' translate(' + -a.x + 'px, ' + -a.y + 'px)';
-        transform += ' rotate(' + this.options.iconAngle + 'deg)';
-        transform += ' translate(' + a.x + 'px, ' + a.y + 'px)';
-        i.style[L.DomUtil.TRANSFORM] += transform;
-    },
-    setIconAngle: function (iconAngle) {
-        this.options.iconAngle = iconAngle;
-        if (this._map)
-            this.update();
-    },
-    _setPos: function (pos) {
-        if (this._icon) {
-            this._icon.style[L.DomUtil.TRANSFORM] = "";
-        }
-        if (this._shadow) {
-            this._shadow.style[L.DomUtil.TRANSFORM] = "";
-        }
 
-        this._old__setPos.apply(this, [pos]);
-        if (this.options.iconAngle) {
-            var a = this.options.icon.options.iconAnchor;
-            var s = this.options.icon.options.iconSize;
-            var i;
+        _updateImg: function (i, a, s) {
+            a = L.point(s).divideBy(2)._subtract(L.point(a));
+            var transform = '';
+            transform += ' translate(' + -a.x + 'px, ' + -a.y + 'px)';
+            transform += ' rotate(' + this.options.iconAngle + 'deg)';
+            transform += ' translate(' + a.x + 'px, ' + a.y + 'px)';
+            i.style[L.DomUtil.TRANSFORM] += transform;
+        },
+        setIconAngle: function (iconAngle) {
+            this.options.iconAngle = iconAngle;
+            if (this._map)
+                this.update();
+        },
+        _setPos: function (pos) {
             if (this._icon) {
-                i = this._icon;
-                this._updateImg(i, a, s);
+                this._icon.style[L.DomUtil.TRANSFORM] = "";
             }
-
             if (this._shadow) {
-                // Rotate around the icons anchor.
-                s = this.options.icon.options.shadowSize;
-                i = this._shadow;
-                this._updateImg(i, a, s);
+                this._shadow.style[L.DomUtil.TRANSFORM] = "";
             }
 
+            this._old__setPos.apply(this, [pos]);
+            if (this.options.iconAngle) {
+                var a = this.options.icon.options.iconAnchor;
+                var s = this.options.icon.options.iconSize;
+                var i;
+                if (this._icon) {
+                    i = this._icon;
+                    this._updateImg(i, a, s);
+                }
+
+                if (this._shadow) {
+                    // Rotate around the icons anchor.
+                    s = this.options.icon.options.shadowSize;
+                    i = this._shadow;
+                    this._updateImg(i, a, s);
+                }
+
+            }
         }
-    }
-});
+    });
 
-L.Playback = L.Playback || {};
+    L.Playback = L.Playback || {};
 
 
-        
-L.Playback.Track = L.Class.extend({
+
+    L.Playback.Track = L.Class.extend({
 
         initialize : function (geoJSON, options) {
             options = options || {};
             var tickLen = options.tickLen || 250;
             this._staleTime = options.staleTime || 60*60*1000;
             this._fadeMarkersWhenStale = options.fadeMarkersWhenStale || false;
-            
+
             this._geoJSON = geoJSON;
             this._tickLen = tickLen;
             this._ticks = [];
             this._marker = null;
-			this._orientations = [];
-			
+            this._orientations = [];
+
             var sampleTimes = geoJSON.properties.time;
-			
+
             this._orientIcon = options.orientIcons;
             var previousOrientation;
-			
+
             var samples = geoJSON.geometry.coordinates;
             var currSample = samples[0];
             var nextSample = samples[1];
-			
+
             var currSampleTime = sampleTimes[0];
             var t = currSampleTime;  // t is used to iterate through tick times
             var nextSampleTime = sampleTimes[1];
             var tmod = t % tickLen; // ms past a tick time
             var rem,
-            ratio;
+                ratio;
 
             // handle edge case of only one t sample
             if (sampleTimes.length === 1) {
                 if (tmod !== 0)
                     t += tickLen - tmod;
                 this._ticks[t] = samples[0];
-				this._orientations[t] = 0;
+                this._orientations[t] = 0;
                 this._startTime = t;
                 this._endTime = t;
                 return;
@@ -410,7 +474,7 @@ L.Playback.Track = L.Class.extend({
                 }
             };
         },
-		
+
         trackPresentAtTick : function(timestamp)
         {
             return (timestamp >= this._startTime);
@@ -441,7 +505,7 @@ L.Playback.Track = L.Class.extend({
         
         setMarker : function(timestamp, options){
             var lngLat = null;
-            
+
             // if time stamp is not set, then get first tick
             if (timestamp) {
                 lngLat = this.tick(timestamp);
@@ -488,11 +552,11 @@ L.Playback.Track = L.Class.extend({
                 if(this._orientIcon){
                     this._marker.setIconAngle(this.courseAtTime(timestamp));
                 }
-				
+
                 this._marker.move(latLng, transitionTime);
             }
         },
-        
+
         getMarker : function() {
             return this._marker;
         }
@@ -526,12 +590,12 @@ L.Playback.TrackController = L.Class.extend({
     },
 
     setTracks : function (tracks) {
-        // reset current tracks
-        this.clearTracks();
-        
-        this.addTracks(tracks);
-    },
-    
+            // reset current tracks
+            this.clearTracks();
+
+            this.addTracks(tracks);
+        },
+
     addTracks : function (tracks) {
         // return if nothing is set
         if (!tracks) {
@@ -843,40 +907,35 @@ L.Playback.SliderControl = L.Control.extend({
     },
 
     onAdd : function (map) {
-        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
+            this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
 
-        var self = this;
-        var playback = this.playback;
+            var self = this;
+            var playback = this.playback;
 
-        // slider
-        this._slider = L.DomUtil.create('input', 'slider', this._container);
-        this._slider.type = 'range';
-        this._slider.min = playback.getStartTime();
-        this._slider.max = playback.getEndTime();
-        this._slider.value = playback.getTime();
+            // slider
+            this._slider = L.DomUtil.create('input', 'slider', this._container);
+            this._slider.type = 'range';
+            this._slider.min = playback.getStartTime();
+            this._slider.max = playback.getEndTime();
+            this._slider.value = playback.getTime();
 
-        var stop = L.DomEvent.stopPropagation;
+            L.DomEvent.disableClickPropagation(this._slider);
 
-        L.DomEvent
-        .on(this._slider, 'click', stop)
-        .on(this._slider, 'mousedown', stop)
-        .on(this._slider, 'dblclick', stop)
-        .on(this._slider, 'click', L.DomEvent.preventDefault)
-        //.on(this._slider, 'mousemove', L.DomEvent.preventDefault)
-        .on(this._slider, 'change', onSliderChange, this)
-        .on(this._slider, 'mousemove', onSliderChange, this);           
+            L.DomEvent
+                .on(this._slider, 'change', onSliderChange, this)
+                .on(this._slider, 'mousemove', onSliderChange, this);
 
 
-        function onSliderChange(e) {
-            var val = Number(e.target.value);
-            playback.setCursor(val);
-        }
+            function onSliderChange(e) {
+                var val = Number(e.target.value);
+                playback.setCursor(val);
+            }
 
-        playback.addCallback(function (ms) {
-            self._slider.value = ms;
-        });
-        
-        
+            playback.addCallback(function (ms) {
+                self._slider.value = ms;
+            });
+
+
         map.on('playback:add_tracks', function() {
             self._slider.min = playback.getStartTime();
             self._slider.max = playback.getEndTime();
@@ -924,17 +983,17 @@ L.Playback = L.Playback.Clock.extend({
 
         initialize : function (map, geoJSON, callback, options) {
             L.setOptions(this, options);
-            
+
             this._map = map;
             this._trackController = new L.Playback.TrackController(map, null, this.options);
             L.Playback.Clock.prototype.initialize.call(this, this._trackController, callback, this.options);
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer = new L.Playback.TracksLayer(map, options);
             }
 
-            this.setData(geoJSON);            
-            
+            this.setData(geoJSON);
+
 
             if (this.options.playControl) {
                 this.playControl = new L.Playback.PlayControl(this);
@@ -1005,15 +1064,15 @@ L.Playback = L.Playback.Clock.extend({
         }
     });
 
-L.Map.addInitHook(function () {
-    if (this.options.playback) {
-        this.playback = new L.Playback(this);
-    }
-});
+    L.Map.addInitHook(function () {
+        if (this.options.playback) {
+            this.playback = new L.Playback(this);
+        }
+    });
 
-L.playback = function (map, geoJSON, callback, options) {
-    return new L.Playback(map, geoJSON, callback, options);
-};
-return L.Playback;
+    L.playback = function (map, geoJSON, callback, options) {
+        return new L.Playback(map, geoJSON, callback, options);
+    };
+    return L.Playback;
 
 }));
