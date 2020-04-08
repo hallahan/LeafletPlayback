@@ -95,40 +95,35 @@ L.Playback.SliderControl = L.Control.extend({
     },
 
     onAdd : function (map) {
-        this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
+            this._container = L.DomUtil.create('div', 'leaflet-control-layers leaflet-control-layers-expanded');
 
-        var self = this;
-        var playback = this.playback;
+            var self = this;
+            var playback = this.playback;
 
-        // slider
-        this._slider = L.DomUtil.create('input', 'slider', this._container);
-        this._slider.type = 'range';
-        this._slider.min = playback.getStartTime();
-        this._slider.max = playback.getEndTime();
-        this._slider.value = playback.getTime();
+            // slider
+            this._slider = L.DomUtil.create('input', 'slider', this._container);
+            this._slider.type = 'range';
+            this._slider.min = playback.getStartTime();
+            this._slider.max = playback.getEndTime();
+            this._slider.value = playback.getTime();
 
-        var stop = L.DomEvent.stopPropagation;
+            L.DomEvent.disableClickPropagation(this._slider);
 
-        L.DomEvent
-        .on(this._slider, 'click', stop)
-        .on(this._slider, 'mousedown', stop)
-        .on(this._slider, 'dblclick', stop)
-        .on(this._slider, 'click', L.DomEvent.preventDefault)
-        //.on(this._slider, 'mousemove', L.DomEvent.preventDefault)
-        .on(this._slider, 'change', onSliderChange, this)
-        .on(this._slider, 'mousemove', onSliderChange, this);           
+            L.DomEvent
+                .on(this._slider, 'change', onSliderChange, this)
+                .on(this._slider, 'mousemove', onSliderChange, this);
 
 
-        function onSliderChange(e) {
-            var val = Number(e.target.value);
-            playback.setCursor(val);
-        }
+            function onSliderChange(e) {
+                var val = Number(e.target.value);
+                playback.setCursor(val);
+            }
 
-        playback.addCallback(function (ms) {
-            self._slider.value = ms;
-        });
-        
-        
+            playback.addCallback(function (ms) {
+                self._slider.value = ms;
+            });
+
+
         map.on('playback:add_tracks', function() {
             self._slider.min = playback.getStartTime();
             self._slider.max = playback.getEndTime();
