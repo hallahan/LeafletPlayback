@@ -2,8 +2,10 @@ $(function() {
     // Setup leaflet map
     var map = new L.Map('map');
 
-    var basemapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png');
-
+    // var basemapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png');
+    var basemapLayer = L.tileLayer(
+        'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+      );
     // Center map and default zoom level
     map.setView([44.61131534, -123.4726739], 9);
 
@@ -56,9 +58,25 @@ $(function() {
             return {
                 icon: L.AwesomeMarkers.icon({
                     prefix: 'fa',
-                    icon: 'bullseye', 
+                    icon: 'bullseye',
                     markerColor: _assignColor()
-                }) 
+                }),
+                getIcon: function(data, index) {
+                  return L.AwesomeMarkers.icon({
+                    prefix: 'fa',
+                    icon: 'bullseye',
+                    markerColor: _assignColor(index)
+                  });
+                },
+                // Use either popups or getPopup; getPopup overrides popups
+                // popups: true,
+                getPopup: function(data, index) {
+                  if (index > -1) {
+                    return `<b> Index: ${index} <br> Altitude: ${
+                        data.properties.altitude[index]
+                    } </b>`;
+                  }
+                }
             };
         }        
     };
