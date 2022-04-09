@@ -271,7 +271,12 @@ L.Playback.Track = L.Class.extend({
             return this._marker;
         },
         
-        moveMarker : function(latLng, transitionTime,timestamp) {
+        moveMarker : function(latLng, transitionTime, timestamp) {
+            var markerIndex = this._geoJSON.geometry.coordinates.findIndex((f, i) => {
+                var currLatLng = new L.LatLng(f[1], f[0]);
+                return currLatLng.equals(latLng);
+              });
+
             if (this._marker) {
                 if(this._fadeMarkersWhenStale) {
                     //show the marker if its now present
@@ -290,7 +295,7 @@ L.Playback.Track = L.Class.extend({
                     this._marker.setIconAngle(this.courseAtTime(timestamp));
                 }
 				
-                this._marker.move(latLng, transitionTime);
+                this._marker.move(latLng, transitionTime, markerIndex);
             }
         },
         

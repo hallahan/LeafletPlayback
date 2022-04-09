@@ -36,7 +36,7 @@ L.Playback.Util = L.Class.extend({
       if (h > 11) {
         h %= 12;
         mer = 'PM';
-      } 
+      }
       if (h === 0) h = 12;
       if (m < 10) m = '0' + m;
       if (s < 10) s = '0' + s;
@@ -44,40 +44,65 @@ L.Playback.Util = L.Class.extend({
     },
 
     ParseGPX: function(gpx) {
-      var geojson = {
-        type: 'Feature',
-        geometry: {
-          type: 'MultiPoint',
-          coordinates: []
-        },
-        properties: {
-          time: [],
-          speed: [],
-          altitude: []
-        },
-        bbox: []
+
+	  var geojsonRoot = {
+        type: 'FeatureCollection',
+		features : []
       };
+
+
+
       var xml = $.parseXML(gpx);
-      var pts = $(xml).find('trkpt');
-      for (var i=0, len=pts.length; i<len; i++) {
-        var p = pts[i];
-        var lat = parseFloat(p.getAttribute('lat'));
-        var lng = parseFloat(p.getAttribute('lon'));
-        var timeStr = $(p).find('time').text();
-        var eleStr = $(p).find('ele').text();
-        var t = new Date(timeStr).getTime();
-        var ele = parseFloat(eleStr);
 
-        var coords = geojson.geometry.coordinates;
-        var props = geojson.properties;
-        var time = props.time;
-        var altitude = geojson.properties.altitude;
+      var trks = $(xml).find('trk');
+      for (var trackIdx=0, numberOfTracks=trks.length; trackIdx<numberOfTracks; trackIdx++) {
 
-        coords.push([lng,lat]);
-        time.push(t);
-        altitude.push(ele);
+        var track = trks[trackIdx];
+        var geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'MultiPoint',
+            coordinates: []
+          },
+          properties: {
+            trk : {},
+            time: [],
+            speed: [],
+            altitude: [],
+            bbox: []
+          }
+        };
+
+        geojson.properties.trk.name = $(track).find('name').text();
+        geojson.properties.trk.desc = $(track).find('desc').text();
+        geojson.properties.trk.type = $(track).find('type').text();
+        geojson.properties.trk.src = $(track).find('src').text();
+
+        var pts = $(track).find('trkpt');
+        for (var i=0, len=pts.length; i<len; i++) {
+          var p = pts[i];
+          var lat = parseFloat(p.getAttribute('lat'));
+          var lng = parseFloat(p.getAttribute('lon'));
+          var timeStr = $(p).find('time').text();
+          var eleStr = $(p).find('ele').text();
+          var t = new Date(timeStr).getTime();
+          var ele = parseFloat(eleStr);
+
+          var coords = geojson.geometry.coordinates;
+          var props = geojson.properties;
+
+          var time = props.time;
+          var altitude = geojson.properties.altitude;
+
+          coords.push([lng,lat]);
+          time.push(t);
+          altitude.push(ele);
+        }
+        geojsonRoot.features.push(geojson);
       }
-      return geojson;
+
+      return geojsonRoot;
+
     }
   }
 
@@ -86,28 +111,29 @@ L.Playback.Util = L.Class.extend({
 L.Playback = L.Playback || {};
 
 L.Playback.MoveableMarker = L.Marker.extend({    
-    initialize: function (startLatLng, options, feature) {    
-        var marker_options = options.marker || {};
+    initialize: function (startLatLng, options, feature) {
+        this.index = 0;
+        this.feature = feature;
+        this.marker_options = options.marker || {};
 
-        if (jQuery.isFunction(marker_options)){        
-            marker_options = marker_options(feature);
+        if (jQuery.isFunction(this.marker_options)){        
+            this.marker_options = this.marker_options(this.feature, this.index);
         }
         
-        L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
+        L.Marker.prototype.initialize.call(this, startLatLng, this.marker_options);
         
         this.popupContent = '';
-        this.feature = feature;
-		
-        if (marker_options.getPopup){
-            this.popupContent = marker_options.getPopup(feature);            
-        }
-        
-        if(options.popups)
+		        
+        if(this.marker_options.popups)
         {
             this.bindPopup(this.getPopupContent() + startLatLng.toString());
         }
+
+        if (this.marker_options.getPopup) {
+            this.bindPopup(this.getPopupContent());            
+        }
         	
-        if(options.labels)
+        if(this.marker_options.labels)
         {
             if(this.bindLabel)
             {
@@ -121,14 +147,23 @@ L.Playback.MoveableMarker = L.Marker.extend({
     },
     
     getPopupContent: function() {
-        if (this.popupContent !== ''){
-            return '<b>' + this.popupContent + '</b><br/>';
+        // if (this.popupContent !== '') {
+        //     return this.popupContent;
+        // }
+
+        if (this.marker_options.getPopup) {
+            this.popupContent = this.marker_options.getPopup(
+              this.feature,
+              this.index
+            );
+            return this.popupContent
         }
         
-        return '';
+        return this._latlng.toString();
     },
 
-    move: function (latLng, transitionTime) {
+    move: function (latLng, transitionTime, index) {
+        if (index > -1) this.index = index;
         // Only if CSS3 transitions are supported
         if (L.DomUtil.TRANSITION) {
             if (this._icon) { 
@@ -141,12 +176,18 @@ L.Playback.MoveableMarker = L.Marker.extend({
             }
         }
         this.setLatLng(latLng);
+        
+        if (this.marker_options.getIcon) {
+            icon = this.marker_options.getIcon(this.feature, this.index);
+            this.setIcon(icon);
+        }
+
         if (this._popup) {
-            this._popup.setContent(this.getPopupContent() + this._latlng.toString());
+            this._popup.setContent(this.getPopupContent());
         }    
     },
     
-    // modify leaflet markers to add our roration code
+    // modify leaflet markers to add our rotation code
     /*
      * Based on comments by @runanet and @coomsie 
      * https://github.com/CloudMade/Leaflet/issues/386
@@ -470,7 +511,12 @@ L.Playback.Track = L.Class.extend({
             return this._marker;
         },
         
-        moveMarker : function(latLng, transitionTime,timestamp) {
+        moveMarker : function(latLng, transitionTime, timestamp) {
+            var markerIndex = this._geoJSON.geometry.coordinates.findIndex((f, i) => {
+                var currLatLng = new L.LatLng(f[1], f[0]);
+                return currLatLng.equals(latLng);
+              });
+
             if (this._marker) {
                 if(this._fadeMarkersWhenStale) {
                     //show the marker if its now present
@@ -489,7 +535,7 @@ L.Playback.Track = L.Class.extend({
                     this._marker.setIconAngle(this.courseAtTime(timestamp));
                 }
 				
-                this._marker.move(latLng, transitionTime);
+                this._marker.move(latLng, transitionTime, markerIndex);
             }
         },
         
@@ -894,7 +940,7 @@ L.Playback = L.Playback.Clock.extend({
             TrackController : L.Playback.TrackController,
             Clock : L.Playback.Clock,
             Util : L.Playback.Util,
-            
+
             TracksLayer : L.Playback.TracksLayer,
             PlayControl : L.Playback.PlayControl,
             DateControl : L.Playback.DateControl,
@@ -907,16 +953,16 @@ L.Playback = L.Playback.Clock.extend({
             maxInterpolationTime: 5*60*1000, // 5 minutes
 
             tracksLayer : true,
-            
+
             playControl: false,
             dateControl: false,
             sliderControl: false,
-            
+
             // options
             layer: {
                 // pointToLayer(featureData, latlng)
             },
-            
+
             marker : {
                 // getPopup(feature)
             }
@@ -924,17 +970,17 @@ L.Playback = L.Playback.Clock.extend({
 
         initialize : function (map, geoJSON, callback, options) {
             L.setOptions(this, options);
-            
+
             this._map = map;
             this._trackController = new L.Playback.TrackController(map, null, this.options);
             L.Playback.Clock.prototype.initialize.call(this, this._trackController, callback, this.options);
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer = new L.Playback.TracksLayer(map, options);
             }
 
-            this.setData(geoJSON);            
-            
+            this.setData(geoJSON);
+
 
             if (this.options.playControl) {
                 this.playControl = new L.Playback.PlayControl(this);
@@ -952,20 +998,20 @@ L.Playback = L.Playback.Clock.extend({
             }
 
         },
-        
+
         clearData : function(){
             this._trackController.clearTracks();
-            
+
             if (this._tracksLayer) {
                 this._tracksLayer.clearLayer();
             }
         },
-        
+
         setData : function (geoJSON) {
             this.clearData();
-        
+
             this.addData(geoJSON, this.getTime());
-            
+
             this.setCursor(this.getStartTime());
         },
 
@@ -975,20 +1021,26 @@ L.Playback = L.Playback.Clock.extend({
             if (!geoJSON) {
                 return;
             }
-        
+
             if (geoJSON instanceof Array) {
-                for (var i = 0, len = geoJSON.length; i < len; i++) {
-                    this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
-                }
+              for (var i = 0, len = geoJSON.length; i < len; i++) {
+                this._trackController.addTrack(new L.Playback.Track(geoJSON[i], this.options), ms);
+              }
             } else {
+              if (geoJSON.type == "FeatureCollection") {
+                for (var i = 0, len = geoJSON.features.length; i < len; i++) {
+                  this._trackController.addTrack(new L.Playback.Track(geoJSON.features[i], this.options), ms);
+                }
+              } else {
                 this._trackController.addTrack(new L.Playback.Track(geoJSON, this.options), ms);
+              }
             }
 
             this._map.fire('playback:set:data');
-            
+
             if (this.options.tracksLayer) {
                 this._tracksLayer.addLayer(geoJSON);
-            }                  
+            }
         },
 
         destroy: function() {
@@ -1014,6 +1066,7 @@ L.Map.addInitHook(function () {
 L.playback = function (map, geoJSON, callback, options) {
     return new L.Playback(map, geoJSON, callback, options);
 };
+
 return L.Playback;
 
 }));

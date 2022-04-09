@@ -1,28 +1,29 @@
 L.Playback = L.Playback || {};
 
 L.Playback.MoveableMarker = L.Marker.extend({    
-    initialize: function (startLatLng, options, feature) {    
-        var marker_options = options.marker || {};
+    initialize: function (startLatLng, options, feature) {
+        this.index = 0;
+        this.feature = feature;
+        this.marker_options = options.marker || {};
 
-        if (jQuery.isFunction(marker_options)){        
-            marker_options = marker_options(feature);
+        if (jQuery.isFunction(this.marker_options)){        
+            this.marker_options = this.marker_options(this.feature, this.index);
         }
         
-        L.Marker.prototype.initialize.call(this, startLatLng, marker_options);
+        L.Marker.prototype.initialize.call(this, startLatLng, this.marker_options);
         
         this.popupContent = '';
-        this.feature = feature;
-		
-        if (marker_options.getPopup){
-            this.popupContent = marker_options.getPopup(feature);            
-        }
-        
-        if(options.popups)
+		        
+        if(this.marker_options.popups)
         {
             this.bindPopup(this.getPopupContent() + startLatLng.toString());
         }
+
+        if (this.marker_options.getPopup) {
+            this.bindPopup(this.getPopupContent());            
+        }
         	
-        if(options.labels)
+        if(this.marker_options.labels)
         {
             if(this.bindLabel)
             {
@@ -36,14 +37,23 @@ L.Playback.MoveableMarker = L.Marker.extend({
     },
     
     getPopupContent: function() {
-        if (this.popupContent !== ''){
-            return '<b>' + this.popupContent + '</b><br/>';
+        // if (this.popupContent !== '') {
+        //     return this.popupContent;
+        // }
+
+        if (this.marker_options.getPopup) {
+            this.popupContent = this.marker_options.getPopup(
+              this.feature,
+              this.index
+            );
+            return this.popupContent
         }
-        
-        return '';
+        // If no getPopup function is found in the options a default popup content is set
+        return this._latlng.toString();
     },
 
-    move: function (latLng, transitionTime) {
+    move: function (latLng, transitionTime, index) {
+        if (index > -1) this.index = index;
         // Only if CSS3 transitions are supported
         if (L.DomUtil.TRANSITION) {
             if (this._icon) { 
@@ -56,12 +66,18 @@ L.Playback.MoveableMarker = L.Marker.extend({
             }
         }
         this.setLatLng(latLng);
+        
+        if (this.marker_options.getIcon) {
+            icon = this.marker_options.getIcon(this.feature, this.index);
+            this.setIcon(icon);
+        }
+
         if (this._popup) {
-            this._popup.setContent(this.getPopupContent() + this._latlng.toString());
+            this._popup.setContent(this.getPopupContent());
         }    
     },
     
-    // modify leaflet markers to add our roration code
+    // modify leaflet markers to add our rotation code
     /*
      * Based on comments by @runanet and @coomsie 
      * https://github.com/CloudMade/Leaflet/issues/386
