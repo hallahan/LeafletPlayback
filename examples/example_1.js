@@ -24,7 +24,7 @@ $(function() {
     // Setup leaflet map
     var map = new L.Map('map');
 
-    var basemapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png');
+    var basemapLayer = new L.TileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png');
 
     // Center map and default zoom level
     map.setView([44.5, -123.6], 10);
