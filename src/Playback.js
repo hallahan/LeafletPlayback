@@ -23,6 +23,7 @@ L.Playback = L.Playback.Clock.extend({
             playControl: false,
             dateControl: false,
             sliderControl: false,
+            showTracksByDefault: false,
 
             // options
             layer: {

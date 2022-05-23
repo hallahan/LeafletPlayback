@@ -41,6 +41,7 @@ $(function() {
 
         playControl: true,
         dateControl: true,
+        showTracksByDefault: true,
         
         // layer and marker options
         layer : {
