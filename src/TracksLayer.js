@@ -6,6 +6,7 @@ L.Playback = L.Playback || {};
 L.Playback.TracksLayer = L.Class.extend({
     initialize : function (map, options) {
         var layer_options = options.layer || {};
+        this._tracksLayerName = options.tracksLayerName || 'GPS Tracks';
         
         if (jQuery.isFunction(layer_options)){
             layer_options = layer_options(feature);
@@ -19,9 +20,8 @@ L.Playback.TracksLayer = L.Class.extend({
     
         this.layer = new L.GeoJSON(null, layer_options);
 
-        var overlayControl = {
-            'GPS Tracks' : this.layer
-        };
+        var overlayControl = {};
+        overlayControl[this._tracksLayerName] = this.layer;
 
         L.control.layers(null, overlayControl, {
             collapsed : false
